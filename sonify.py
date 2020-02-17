@@ -54,13 +54,13 @@ def sonify(network, station, channel, starttime, endtime, location='*',
         [print(tr.id) for tr in st]
     tr = st[0]
 
-    # All infrasound sensor have a "?DF" channel pattern
+    # All infrasound sensors have a "?DF" channel pattern
     if tr.stats.channel[1:3] == 'DF':
         is_infrasound = True
     # All high-gain seismometers have a "?H?" channel pattern
     elif tr.stats.channel[1] == 'H':
         is_infrasound = False
-    # We can't figure out what type of sensor it is...
+    # We can't figure out what type of sensor this is...
     else:
         raise ValueError(f'Channel {tr.stats.channel} is not an infrasound or '
                          'seismic channel!')
