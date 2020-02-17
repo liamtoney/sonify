@@ -46,6 +46,9 @@ def sonify(
     spec_win_dur=5,
     db_lim=None,
 ):
+    """
+    Docstring goes here...
+    """
 
     # Use current working directory if none provided
     if not output_dir:
@@ -176,7 +179,8 @@ def _spectrogram(
     tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None, freq_lim=None
 ):
     """
-    Make a combination trace and spectrogram plot for an infrasound or seismic signal.
+    Make a combination waveform and spectrogram plot for an infrasound or seismic
+    signal.
 
     Args:
         tr: ObsPy Trace object (this code expects the response to be removed!)
@@ -191,7 +195,7 @@ def _spectrogram(
             i.e. use automatically scaled limits)
 
     Returns:
-        Figure with combination plot
+        Tuple of (fig, spec_line, wf_line, time_box)
     """
 
     if is_infrasound:
