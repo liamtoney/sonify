@@ -122,7 +122,8 @@ def sonify(network, station, channel, starttime, endtime, location='*',
 
     # MAKE COMBINED FILE
 
-    basename = '_'.join([tr.stats.network, tr.stats.station, tr.stats.channel])
+    basename = '_'.join([tr.stats.network, tr.stats.station, tr.stats.channel,
+                         str(speed_up_factor) + 'x'])
     output_filename = os.path.join(output_dir, f'{basename}.mp4')
     _ffmpeg_combine(audio_filename, video_filename, output_filename)
 
