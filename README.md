@@ -47,5 +47,5 @@ sonify(
 )
 ```
 
-The result is 4K video file named `TA_O20K_BDF.mp4`. A screenshot of the movie
+The result is a 4K video file named `TA_O20K_BDF.mp4`. A screenshot of the movie
 is shown at the top of this README.
