@@ -305,6 +305,8 @@ def _ffmpeg_combine(audio_filename, video_filename, output_filename):
         'copy',
         '-c:a',
         'aac',
+        '-b:a',
+        '320k',
         '-ac',
         '2',
         output_filename,
