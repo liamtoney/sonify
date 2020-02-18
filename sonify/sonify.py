@@ -47,7 +47,30 @@ def sonify(
     db_lim=None,
 ):
     """
-    Docstring goes here...
+    Produce an animated spectrogram with a soundtrack derived from sped-up seismic or
+    infrasound data.
+
+    Args:
+        network (str): SEED network code
+        station (str): SEED station code
+        channel (str): SEED channel code
+        starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time of
+            animation
+        endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time of animation
+        location (str): SEED location code
+        freqmin (int or float): Lower bandpass corner [Hz] (defaults to
+            ``LOWEST_AUDIBLE_FREQUENCY`` / `speed_up_factor`)
+        freqmax (int or float): Upper bandpass corner [Hz] (defaults to
+            ``HIGHEST_AUDIBLE_FREQUENCY`` / `speed_up_factor` or the
+            `Nyquist frequency <https://en.wikipedia.org/wiki/Nyquist_frequency>`__,
+            whichever is smaller)
+        speed_up_factor (int or float): Factor by which to speed up the waveform data
+            (higher values = higher pitches)
+        fps (int or float): Frames per second for output video
+        output_dir (str): Directory where output video should be saved (defaults to
+            ``os.getcwd()``)
+        spec_win_dur (int or float): Duration of spectrogram window [s]
+        db_lim (tuple): Tuple specifying colorbar / colormap limits for spectrogram [dB]
     """
 
     # Use current working directory if none provided
@@ -183,19 +206,19 @@ def _spectrogram(
     signal.
 
     Args:
-        tr: ObsPy Trace object (this code expects the response to be removed!)
-        starttime: UTCDateTime
-        endtime: UTCDateTime
-        is_infrasound (bool): True if infrasound, False if seismic
-        win_dur: Segment length in seconds. This usually must be adjusted depending upon
-            the total duration of the signal (default: 5)
-        db_lim: Tuple defining min and max dB colormap cutoffs (default: None, i.e.
-            don't clip at all)
-        freq_lim: Tuple defining frequency limits for spectrogram plot (default: None,
-            i.e. use automatically scaled limits)
+        tr (:class:`~obspy.core.trace.Trace`): Input data, usually starts before
+            `starttime` and ends after `endtime` (this function expects the response to
+            be removed!)
+        starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time
+        endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time
+        is_infrasound (bool): `True` if infrasound, `False` if seismic
+        win_dur (int or float): Duration of window [s] (this usually must be adjusted
+            depending upon the total duration of the signal)
+        db_lim (tuple): Tuple specifying colorbar / colormap limits [dB]
+        freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
 
     Returns:
-        Tuple of (fig, spec_line, wf_line, time_box)
+        Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`)
     """
 
     if is_infrasound:
@@ -284,7 +307,8 @@ def _spectrogram(
 
 def _ffmpeg_combine(audio_filename, video_filename, output_filename):
     """
-    Combine video and audio files into a single movie. Uses a system call to ffmpeg.
+    Combine audio and video files into a single movie. Uses a system call to
+    `ffmpeg <https://www.ffmpeg.org/>`__.
 
     Args:
         audio_filename (str): Audio file to use (full path)
