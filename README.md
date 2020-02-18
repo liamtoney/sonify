@@ -8,16 +8,17 @@ creates animated spectrograms to accompany the audio. Data are pulled from the
 
 ## Quickstart
 
-1. Prepare
+1. Prepare environment
    ```
    conda create -n sonify -c conda-forge colorcet ffmpeg obspy
    conda activate sonify
    ```
 
-2. Obtain
+2. Obtain and install
    ```
    git clone https://github.com/liamtoney/sonify.git
    cd sonify
+   pip install -e .
    ```
 
 3. Run
