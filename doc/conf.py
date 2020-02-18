@@ -24,3 +24,8 @@ napoleon_numpy_docstring = False
 master_doc = 'index'
 
 autodoc_mock_imports = ['colorcet', 'matplotlib', 'numpy', 'obspy', 'scipy']
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'obspy': ('https://docs.obspy.org/', None),
+}
