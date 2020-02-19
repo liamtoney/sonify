@@ -33,6 +33,7 @@ MS_PER_S = 1000  # [ms/s]
 
 EXTENDFRAC = 0.05  # Colorbar extension triangle height as proportion of colorbar length
 
+
 def sonify(
     network,
     station,
@@ -250,7 +251,7 @@ def _spectrogram(
     gs = GridSpec(2, 2, figure=fig, height_ratios=[2, 1], width_ratios=[40, 1])
 
     spec_ax = fig.add_subplot(gs[0, 0])
-    wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share time axis with spectrogram
+    wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share x-axis with spectrogram
     cax = fig.add_subplot(gs[0, 1])
 
     wf_ax.plot(tr.times('matplotlib'), tr.data * rescale, 'k', linewidth=0.5)
@@ -303,7 +304,7 @@ def _spectrogram(
     elif max_extend:
         extend = 'max'
     else:
-        extend='neither'
+        extend = 'neither'
 
     cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
