@@ -9,6 +9,7 @@ from obspy import UTCDateTime
 import os
 from matplotlib.animation import FuncAnimation
 from matplotlib.offsetbox import AnchoredText
+from matplotlib.gridspec import GridSpec
 import subprocess
 
 plt.ioff()
@@ -22,7 +23,7 @@ AUDIO_SAMPLE_RATE = 44100  # [Hz]
 TAPER = 0.01
 
 RESOLUTION = (3840, 2160)  # [px] Output video resolution (width, height)
-DPI = 400
+DPI = 500
 
 # For spectrograms
 REFERENCE_PRESSURE = 20e-6  # [Pa]
@@ -30,6 +31,7 @@ REFERENCE_VELOCITY = 1  # [m/s]
 
 MS_PER_S = 1000  # [ms/s]
 
+EXTENDFRAC = 0.05  # Colorbar extension triangle height as proportion of colorbar length
 
 def sonify(
     network,
@@ -242,37 +244,38 @@ def _spectrogram(
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
-    fig, axes = plt.subplots(
-        nrows=2,
-        ncols=1,
-        sharex='all',
-        figsize=np.array(RESOLUTION) / DPI,
-        gridspec_kw=dict(height_ratios=[2, 1], hspace=0),
-    )
+    fig = plt.figure(figsize=np.array(RESOLUTION) / DPI)
 
-    axes[1].plot(tr.times('matplotlib'), tr.data * rescale, 'k', linewidth=0.5)
-    axes[1].set_ylabel(ylab)
-    axes[1].grid(linestyle=':')
+    # width_ratios effectively controls the colorbar width
+    gs = GridSpec(2, 2, figure=fig, height_ratios=[2, 1], width_ratios=[40, 1])
+
+    spec_ax = fig.add_subplot(gs[0, 0])
+    wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share time axis with spectrogram
+    cax = fig.add_subplot(gs[0, 1])
+
+    wf_ax.plot(tr.times('matplotlib'), tr.data * rescale, 'k', linewidth=0.5)
+    wf_ax.set_ylabel(ylab)
+    wf_ax.grid(linestyle=':')
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
-    axes[1].set_ylim(-max_value, max_value)
+    wf_ax.set_ylim(-max_value, max_value)
 
-    im = axes[0].pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow, rasterized=True)
+    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow, rasterized=True)
 
-    axes[0].set_ylabel('Frequency (Hz)')
-    axes[0].grid(linestyle=':')
-    axes[0].set_ylim(freq_lim)
+    spec_ax.set_ylabel('Frequency (Hz)')
+    spec_ax.grid(linestyle=':')
+    spec_ax.set_ylim(freq_lim)
 
     date = tr.stats.starttime.strftime('%B %d, %Y')
-    axes[1].set_xlabel('UTC time (HH:MM) starting on {}'.format(date))
-    axes[1].set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
-    axes[1].xaxis_date()
-    formatter = axes[1].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+    wf_ax.set_xlabel('UTC time (HH:MM) starting on {}'.format(date))
+    wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)  # "Crop" x-axis!
+    wf_ax.xaxis_date()
+    formatter = wf_ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     fig.autofmt_xdate()
 
     # Initialize animated stuff
     line_kwargs = dict(x=starttime.matplotlib_date, color='red', linewidth=1)
-    spec_line = axes[0].axvline(**line_kwargs)
-    wf_line = axes[1].axvline(**line_kwargs)
+    spec_line = spec_ax.axvline(**line_kwargs)
+    wf_line = wf_ax.axvline(**line_kwargs)
     time_box = AnchoredText(
         s=starttime.strftime('%H:%M:%S'),
         pad=0.2,
@@ -280,25 +283,58 @@ def _spectrogram(
         borderpad=0,
         prop=dict(color='red'),
     )
-    axes[0].add_artist(time_box)
+    spec_ax.add_artist(time_box)
 
+    # Clip image to db_lim if provided (doesn't clip if db_lim=None)
     im.set_clim(db_lim)
 
-    # Make room for colorbar in figure window
-    fig.subplots_adjust(right=0.85)
+    # Automatically determine whether to show triangle extensions on colorbar (kind of
+    # adopted from xarray)
+    if db_lim:
+        min_extend = sxx_db.min() < db_lim[0]
+        max_extend = sxx_db.max() > db_lim[1]
+    else:
+        min_extend = False
+        max_extend = False
+    if min_extend and max_extend:
+        extend = 'both'
+    elif min_extend:
+        extend = 'min'
+    elif max_extend:
+        extend = 'max'
+    else:
+        extend='neither'
 
-    box = axes[0].get_position()
-    cax = fig.add_axes(
-        [box.xmax + box.height / 20, box.y0, box.height / 20, box.height]
-    )
-    cbar = fig.colorbar(im, cax)
-    cbar.set_label(clab)
+    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
-    axes[0].set_title(
+    spec_ax.set_title(
         '.'.join(
             [tr.stats.network, tr.stats.station, tr.stats.location, tr.stats.channel]
         )
     )
+
+    # Repeat tight_layout and update, janky but works...
+    for _ in range(2):
+        gs.tight_layout(fig)
+        gs.update(hspace=0, wspace=0.05)
+
+    # Finnicky formatting to get extension triangles (if they exist) to extend above and
+    # below the vertical extent of the spectrogram axes
+    pos = cax.get_position()
+    triangle_height = EXTENDFRAC * pos.height
+    ymin = pos.ymin
+    height = pos.height
+    if min_extend and max_extend:
+        ymin -= triangle_height
+        height += 2 * triangle_height
+    elif min_extend and not max_extend:
+        ymin -= triangle_height
+        height += triangle_height
+    elif max_extend and not min_extend:
+        height += triangle_height
+    else:
+        pass
+    cax.set_position([pos.xmin, ymin, pos.width, height])
 
     return fig, spec_line, wf_line, time_box
 
