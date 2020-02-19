@@ -287,13 +287,14 @@ def _spectrogram(
     spec_ax.add_artist(time_box)
 
     # Clip image to db_lim if provided (doesn't clip if db_lim=None)
+    db_min, db_max = im.get_clim()
     im.set_clim(db_lim)
 
     # Automatically determine whether to show triangle extensions on colorbar (kind of
     # adopted from xarray)
     if db_lim:
-        min_extend = sxx_db.min() < db_lim[0]
-        max_extend = sxx_db.max() > db_lim[1]
+        min_extend = db_min < db_lim[0]
+        max_extend = db_max > db_lim[1]
     else:
         min_extend = False
         max_extend = False
