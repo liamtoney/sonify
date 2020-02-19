@@ -266,9 +266,7 @@ def _spectrogram(
     axes[1].set_xlabel('UTC time (HH:MM) starting on {}'.format(date))
     axes[1].set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
     axes[1].xaxis_date()
-    formatter = axes[1].xaxis.get_major_formatter()
-    formatter.scaled[1 / mdates.MINUTES_PER_DAY] = '%H:%M'
-    formatter.scaled[1 / mdates.SEC_PER_DAY] = '%H:%M:%S'
+    formatter = axes[1].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     fig.autofmt_xdate()
 
     # Initialize animated stuff
