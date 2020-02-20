@@ -71,7 +71,7 @@ def sonify(
             (higher values = higher pitches)
         fps (int or float): Frames per second for output video
         output_dir (str): Directory where output video should be saved (defaults to
-            ``os.getcwd()``)
+            :func:`os.getcwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
         db_lim (tuple): Tuple specifying colorbar / colormap limits for spectrogram [dB]
     """
