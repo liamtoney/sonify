@@ -1,12 +1,7 @@
 sonify
 ======
 
-Sonification of seismic and infrasound signals
-
-.. toctree::
-   :caption: README
-
-   ../README
+.. include:: ../README
 
 .. toctree::
    :caption: API Reference
