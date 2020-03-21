@@ -59,10 +59,11 @@ occurring in Alaska on 22 May 2016, sped up by a factor of 400:
 The result is a 4K 10fps video file named ``TA_O20K_BDF_400x.mp4``. A screenshot
 of the movie is shown at the top of this README.
 
-Documentation
+API Reference
 -------------
 
-Full documentation is available `here <https://sonify.readthedocs.io/>`__.
+API documentation is available
+`here <https://sonify.readthedocs.io/en/rst/sonify.html>`__.
 
 .. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :target: https://sonify.readthedocs.io/
