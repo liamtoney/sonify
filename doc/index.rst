@@ -1,6 +1,3 @@
-sonify
-======
-
 .. include:: ../README.rst
 
 .. toctree::
