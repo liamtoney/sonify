@@ -67,4 +67,4 @@ Full documentation is available `here <https://sonify.readthedocs.io/>`__.
 .. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :target: https://sonify.readthedocs.io/
 
-.. |screenshot| image:: screenshot.png
+.. |screenshot| image:: /screenshot.png
