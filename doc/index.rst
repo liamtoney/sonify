@@ -1,7 +1,7 @@
 sonify
 ======
 
-.. include:: ../README
+.. include:: ../README.rst
 
 .. toctree::
    :caption: API Reference
