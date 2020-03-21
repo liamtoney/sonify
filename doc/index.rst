@@ -6,7 +6,7 @@ Sonification of seismic and infrasound signals
 .. toctree::
    :caption: README
 
-   README
+   ../README
 
 .. toctree::
    :caption: API Reference
