@@ -1,14 +1,14 @@
 sonify
 ======
 
-|image0|
+|badge|
 
 This tool “squeezes” seismic or infrasound signals into audible
 frequencies and creates animated spectrograms to accompany the audio.
 Data are pulled from the `IRIS
 DMC <https://ds.iris.edu/ds/nodes/dmc/>`__.
 
-|image1|
+|screenshot|
 
 Quickstart
 ----------
@@ -67,6 +67,6 @@ Documentation
 Full documentation is available
 `here <https://sonify.readthedocs.io/>`__.
 
-.. |image0| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
+.. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :target: https://sonify.readthedocs.io/
-.. |image1| image:: screenshot.png
+.. |screenshot| image:: screenshot.png
