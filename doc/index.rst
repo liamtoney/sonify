@@ -1,14 +1,7 @@
-sonify
-======
-
-Sonification of seismic and infrasound signals
+.. include:: ../README.rst
 
 .. toctree::
-   :caption: README
-
-   README
-
-.. toctree::
+   :hidden:
    :caption: API Reference
 
    sonify

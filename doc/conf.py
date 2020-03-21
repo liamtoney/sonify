@@ -29,3 +29,5 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'obspy': ('https://docs.obspy.org/', None),
 }
+
+html_theme_options = {'prev_next_buttons_location': None}
