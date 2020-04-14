@@ -16,8 +16,7 @@ set PRE_CMDS 'import matplotlib as m' 'm.rcParams.update(m.rcParamsDefault)'
 set CONDA_ENV sonify
 
 # Extract Python example from README
-set file (cat $README_FILENAME)
-for line in $file
+for line in (cat $README_FILENAME)
   if test $line = $BEGIN_DELIMITER
     set inside
   end
