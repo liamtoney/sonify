@@ -313,7 +313,7 @@ def _spectrogram(
     else:
         extend = 'neither'
 
-    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
+    fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
     spec_ax.set_title(
         '.'.join(
