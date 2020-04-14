@@ -266,12 +266,14 @@ def _spectrogram(
     spec_ax.grid(linestyle=':')
     spec_ax.set_ylim(freq_lim)
 
-    date = tr.stats.starttime.strftime('%B %d, %Y')
-    wf_ax.set_xlabel('UTC time (HH:MM) starting on {}'.format(date))
-    wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)  # "Crop" x-axis!
-    wf_ax.xaxis_date()
-    formatter = wf_ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+    # Tick locating and formatting
+    locator = mdates.AutoDateLocator()
+    wf_ax.xaxis.set_major_locator(locator)
+    wf_ax.xaxis.set_major_formatter(_UTCDateFormatter(locator))
     fig.autofmt_xdate()
+
+    # "Crop" x-axis!
+    wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
     line_kwargs = dict(x=starttime.matplotlib_date, color='red', linewidth=1)
@@ -381,3 +383,24 @@ def _ffmpeg_combine(audio_filename, video_filename, output_filename):
         raise OSError(
             'Issue with ffmpeg conversion. Check error messages and try again.'
         )
+
+
+# Subclass ConciseDateFormatter (modifies __init__() and set_axis() methods)
+class _UTCDateFormatter(mdates.ConciseDateFormatter):
+    def __init__(self, locator, tz=None):
+        super().__init__(locator, tz=tz, show_offset=True)
+
+        # Re-format datetimes
+        self.formats[1] = '%B'
+        self.zero_formats[2:4] = ['%B', '%B %d']
+        self.offset_formats = ['UTC time', 'UTC time in %Y', 'UTC time in %B %Y',
+                               'UTC time on %B %d, %Y', 'UTC time on %B %d, %Y', 'UTC time on %B %d, %Y at %H:%M']
+
+    def set_axis(self, axis):
+        self.axis = axis
+
+        # If this is an x-axis (usually is!) then center the offset text
+        if self.axis.axis_name == 'x':
+            offset = self.axis.get_offset_text()
+            offset.set_horizontalalignment('center')
+            offset.set_x(0.5)
