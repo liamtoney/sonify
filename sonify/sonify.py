@@ -99,8 +99,7 @@ def sonify(
     print('Done')
 
     if st.count() != 1:
-        warnings.warn('Stream contains more than one Trace. Using first '
-                      'entry!')
+        warnings.warn('Stream contains more than one Trace. Using first entry!')
         [print(tr.id) for tr in st]
     tr = st[0]
 
@@ -113,14 +112,12 @@ def sonify(
     # We can't figure out what type of sensor this is...
     else:
         raise ValueError(
-            f'Channel {tr.stats.channel} is not an infrasound or seismic '
-            'channel!'
+            f'Channel {tr.stats.channel} is not an infrasound or seismic channel!'
         )
 
     if not freqmax:
         freqmax = np.min(
-            [tr.stats.sampling_rate / 2,
-             HIGHEST_AUDIBLE_FREQUENCY / speed_up_factor]
+            [tr.stats.sampling_rate / 2, HIGHEST_AUDIBLE_FREQUENCY / speed_up_factor]
         )
     if not freqmin:
         freqmin = LOWEST_AUDIBLE_FREQUENCY / speed_up_factor
@@ -142,8 +139,7 @@ def sonify(
     audio_filename = os.path.join(output_dir, 'sonify-tmp.wav')
     print('Saving audio file...')
     tr_audio.write(
-        audio_filename, format='WAV', width=4, rescale=True,
-        framerate=AUDIO_SAMPLE_RATE
+        audio_filename, format='WAV', width=4, rescale=True, framerate=AUDIO_SAMPLE_RATE
     )
     print('Done')
 
@@ -208,8 +204,7 @@ def sonify(
 
 
 def _spectrogram(
-    tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None,
-        freq_lim=None
+    tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None, freq_lim=None
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
@@ -246,8 +241,7 @@ def _spectrogram(
     nperseg = int(win_dur * fs)  # Samples
     nfft = np.power(2, int(np.ceil(np.log2(nperseg))) + 1)  # Pad fft with zeroes
 
-    f, t, sxx = spectrogram(tr.data, fs, window='hann', nperseg=nperseg,
-                            nfft=nfft)
+    f, t, sxx = spectrogram(tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft)
 
     sxx_db = 20 * np.log10(np.sqrt(sxx) / ref_val)  # [dB / Hz]
 
@@ -268,8 +262,7 @@ def _spectrogram(
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
     wf_ax.set_ylim(-max_value, max_value)
 
-    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow,
-                            rasterized=True)
+    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow, rasterized=True)
 
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
@@ -318,13 +311,11 @@ def _spectrogram(
     else:
         extend = 'neither'
 
-    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC,
-                        label=clab)
+    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
     spec_ax.set_title(
         '.'.join(
-            [tr.stats.network, tr.stats.station, tr.stats.location,
-             tr.stats.channel]
+            [tr.stats.network, tr.stats.station, tr.stats.location, tr.stats.channel]
         )
     )
 
