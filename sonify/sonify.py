@@ -5,7 +5,6 @@ from scipy.signal import spectrogram
 import colorcet as cc
 import warnings
 from obspy.clients.fdsn import Client
-from obspy import UTCDateTime
 import os
 from matplotlib.animation import FuncAnimation
 from matplotlib.offsetbox import AnchoredText
