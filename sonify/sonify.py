@@ -30,7 +30,8 @@ REFERENCE_VELOCITY = 1  # [m/s]
 
 MS_PER_S = 1000  # [ms/s]
 
-EXTENDFRAC = 0.05  # Colorbar extension triangle height as proportion of colorbar length
+# Colorbar extension triangle height as proportion of colorbar length
+EXTENDFRAC = 0.05
 
 
 def sonify(
@@ -49,8 +50,8 @@ def sonify(
     db_lim=None,
 ):
     """
-    Produce an animated spectrogram with a soundtrack derived from sped-up seismic or
-    infrasound data.
+    Produce an animated spectrogram with a soundtrack derived from sped-up
+    seismic or infrasound data.
 
     Args:
         network (str): SEED network code
@@ -58,7 +59,8 @@ def sonify(
         channel (str): SEED channel code
         starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time of
             animation
-        endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time of animation
+        endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time of
+            animation
         location (str): SEED location code
         freqmin (int or float): Lower bandpass corner [Hz] (defaults to
             ``LOWEST_AUDIBLE_FREQUENCY`` / `speed_up_factor`)
@@ -66,13 +68,14 @@ def sonify(
             ``HIGHEST_AUDIBLE_FREQUENCY`` / `speed_up_factor` or the
             `Nyquist frequency <https://en.wikipedia.org/wiki/Nyquist_frequency>`__,
             whichever is smaller)
-        speed_up_factor (int or float): Factor by which to speed up the waveform data
-            (higher values = higher pitches)
+        speed_up_factor (int or float): Factor by which to speed up the
+            waveform data (higher values = higher pitches)
         fps (int or float): Frames per second for output video
-        output_dir (str): Directory where output video should be saved (defaults to
-            :func:`os.getcwd`)
+        output_dir (str): Directory where output video should be saved
+            (defaults to :func:`os.getcwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
-        db_lim (tuple): Tuple specifying colorbar / colormap limits for spectrogram [dB]
+        db_lim (tuple): Tuple specifying colorbar / colormap limits for
+            spectrogram [dB]
     """
 
     # Use current working directory if none provided
@@ -96,7 +99,8 @@ def sonify(
     print('Done')
 
     if st.count() != 1:
-        warnings.warn('Stream contains more than one Trace. Using first entry!')
+        warnings.warn('Stream contains more than one Trace. Using first '
+                      'entry!')
         [print(tr.id) for tr in st]
     tr = st[0]
 
@@ -109,12 +113,14 @@ def sonify(
     # We can't figure out what type of sensor this is...
     else:
         raise ValueError(
-            f'Channel {tr.stats.channel} is not an infrasound or seismic channel!'
+            f'Channel {tr.stats.channel} is not an infrasound or seismic '
+            'channel!'
         )
 
     if not freqmax:
         freqmax = np.min(
-            [tr.stats.sampling_rate / 2, HIGHEST_AUDIBLE_FREQUENCY / speed_up_factor]
+            [tr.stats.sampling_rate / 2,
+             HIGHEST_AUDIBLE_FREQUENCY / speed_up_factor]
         )
     if not freqmin:
         freqmin = LOWEST_AUDIBLE_FREQUENCY / speed_up_factor
@@ -136,7 +142,8 @@ def sonify(
     audio_filename = os.path.join(output_dir, 'sonify-tmp.wav')
     print('Saving audio file...')
     tr_audio.write(
-        audio_filename, format='WAV', width=4, rescale=True, framerate=AUDIO_SAMPLE_RATE
+        audio_filename, format='WAV', width=4, rescale=True,
+        framerate=AUDIO_SAMPLE_RATE
     )
     print('Done')
 
@@ -201,21 +208,22 @@ def sonify(
 
 
 def _spectrogram(
-    tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None, freq_lim=None
+    tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None,
+        freq_lim=None
 ):
     """
-    Make a combination waveform and spectrogram plot for an infrasound or seismic
-    signal.
+    Make a combination waveform and spectrogram plot for an infrasound or
+    seismic signal.
 
     Args:
-        tr (:class:`~obspy.core.trace.Trace`): Input data, usually starts before
-            `starttime` and ends after `endtime` (this function expects the response to
-            be removed!)
+        tr (:class:`~obspy.core.trace.Trace`): Input data, usually starts
+            before `starttime` and ends after `endtime` (this function expects
+            the response to be removed!)
         starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time
         is_infrasound (bool): `True` if infrasound, `False` if seismic
-        win_dur (int or float): Duration of window [s] (this usually must be adjusted
-            depending upon the total duration of the signal)
+        win_dur (int or float): Duration of window [s] (this usually must be
+            adjusted depending upon the total duration of the signal)
         db_lim (tuple): Tuple specifying colorbar / colormap limits [dB]
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
 
@@ -238,7 +246,8 @@ def _spectrogram(
     nperseg = int(win_dur * fs)  # Samples
     nfft = np.power(2, int(np.ceil(np.log2(nperseg))) + 1)  # Pad fft with zeroes
 
-    f, t, sxx = spectrogram(tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft)
+    f, t, sxx = spectrogram(tr.data, fs, window='hann', nperseg=nperseg,
+                            nfft=nfft)
 
     sxx_db = 20 * np.log10(np.sqrt(sxx) / ref_val)  # [dB / Hz]
 
@@ -250,7 +259,7 @@ def _spectrogram(
     gs = GridSpec(2, 2, figure=fig, height_ratios=[2, 1], width_ratios=[40, 1])
 
     spec_ax = fig.add_subplot(gs[0, 0])
-    wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share x-axis with spectrogram
+    wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share x-axis with spec
     cax = fig.add_subplot(gs[0, 1])
 
     wf_ax.plot(tr.times('matplotlib'), tr.data * rescale, 'k', linewidth=0.5)
@@ -259,7 +268,8 @@ def _spectrogram(
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
     wf_ax.set_ylim(-max_value, max_value)
 
-    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow, rasterized=True)
+    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow,
+                            rasterized=True)
 
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
@@ -291,8 +301,8 @@ def _spectrogram(
     db_min, db_max = im.get_clim()
     im.set_clim(db_lim)
 
-    # Automatically determine whether to show triangle extensions on colorbar (kind of
-    # adopted from xarray)
+    # Automatically determine whether to show triangle extensions on colorbar
+    # (kind of adopted from xarray)
     if db_lim:
         min_extend = db_min < db_lim[0]
         max_extend = db_max > db_lim[1]
@@ -308,11 +318,13 @@ def _spectrogram(
     else:
         extend = 'neither'
 
-    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
+    cbar = fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC,
+                        label=clab)
 
     spec_ax.set_title(
         '.'.join(
-            [tr.stats.network, tr.stats.station, tr.stats.location, tr.stats.channel]
+            [tr.stats.network, tr.stats.station, tr.stats.location,
+             tr.stats.channel]
         )
     )
 
@@ -321,8 +333,8 @@ def _spectrogram(
         gs.tight_layout(fig)
         gs.update(hspace=0, wspace=0.05)
 
-    # Finnicky formatting to get extension triangles (if they exist) to extend above and
-    # below the vertical extent of the spectrogram axes
+    # Finnicky formatting to get extension triangles (if they exist) to extend
+    # above and below the vertical extent of the spectrogram axes
     pos = cax.get_position()
     triangle_height = EXTENDFRAC * pos.height
     ymin = pos.ymin
@@ -392,8 +404,14 @@ class _UTCDateFormatter(mdates.ConciseDateFormatter):
         # Re-format datetimes
         self.formats[1] = '%B'
         self.zero_formats[2:4] = ['%B', '%B %d']
-        self.offset_formats = ['UTC time', 'UTC time in %Y', 'UTC time in %B %Y',
-                               'UTC time on %B %d, %Y', 'UTC time on %B %d, %Y', 'UTC time on %B %d, %Y at %H:%M']
+        self.offset_formats = [
+            'UTC time',
+            'UTC time in %Y',
+            'UTC time in %B %Y',
+            'UTC time on %B %d, %Y',
+            'UTC time on %B %d, %Y',
+            'UTC time on %B %d, %Y at %H:%M',
+        ]
 
     def set_axis(self, axis):
         self.axis = axis
