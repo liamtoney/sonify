@@ -7,8 +7,8 @@
 set README_FILENAME README.rst
 set SCREENSHOT_FILENAME screenshot.png
 
-set BEGIN_DELIMITER '.. __BEGIN__'
-set END_DELIMITER '.. __END__'
+set BEGIN_DELIMITER '.. ~BEGIN~'
+set END_DELIMITER '.. ~END~'
 set LINE_IGNORE_PATTERN '.. *'
 
 set FRAME 14
