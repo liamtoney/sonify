@@ -19,6 +19,8 @@ extensions = [
 
 html_theme = 'sphinx_rtd_theme'
 
+templates_path = ['_templates']
+
 napoleon_numpy_docstring = False
 
 master_doc = 'index'

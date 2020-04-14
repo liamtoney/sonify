@@ -1,0 +1,15 @@
+{% extends "!layout.html" %}
+{% block footer %}
+  {{ super() }}
+  <style>
+    /* Set main background color */
+    .wy-nav-content {
+      background: #ffffff;
+    }
+    /* Show GitHub link on mobile too; adjust padding for ALL view sizes! */
+    .wy-breadcrumbs li.wy-breadcrumbs-aside {
+      display: inline-block;
+      padding: 2px;
+    }
+  </style>
+{% endblock %}
