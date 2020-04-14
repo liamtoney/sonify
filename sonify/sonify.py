@@ -1,15 +1,15 @@
+import os
+import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from scipy.signal import spectrogram
-import colorcet as cc
-import warnings
-from obspy.clients.fdsn import Client
-import os
 from matplotlib.animation import FuncAnimation
 from matplotlib.offsetbox import AnchoredText
 from matplotlib.gridspec import GridSpec
-import subprocess
+from scipy import signal
+from obspy.clients.fdsn import Client
+import colorcet as cc
+import warnings
 
 plt.ioff()
 
@@ -241,7 +241,9 @@ def _spectrogram(
     nperseg = int(win_dur * fs)  # Samples
     nfft = np.power(2, int(np.ceil(np.log2(nperseg))) + 1)  # Pad fft with zeroes
 
-    f, t, sxx = spectrogram(tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft)
+    f, t, sxx = signal.spectrogram(
+        tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft
+    )
 
     sxx_db = 20 * np.log10(np.sqrt(sxx) / ref_val)  # [dB / Hz]
 
