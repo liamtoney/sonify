@@ -365,6 +365,8 @@ def _ffmpeg_combine(audio_filename, video_filename, output_filename):
         'warning',
         '-i',
         video_filename,
+        '-guess_layout_max',
+        '0',
         '-i',
         audio_filename,
         '-c:v',
