@@ -38,4 +38,4 @@ ffmpeg -v warning -i *.mp4 -filter:v "select=eq(n\,$frame)" -frames:v 1 $SCREENS
 
 conda deactivate
 
-rm *.mp4
+rm -i *.mp4
