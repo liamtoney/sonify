@@ -34,7 +34,7 @@ conda activate $CONDA_ENV
 
 echo (string join '; ' $PRE_CMDS 'exec("'$call'")') | python
 set frame (math $FRAME - 1)
-ffmpeg -i *.mp4 -vf "select=eq(n\,$frame)" -vframes 1 $SCREENSHOT_FILENAME
+ffmpeg -v warning -i *.mp4 -filter:v "select=eq(n\,$frame)" -frames:v 1 $SCREENSHOT_FILENAME
 
 conda deactivate
 
