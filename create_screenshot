@@ -4,37 +4,19 @@
 # I could probably avoid this mess if I learned Sphinx! Requires the fish shell
 # (https://fishshell.com/) to run.
 
-set README_FILENAME README.rst
-set SCREENSHOT_FILENAME screenshot.png
+set FRAME 14  # Which frame number to extract
 
-set BEGIN_DELIMITER '.. ~BEGIN~'
-set END_DELIMITER '.. ~END~'
-set LINE_IGNORE_PATTERN '.. *'
+conda activate sonify
 
-set FRAME 14
-set PRE_CMDS 'import matplotlib as m' 'm.rcParams.update(m.rcParamsDefault)'
-set CONDA_ENV sonify
+sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |
+sed -E '/(^\.\. .*$|^$)/d' |
+sed 's/^[ '\t']*//' |
+sed '1i\
+import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
+' | python
 
-# Extract Python example from README
-for line in (cat $README_FILENAME)
-  if test $line = $BEGIN_DELIMITER
-    set inside
-  end
-  if test $line = $END_DELIMITER
-    set -e inside
-  end
-  if set -q inside
-    if not string match -q $LINE_IGNORE_PATTERN $line
-      set call (string join '' $call (string trim $line) '\n')
-    end
-  end
-end
-
-conda activate $CONDA_ENV
-
-echo (string join '; ' $PRE_CMDS 'exec("'$call'")') | python
-set frame (math $FRAME - 1)
-ffmpeg -v warning -i *.mp4 -filter:v "select=eq(n\,$frame)" -frames:v 1 $SCREENSHOT_FILENAME
+set filter 'select=eq(n\,'(math $FRAME - 1)')'
+ffmpeg -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
 conda deactivate
 
