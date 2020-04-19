@@ -1,21 +1,19 @@
-#!/usr/local/bin/fish
+#!/bin/bash --login
 
 # Parses README to get code for example, runs code, and extracts a screenshot.
-# I could probably avoid this mess if I learned Sphinx! Requires the fish shell
-# (https://fishshell.com/) to run.
 
-set FRAME 14  # Which frame number to extract
+FRAME=14  # Which frame number to extract
 
 conda activate sonify
 
 sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |
 sed -E '/(^\.\. .*$|^$)/d' |
-sed 's/^[ '\t']*//' |
+sed -E 's/^[[:space:]]+//' |
 sed '1i\
 import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
 ' | python
 
-set filter 'select=eq(n\,'(math $FRAME - 1)')'
+filter="select=eq(n\,$(expr $FRAME - 1))"
 ffmpeg -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
 conda deactivate
