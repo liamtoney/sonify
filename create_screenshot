@@ -6,12 +6,12 @@ FRAME=14  # Which frame number to extract
 
 conda activate sonify
 
-sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |
-sed -E '/(^\.\. .*$|^$)/d' |
-sed -E 's/^[[:space:]]+//' |
+sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |  # (1) Extract code chunk
+sed -E '/(^\.\. .*$|^$)/d' |                        # (2) Remove reST comments
+sed -E 's/^[[:space:]]+//' |                        # (3) Completely un-indent
 sed '1i\
 import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
-' | python
+' | python                                          # (4) Add extra code & run
 
 filter="select=eq(n\,$(expr $FRAME - 1))"
 ffmpeg -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
