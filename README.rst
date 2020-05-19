@@ -55,7 +55,7 @@ occurring in Alaska on 21 June 2019, sped up by a factor of 200:
        freqmin=1,
        freqmax=23,
        speed_up_factor=200,
-       fps=1,  # Use fps=60 to recreate JHEPC entry (slow!)
+       fps=1,  # Use fps=60 to fully recreate the JHEPC entry (slow to save!)
        spec_win_dur=8,
        db_lim=(-180, -130),
    )
