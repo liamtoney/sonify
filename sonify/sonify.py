@@ -1,15 +1,16 @@
 import os
 import subprocess
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-from matplotlib.animation import FuncAnimation
-from matplotlib.offsetbox import AnchoredText
-from matplotlib.gridspec import GridSpec
-from scipy import signal
-from obspy.clients.fdsn import Client
-import colorcet as cc
 import warnings
+
+import colorcet as cc
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.animation import FuncAnimation
+from matplotlib.gridspec import GridSpec
+from matplotlib.offsetbox import AnchoredText
+from obspy.clients.fdsn import Client
+from scipy import signal
 
 plt.ioff()
 
