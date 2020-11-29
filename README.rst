@@ -9,6 +9,10 @@ creates animated spectrograms to accompany the audio. Data are pulled from the
 
 |screenshot|
 
+This project `won an Honorable Mention
+<https://jhepc.github.io/2020/entry_11/index.html>`__ in the 2020 SciPy `John
+Hunter Excellence in Plotting Contest (JHEPC) <https://jhepc.github.io/>`__.
+
 Quickstart
 ----------
 
