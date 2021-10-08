@@ -234,9 +234,13 @@ def _spectrogram(
     else:
         ylab = 'Velocity (μm s$^{-1}$)'
         if REFERENCE_VELOCITY == 1:
-            clab = f'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+            clab = (
+                f'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+            )
         else:
-            clab = f'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+            clab = (
+                f'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+            )
         rescale = 1e6  # Converting to μm/s
         ref_val = REFERENCE_VELOCITY
 
@@ -248,7 +252,9 @@ def _spectrogram(
         tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft
     )
 
-    sxx_db = 10 * np.log10(sxx / (ref_val ** 2))  # [dB rel. (ref_val <ref_val_unit>)^2 Hz^-1]
+    sxx_db = 10 * np.log10(
+        sxx / (ref_val ** 2)
+    )  # [dB rel. (ref_val <ref_val_unit>)^2 Hz^-1]
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
@@ -267,7 +273,9 @@ def _spectrogram(
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
     wf_ax.set_ylim(-max_value, max_value)
 
-    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap='inferno', shading='nearest', rasterized=True)
+    im = spec_ax.pcolormesh(
+        t_mpl, f, sxx_db, cmap='inferno', shading='nearest', rasterized=True
+    )
 
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
