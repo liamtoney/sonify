@@ -31,7 +31,7 @@ REFERENCE_VELOCITY = 1  # [m/s]
 MS_PER_S = 1000  # [ms/s]
 
 # Colorbar extension triangle height as proportion of colorbar length
-EXTENDFRAC = 0.05
+EXTENDFRAC = 0.04
 
 
 def sonify(
