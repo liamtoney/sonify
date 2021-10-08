@@ -19,7 +19,7 @@ ffmpeg -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 conda deactivate
 
 if [ -x "$(command -v mogrify)" ]; then
-  mogrify -resize 25% screenshot.png
+  mogrify -resize 50% screenshot.png
 else
   echo 'ImageMagick is not installed (use e.g. `brew install imagemagick` to install).'
   echo 'No screenshot resizing will be performed.'
