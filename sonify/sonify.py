@@ -267,7 +267,7 @@ def _spectrogram(
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
     wf_ax.set_ylim(-max_value, max_value)
 
-    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap='inferno', rasterized=True)
+    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap='inferno', shading='nearest', rasterized=True)
 
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
