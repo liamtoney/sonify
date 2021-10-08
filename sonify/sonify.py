@@ -2,7 +2,6 @@ import os
 import subprocess
 import warnings
 
-import colorcet as cc
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
@@ -265,7 +264,7 @@ def _spectrogram(
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
     wf_ax.set_ylim(-max_value, max_value)
 
-    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap=cc.m_rainbow, rasterized=True)
+    im = spec_ax.pcolormesh(t_mpl, f, sxx_db, cmap='inferno', rasterized=True)
 
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
