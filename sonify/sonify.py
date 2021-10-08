@@ -280,7 +280,7 @@ def _spectrogram(
     wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
-    line_kwargs = dict(x=starttime.matplotlib_date, color='red', linewidth=1)
+    line_kwargs = dict(x=starttime.matplotlib_date, color='forestgreen', linewidth=1)
     spec_line = spec_ax.axvline(**line_kwargs)
     wf_line = wf_ax.axvline(**line_kwargs)
     time_box = AnchoredText(
@@ -288,7 +288,7 @@ def _spectrogram(
         pad=0.2,
         loc='lower right',
         borderpad=0,
-        prop=dict(color='red'),
+        prop=dict(color='forestgreen'),
     )
     spec_ax.add_artist(time_box)
 
