@@ -227,15 +227,18 @@ def _spectrogram(
     """
 
     if is_infrasound:
-        ref_val = REFERENCE_PRESSURE
         ylab = 'Pressure (Pa)'
-        clab = 'Power (dB$_{%g\ \mathrm{μPa}}$/Hz)' % (REFERENCE_PRESSURE * 1e6)
+        clab = f'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} μPa]$^2$ Hz$^{{-1}}$)'
         rescale = 1
+        ref_val = REFERENCE_PRESSURE
     else:
-        ref_val = REFERENCE_VELOCITY
-        ylab = 'Velocity (μm/s)'
-        clab = 'Power (dB$_{%g\ \mathrm{m/s}}$/Hz)' % REFERENCE_VELOCITY
+        ylab = 'Velocity (μm s$^{-1}$)'
+        if REFERENCE_VELOCITY == 1:
+            clab = f'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+        else:
+            clab = f'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
         rescale = 1e6  # Converting to μm/s
+        ref_val = REFERENCE_VELOCITY
 
     fs = tr.stats.sampling_rate
     nperseg = int(win_dur * fs)  # Samples
@@ -245,7 +248,7 @@ def _spectrogram(
         tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft
     )
 
-    sxx_db = 20 * np.log10(np.sqrt(sxx) / ref_val)  # [dB / Hz]
+    sxx_db = 10 * np.log10(sxx / (ref_val ** 2))  # [dB rel. (ref_val <ref_val_unit>)^2 Hz^-1]
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
