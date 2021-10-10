@@ -320,12 +320,14 @@ def _spectrogram(
         s=starttime.strftime('%H:%M:%S'),
         pad=0.2,
         loc='lower right',
+        bbox_to_anchor=[1, 1],
+        bbox_transform=wf_ax.transAxes,
         borderpad=0,
         prop=dict(color='forestgreen'),
     )
     time_box.zorder = 12  # This should place it on the very top; see below
     time_box.patch.set_linewidth(plt.rcParams['axes.linewidth'])
-    spec_ax.add_artist(time_box)
+    wf_ax.add_artist(time_box)
 
     # Adjustments to ensure time marker line is zordered properly
     # 9 is below marker; 11 is above marker
