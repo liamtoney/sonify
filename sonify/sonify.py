@@ -293,7 +293,7 @@ def _spectrogram(
     # Initialize animated stuff
     line_kwargs = dict(x=starttime.matplotlib_date, color='forestgreen', linewidth=1)
     spec_line = spec_ax.axvline(**line_kwargs)
-    wf_line = wf_ax.axvline(**line_kwargs)
+    wf_line = wf_ax.axvline(ymin=0.01, clip_on=False, zorder=10, **line_kwargs)
     time_box = AnchoredText(
         s=starttime.strftime('%H:%M:%S'),
         pad=0.2,
@@ -301,8 +301,16 @@ def _spectrogram(
         borderpad=0,
         prop=dict(color='forestgreen'),
     )
+    time_box.zorder = 12  # This should place it on the very top; see below
     time_box.patch.set_linewidth(plt.rcParams['axes.linewidth'])
     spec_ax.add_artist(time_box)
+
+    # Adjustments to ensure time marker line is zordered properly
+    # 9 is below marker; 11 is above marker
+    spec_ax.spines['bottom'].set_zorder(9)
+    wf_ax.spines['top'].set_zorder(9)
+    for side in 'bottom', 'left', 'right':
+        wf_ax.spines[side].set_zorder(11)
 
     # Clip image to db_lim if provided (doesn't clip if db_lim=None)
     db_min, db_max = im.get_clim()
