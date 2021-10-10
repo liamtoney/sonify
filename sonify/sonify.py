@@ -1,6 +1,6 @@
-import os
 import subprocess
 import warnings
+from pathlib import Path
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -71,8 +71,8 @@ def sonify(
         speed_up_factor (int or float): Factor by which to speed up the
             waveform data (higher values = higher pitches)
         fps (int or float): Frames per second for output video
-        output_dir (str): Directory where output video should be saved
-            (defaults to :func:`os.getcwd`)
+        output_dir (str or :class:`~pathlib.Path`): Directory where output video
+            should be saved (defaults to :meth:`Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
         db_lim (tuple): Tuple specifying colorbar / colormap limits for
             spectrogram [dB]
@@ -80,7 +80,10 @@ def sonify(
 
     # Use current working directory if none provided
     if not output_dir:
-        output_dir = os.getcwd()
+        output_dir = Path().cwd()
+    output_dir = Path(str(output_dir)).expanduser().resolve()
+    if not output_dir.exists():
+        raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
     pad = (endtime - starttime) * TAPER
 
@@ -138,10 +141,14 @@ def sonify(
     tr_audio = tr_trim.copy()
     tr_audio.interpolate(sampling_rate=AUDIO_SAMPLE_RATE / speed_up_factor)
     tr_audio.taper(TAPER)
-    audio_filename = os.path.join(output_dir, 'sonify-tmp.wav')
+    audio_filename = output_dir / 'sonify-tmp.wav'
     print('Saving audio file...')
     tr_audio.write(
-        audio_filename, format='WAV', width=4, rescale=True, framerate=AUDIO_SAMPLE_RATE
+        str(audio_filename),
+        format='WAV',
+        width=4,
+        rescale=True,
+        framerate=AUDIO_SAMPLE_RATE,
     )
     print('Done')
 
@@ -184,7 +191,7 @@ def sonify(
         blit=True,
     )
 
-    video_filename = os.path.join(output_dir, 'sonify-tmp.mp4')
+    video_filename = output_dir / 'sonify-tmp.mp4'
     print('Saving animation. This may take a while...')
     animation.save(
         video_filename,
@@ -205,7 +212,7 @@ def sonify(
             str(speed_up_factor) + 'x',
         ]
     )
-    output_filename = os.path.join(output_dir, f'{basename}.mp4')
+    output_filename = output_dir / f'{basename}.mp4'
     _ffmpeg_combine(audio_filename, video_filename, output_filename)
 
 
@@ -385,9 +392,9 @@ def _ffmpeg_combine(audio_filename, video_filename, output_filename):
     `ffmpeg <https://www.ffmpeg.org/>`__.
 
     Args:
-        audio_filename (str): Audio file to use (full path)
-        video_filename (str): Video file to use (full path)
-        output_filename (str): Output filename (full path)
+        audio_filename (:class:`~pathlib.Path`): Audio file to use (full path)
+        video_filename (:class:`~pathlib.Path`): Video file to use (full path)
+        output_filename (:class:`~pathlib.Path`): Output filename (full path)
     """
 
     args = [
@@ -415,8 +422,8 @@ def _ffmpeg_combine(audio_filename, video_filename, output_filename):
     code = subprocess.call(args)
     if code == 0:
         print(f'Video saved as {output_filename}')
-        os.remove(audio_filename)
-        os.remove(video_filename)
+        audio_filename.unlink()
+        video_filename.unlink()
     else:
         raise OSError(
             'Issue with ffmpeg conversion. Check error messages and try again.'

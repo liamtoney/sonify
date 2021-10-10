@@ -1,7 +1,7 @@
-import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath('../sonify'))
+sys.path.insert(0, Path('../sonify').resolve())
 
 project = 'sonify'
 
