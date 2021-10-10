@@ -301,6 +301,7 @@ def _spectrogram(
         borderpad=0,
         prop=dict(color='forestgreen'),
     )
+    time_box.patch.set_linewidth(plt.rcParams['axes.linewidth'])
     spec_ax.add_artist(time_box)
 
     # Clip image to db_lim if provided (doesn't clip if db_lim=None)
