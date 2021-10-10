@@ -106,9 +106,11 @@ def sonify(
     # All infrasound sensors have a "?DF" channel pattern
     if tr.stats.channel[1:3] == 'DF':
         is_infrasound = True
+        rescale = 1  # No conversion
     # All high-gain seismometers have a "?H?" channel pattern
     elif tr.stats.channel[1] == 'H':
         is_infrasound = False
+        rescale = 1e6  # Convert m to μm
     # We can't figure out what type of sensor this is...
     else:
         raise ValueError(
@@ -149,19 +151,23 @@ def sonify(
     times = timing_tr.times('UTCDateTime')
 
     # Define update function
-    def _march_forward(frame, spec_line, wf_line, time_box):
+    def _march_forward(frame, spec_line, wf_line, time_box, wf_progress):
 
         spec_line.set_xdata(times[frame].matplotlib_date)
         wf_line.set_xdata(times[frame].matplotlib_date)
         time_box.txt.set_text(times[frame].strftime('%H:%M:%S'))
+        tr_progress = tr.copy().trim(endtime=times[frame])
+        wf_progress.set_xdata(tr_progress.times('matplotlib'))
+        wf_progress.set_ydata(tr_progress.data * rescale)
 
-        return spec_line, wf_line, time_box
+        return spec_line, wf_line, time_box, wf_progress
 
     fig, *fargs = _spectrogram(
         tr,
         starttime,
         endtime,
         is_infrasound,
+        rescale,
         win_dur=spec_win_dur,
         db_lim=db_lim,
         freq_lim=(freqmin, freqmax),
@@ -204,7 +210,7 @@ def sonify(
 
 
 def _spectrogram(
-    tr, starttime, endtime, is_infrasound, win_dur=5, db_lim=None, freq_lim=None
+    tr, starttime, endtime, is_infrasound, rescale, win_dur=5, db_lim=None, freq_lim=None
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
@@ -217,19 +223,19 @@ def _spectrogram(
         starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time
         is_infrasound (bool): `True` if infrasound, `False` if seismic
+        rescale (int or float): Scale waveforms by this factor for plotting
         win_dur (int or float): Duration of window [s] (this usually must be
             adjusted depending upon the total duration of the signal)
         db_lim (tuple): Tuple specifying colorbar / colormap limits [dB]
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
 
     Returns:
-        Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`)
+        Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`, `wf_progress`)
     """
 
     if is_infrasound:
         ylab = 'Pressure (Pa)'
         clab = f'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} μPa]$^2$ Hz$^{{-1}}$)'
-        rescale = 1
         ref_val = REFERENCE_PRESSURE
     else:
         ylab = 'Velocity (μm s$^{-1}$)'
@@ -241,7 +247,6 @@ def _spectrogram(
             clab = (
                 f'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
             )
-        rescale = 1e6  # Converting to μm/s
         ref_val = REFERENCE_VELOCITY
 
     fs = tr.stats.sampling_rate
@@ -267,7 +272,9 @@ def _spectrogram(
     wf_ax = fig.add_subplot(gs[1, 0], sharex=spec_ax)  # Share x-axis with spec
     cax = fig.add_subplot(gs[0, 1])
 
-    wf_ax.plot(tr.times('matplotlib'), tr.data * rescale, 'k', linewidth=0.5)
+    wf_lw = 0.5
+    wf_ax.plot(tr.times('matplotlib'), tr.data * rescale, '#b0b0b0', linewidth=wf_lw)
+    wf_progress = wf_ax.plot(np.nan, np.nan, 'black', linewidth=wf_lw)[0]
     wf_ax.set_ylabel(ylab)
     wf_ax.grid(linestyle=':')
     max_value = np.abs(tr.copy().trim(starttime, endtime).data).max() * rescale
@@ -362,7 +369,7 @@ def _spectrogram(
         pass
     cax.set_position([pos.xmin, ymin, pos.width, height])
 
-    return fig, spec_line, wf_line, time_box
+    return fig, spec_line, wf_line, time_box, wf_progress
 
 
 def _ffmpeg_combine(audio_filename, video_filename, output_filename):
