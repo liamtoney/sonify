@@ -1,9 +1,10 @@
-#!/bin/bash --login
+#!/bin/bash
 
 # Parses README to get code for example, runs code, and extracts a screenshot.
 
 FRAME=14  # Which frame number to extract
 
+eval "$(conda shell.bash hook)"
 conda activate sonify
 
 sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |  # (1) Extract code chunk
