@@ -210,7 +210,14 @@ def sonify(
 
 
 def _spectrogram(
-    tr, starttime, endtime, is_infrasound, rescale, win_dur=5, db_lim=None, freq_lim=None
+    tr,
+    starttime,
+    endtime,
+    is_infrasound,
+    rescale,
+    win_dur=5,
+    db_lim=None,
+    freq_lim=None,
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
