@@ -17,8 +17,6 @@ import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
 filter="select=eq(n\,$(expr $FRAME - 1))"
 ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
-conda deactivate
-
 if [ -x "$(command -v mogrify)" ]; then
   mogrify -resize 50% screenshot.png
 else
