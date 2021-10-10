@@ -332,10 +332,8 @@ def _spectrogram(
         )
     )
 
-    # Repeat tight_layout and update, janky but works...
-    for _ in range(2):
-        gs.tight_layout(fig)
-        gs.update(hspace=0, wspace=0.05)
+    gs.tight_layout(fig)
+    gs.update(hspace=0, wspace=0.05)
 
     # Finnicky formatting to get extension triangles (if they exist) to extend
     # above and below the vertical extent of the spectrogram axes
