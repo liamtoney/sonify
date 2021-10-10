@@ -15,7 +15,7 @@ import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
 ' | python                                          # (4) Add extra code & run
 
 filter="select=eq(n\,$(expr $FRAME - 1))"
-ffmpeg -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
+ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
 conda deactivate
 
