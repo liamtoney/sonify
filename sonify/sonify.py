@@ -269,7 +269,7 @@ def _spectrogram(
     nfft = np.power(2, int(np.ceil(np.log2(nperseg))) + 1)  # Pad fft with zeroes
 
     f, t, sxx = signal.spectrogram(
-        tr.data, fs, window='hann', nperseg=nperseg, nfft=nfft
+        tr.data, fs, window='hann', nperseg=nperseg, noverlap=nperseg // 2, nfft=nfft
     )
 
     sxx_db = 10 * np.log10(
