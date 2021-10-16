@@ -105,6 +105,17 @@ def sonify(
         [print(tr.id) for tr in st]
     tr = st[0]
 
+    # Adjust starttime so we have nice numbers in time box (carefully!)
+    offset = np.abs(tr.stats.starttime - (starttime - PAD))  # [s]
+    if offset > tr.stats.delta:
+        warnings.warn(
+            f'Difference between requested and actual starttime is {offset} s, '
+            f'which is larger than the data sample interval ({tr.stats.delta} s). '
+            'Not adjusting starttime of downloaded data; beware of inaccurate timing!'
+        )
+    else:
+        tr.stats.starttime = starttime - PAD
+
     # All infrasound sensors have a "?DF" channel pattern
     if tr.stats.channel[1:3] == 'DF':
         is_infrasound = True
