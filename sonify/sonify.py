@@ -102,7 +102,8 @@ def sonify(
 
     if st.count() != 1:
         warnings.warn('Stream contains more than one Trace. Using first entry!')
-        [print(tr.id) for tr in st]
+        for tr in st:
+            print(tr.id)
     tr = st[0]
 
     # Adjust starttime so we have nice numbers in time box (carefully!)
