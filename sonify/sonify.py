@@ -48,7 +48,7 @@ def sonify(
     fps=1,
     output_dir=None,
     spec_win_dur=5,
-    db_lim=None,
+    db_lim='smart',
 ):
     """
     Produce an animated spectrogram with a soundtrack derived from sped-up
@@ -75,8 +75,8 @@ def sonify(
         output_dir (str or :class:`~pathlib.Path`): Directory where output video
             should be saved (defaults to :meth:`~pathlib.Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
-        db_lim (tuple): Tuple specifying colorbar / colormap limits for
-            spectrogram [dB]
+        db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
+            `'smart'` for a sensible automatic choice, or `None` for no clipping
     """
 
     # Use current working directory if none provided
@@ -224,7 +224,7 @@ def _spectrogram(
     is_infrasound,
     rescale,
     win_dur=5,
-    db_lim=None,
+    db_lim='smart',
     freq_lim=None,
 ):
     """
@@ -241,7 +241,8 @@ def _spectrogram(
         rescale (int or float): Scale waveforms by this factor for plotting
         win_dur (int or float): Duration of window [s] (this usually must be
             adjusted depending upon the total duration of the signal)
-        db_lim (tuple): Tuple specifying colorbar / colormap limits [dB]
+        db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
+            `'smart'` for a sensible automatic choice, or `None` for no clipping
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
 
     Returns:
@@ -336,15 +337,20 @@ def _spectrogram(
     for side in 'bottom', 'left', 'right':
         wf_ax.spines[side].set_zorder(11)
 
+    # Pick smart limits rounded to nearest 10
+    if db_lim == 'smart':
+        db_min = np.percentile(sxx_db, 20)
+        db_max = sxx_db.max()
+        db_lim = (np.ceil(db_min / 10) * 10, np.floor(db_max / 10) * 10)
+
     # Clip image to db_lim if provided (doesn't clip if db_lim=None)
-    db_min, db_max = im.get_clim()
     im.set_clim(db_lim)
 
     # Automatically determine whether to show triangle extensions on colorbar
     # (kind of adopted from xarray)
     if db_lim:
-        min_extend = db_min < db_lim[0]
-        max_extend = db_max > db_lim[1]
+        min_extend = sxx_db.min() < db_lim[0]
+        max_extend = sxx_db.max() > db_lim[1]
     else:
         min_extend = False
         max_extend = False
