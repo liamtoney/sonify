@@ -359,11 +359,7 @@ def _spectrogram(
 
     fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
-    spec_ax.set_title(
-        '.'.join(
-            [tr.stats.network, tr.stats.station, tr.stats.location, tr.stats.channel]
-        )
-    )
+    spec_ax.set_title(tr.id)
 
     gs.tight_layout(fig)
     gs.update(hspace=0, wspace=0.05)
