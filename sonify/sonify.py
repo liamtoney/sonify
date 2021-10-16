@@ -20,7 +20,7 @@ HIGHEST_AUDIBLE_FREQUENCY = 20000  # [Hz]
 
 AUDIO_SAMPLE_RATE = 44100  # [Hz]
 
-TAPER = 0.01
+PAD = 60  # [s] Extra data to download on either side of requested time slice
 
 RESOLUTION = (3840, 2160)  # [px] Output video resolution (width, height)
 DPI = 500
@@ -86,8 +86,6 @@ def sonify(
     if not output_dir.exists():
         raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
-    pad = (endtime - starttime) * TAPER
-
     client = Client('IRIS')
 
     print('Retrieving data...')
@@ -96,8 +94,8 @@ def sonify(
         station,
         location,
         channel,
-        starttime - pad,
-        endtime + pad,
+        starttime - PAD,
+        endtime + PAD,
         attach_response=True,
     )
     print('Done')
@@ -130,6 +128,7 @@ def sonify(
 
     tr.remove_response()  # Units are m/s OR Pa after response removal
     tr.detrend('demean')
+    tr.taper(max_percentage=None, max_length=PAD / 2)  # Taper away some of PAD
     print(f'Applying {freqmin}-{freqmax} Hz bandpass')
     tr.filter('bandpass', freqmin=freqmin, freqmax=freqmax, zerophase=True)
 
@@ -141,7 +140,7 @@ def sonify(
 
     tr_audio = tr_trim.copy()
     tr_audio.interpolate(sampling_rate=AUDIO_SAMPLE_RATE / speed_up_factor)
-    tr_audio.taper(TAPER)
+    tr_audio.taper(0.01)  # For smooth start and end
     audio_file = tempfile.NamedTemporaryFile(suffix='.wav')
     print('Saving audio file...')
     tr_audio.write(
