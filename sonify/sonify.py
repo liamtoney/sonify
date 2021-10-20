@@ -167,7 +167,7 @@ def sonify(
     # MAKE VIDEO FILE
 
     timing_tr = tr_trim.copy().interpolate(sampling_rate=fps / speed_up_factor)
-    times = timing_tr.times('UTCDateTime')
+    times = timing_tr.times('UTCDateTime')[:-1]  # Remove extra frame
 
     # Define update function
     def _march_forward(frame, spec_line, wf_line, time_box, wf_progress):
