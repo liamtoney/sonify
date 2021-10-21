@@ -334,6 +334,7 @@ def _spectrogram(
         borderpad=0,
         prop=dict(color='forestgreen'),
     )
+    time_box.txt._text.set_y(-5)  # [pixels] Shift text to vertically center it
     time_box.zorder = 12  # This should place it on the very top; see below
     time_box.patch.set_linewidth(plt.rcParams['axes.linewidth'])
     wf_ax.add_artist(time_box)
