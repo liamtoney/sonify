@@ -179,8 +179,6 @@ def sonify(
         wf_progress.set_xdata(tr_progress.times('matplotlib'))
         wf_progress.set_ydata(tr_progress.data * rescale)
 
-        return spec_line, wf_line, time_box, wf_progress
-
     fig, *fargs = _spectrogram(
         tr,
         starttime,
@@ -200,7 +198,6 @@ def sonify(
         frames=times.size,
         fargs=fargs,
         interval=interval,
-        blit=True,
     )
 
     video_file = tempfile.NamedTemporaryFile(suffix='.mp4')
