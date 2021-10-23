@@ -197,10 +197,10 @@ def sonify(
         endtime,
         is_infrasound,
         rescale,
-        win_dur=spec_win_dur,
-        db_lim=db_lim,
-        freq_lim=(freqmin, freqmax),
-        utc_offset=utc_offset,
+        spec_win_dur,
+        db_lim,
+        (freqmin, freqmax),
+        utc_offset,
     )
 
     # Create animation
@@ -244,10 +244,10 @@ def _spectrogram(
     endtime,
     is_infrasound,
     rescale,
-    win_dur=5,
-    db_lim='smart',
-    freq_lim=None,
-    utc_offset=None,
+    win_dur,
+    db_lim,
+    freq_lim,
+    utc_offset,
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
