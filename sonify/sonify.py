@@ -60,9 +60,9 @@ def sonify(
         station (str): SEED station code
         channel (str): SEED channel code
         starttime (:class:`~obspy.core.utcdatetime.UTCDateTime`): Start time of
-            animation
+            animation (UTC)
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time of
-            animation
+            animation (UTC)
         location (str): SEED location code
         freqmin (int or float): Lower bandpass corner [Hz] (defaults to
             ``LOWEST_AUDIBLE_FREQUENCY`` / `speed_up_factor`)
@@ -244,7 +244,7 @@ def _spectrogram(
     endtime,
     is_infrasound,
     rescale,
-    win_dur,
+    spec_win_dur,
     db_lim,
     freq_lim,
     utc_offset,
@@ -261,10 +261,8 @@ def _spectrogram(
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time
         is_infrasound (bool): `True` if infrasound, `False` if seismic
         rescale (int or float): Scale waveforms by this factor for plotting
-        win_dur (int or float): Duration of window [s] (this usually must be
-            adjusted depending upon the total duration of the signal)
-        db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
-            `'smart'` for a sensible automatic choice, or `None` for no clipping
+        spec_win_dur (int or float): See docstring for :func:`sonify`
+        db_lim (tuple or str): See docstring for :func:`sonify`
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
         utc_offset (int or float): Passed to :class:`_UTCDateFormatter`
 
@@ -289,7 +287,7 @@ def _spectrogram(
         ref_val = REFERENCE_VELOCITY
 
     fs = tr.stats.sampling_rate
-    nperseg = int(win_dur * fs)  # Samples
+    nperseg = int(spec_win_dur * fs)  # Samples
     nfft = np.power(2, int(np.ceil(np.log2(nperseg))) + 1)  # Pad fft with zeroes
 
     f, t, sxx = signal.spectrogram(
