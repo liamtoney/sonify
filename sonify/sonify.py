@@ -49,6 +49,7 @@ def sonify(
     output_dir=None,
     spec_win_dur=5,
     db_lim='smart',
+    utc_offset=None,
 ):
     """
     Produce an animated spectrogram with a soundtrack derived from sped-up
@@ -77,6 +78,8 @@ def sonify(
         spec_win_dur (int or float): Duration of spectrogram window [s]
         db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
             `'smart'` for a sensible automatic choice, or `None` for no clipping
+        utc_offset (int or float): If not `None`, convert UTC time to local time
+            using this offset [hours] (updates time axis label, too)
     """
 
     # Use current working directory if none provided
@@ -116,6 +119,15 @@ def sonify(
         )
     else:
         tr.stats.starttime = starttime - PAD
+
+    # Apply UTC offset if provided
+    if utc_offset is not None:
+        signed_offset = f'{utc_offset:{"+" if utc_offset else ""}}'
+        print(f'Converting to local time using UTC offset of {signed_offset} hours')
+        utc_offset_sec = utc_offset * mdates.SEC_PER_HOUR
+        starttime += utc_offset_sec
+        endtime += utc_offset_sec
+        tr.stats.starttime += utc_offset_sec
 
     # All infrasound sensors have a "?DF" channel pattern
     if tr.stats.channel[1:3] == 'DF':
@@ -188,6 +200,7 @@ def sonify(
         win_dur=spec_win_dur,
         db_lim=db_lim,
         freq_lim=(freqmin, freqmax),
+        utc_offset=utc_offset,
     )
 
     # Create animation
@@ -234,6 +247,7 @@ def _spectrogram(
     win_dur=5,
     db_lim='smart',
     freq_lim=None,
+    utc_offset=None,
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
@@ -252,6 +266,7 @@ def _spectrogram(
         db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
             `'smart'` for a sensible automatic choice, or `None` for no clipping
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
+        utc_offset (int or float): Passed to :class:`_UTCDateFormatter`
 
     Returns:
         Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`, `wf_progress`)
@@ -315,7 +330,7 @@ def _spectrogram(
     # Tick locating and formatting
     locator = mdates.AutoDateLocator()
     wf_ax.xaxis.set_major_locator(locator)
-    wf_ax.xaxis.set_major_formatter(_UTCDateFormatter(locator))
+    wf_ax.xaxis.set_major_formatter(_UTCDateFormatter(locator, utc_offset))
     fig.autofmt_xdate()
 
     # "Crop" x-axis!
@@ -450,19 +465,25 @@ def _ffmpeg_combine(audio_file, video_file, output_filename):
 
 # Subclass ConciseDateFormatter (modifies __init__() and set_axis() methods)
 class _UTCDateFormatter(mdates.ConciseDateFormatter):
-    def __init__(self, locator, tz=None):
-        super().__init__(locator, tz=tz, show_offset=True)
+    def __init__(self, locator, utc_offset):
+        super().__init__(locator)
+
+        # Label as local time or UTC based on utc_offset being present or not
+        if utc_offset is not None:
+            time_type = 'Local'
+        else:
+            time_type = 'UTC'
 
         # Re-format datetimes
         self.formats[1] = '%B'
         self.zero_formats[2:4] = ['%B', '%B %d']
         self.offset_formats = [
-            'UTC time',
-            'UTC time in %Y',
-            'UTC time in %B %Y',
-            'UTC time on %B %d, %Y',
-            'UTC time on %B %d, %Y',
-            'UTC time on %B %d, %Y at %H:%M',
+            f'{time_type} time',
+            f'{time_type} time in %Y',
+            f'{time_type} time in %B %Y',
+            f'{time_type} time on %B %d, %Y',
+            f'{time_type} time on %B %d, %Y',
+            f'{time_type} time on %B %d, %Y at %H:%M',
         ]
 
     def set_axis(self, axis):
