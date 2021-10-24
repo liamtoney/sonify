@@ -259,8 +259,8 @@ def _spectrogram(
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time
         is_infrasound (bool): `True` if infrasound, `False` if seismic
         rescale (int or float): Scale waveforms by this factor for plotting
-        spec_win_dur (int or float): See docstring for :func:`sonify`
-        db_lim (tuple or str): See docstring for :func:`sonify`
+        spec_win_dur (int or float): See docstring for :func:`~sonify.sonify`
+        db_lim (tuple or str): See docstring for :func:`~sonify.sonify`
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
         is_local_time (bool): Passed to :class:`_UTCDateFormatter`
 
@@ -417,8 +417,8 @@ def _ffmpeg_combine(audio_file, video_file, output_filename):
     `ffmpeg <https://www.ffmpeg.org/>`__.
 
     Args:
-        audio_file (:class:`~tempfile.NamedTemporaryFile`): Audio file to use
-        video_file (:class:`~tempfile.NamedTemporaryFile`): Video file to use
+        audio_file (:class:`tempfile._TemporaryFileWrapper`): Audio file to use
+        video_file (:class:`tempfile._TemporaryFileWrapper`): Video file to use
         output_filename (:class:`~pathlib.Path`): Output filename (full path)
     """
 
