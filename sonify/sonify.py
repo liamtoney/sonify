@@ -77,7 +77,7 @@ def sonify(
         db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
             `'smart'` for a sensible automatic choice, or `None` for no clipping
         utc_offset (int or float): If not `None`, convert UTC time to local time
-            using this offset [hours] (updates time axis label, too)
+            using this offset [hours] before plotting
     """
 
     # Use current working directory if none provided
@@ -198,7 +198,7 @@ def sonify(
         spec_win_dur,
         db_lim,
         (freqmin, freqmax),
-        utc_offset,
+        utc_offset is not None,
     )
 
     # Create animation
@@ -245,7 +245,7 @@ def _spectrogram(
     spec_win_dur,
     db_lim,
     freq_lim,
-    utc_offset,
+    is_local_time,
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
@@ -262,7 +262,7 @@ def _spectrogram(
         spec_win_dur (int or float): See docstring for :func:`sonify`
         db_lim (tuple or str): See docstring for :func:`sonify`
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
-        utc_offset (int or float): Passed to :class:`_UTCDateFormatter`
+        is_local_time (bool): Passed to :class:`_UTCDateFormatter`
 
     Returns:
         Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`, `wf_progress`)
@@ -326,7 +326,7 @@ def _spectrogram(
     # Tick locating and formatting
     locator = mdates.AutoDateLocator()
     wf_ax.xaxis.set_major_locator(locator)
-    wf_ax.xaxis.set_major_formatter(_UTCDateFormatter(locator, utc_offset))
+    wf_ax.xaxis.set_major_formatter(_UTCDateFormatter(locator, is_local_time))
     fig.autofmt_xdate()
 
     # "Crop" x-axis!
@@ -461,11 +461,11 @@ def _ffmpeg_combine(audio_file, video_file, output_filename):
 
 # Subclass ConciseDateFormatter (modifies __init__() and set_axis() methods)
 class _UTCDateFormatter(mdates.ConciseDateFormatter):
-    def __init__(self, locator, utc_offset):
+    def __init__(self, locator, is_local_time):
         super().__init__(locator)
 
-        # Label as local time or UTC based on utc_offset being present or not
-        if utc_offset is not None:
+        # Determine proper time label (local time or UTC)
+        if is_local_time:
             time_type = 'Local'
         else:
             time_type = 'UTC'
