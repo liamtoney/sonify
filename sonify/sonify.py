@@ -4,16 +4,14 @@ import warnings
 from pathlib import Path
 
 import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import rcParams
 from matplotlib.animation import FuncAnimation
+from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
 from matplotlib.offsetbox import AnchoredText
 from obspy.clients.fdsn import Client
 from scipy import signal
-
-plt.ioff()
-
 
 LOWEST_AUDIBLE_FREQUENCY = 20  # [Hz]
 HIGHEST_AUDIBLE_FREQUENCY = 20000  # [Hz]
@@ -300,7 +298,7 @@ def _spectrogram(
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
-    fig = plt.figure(figsize=np.array(RESOLUTION) / DPI)
+    fig = Figure(figsize=np.array(RESOLUTION) / DPI)
 
     # width_ratios effectively controls the colorbar width
     gs = GridSpec(2, 2, figure=fig, height_ratios=[2, 1], width_ratios=[40, 1])
@@ -349,7 +347,7 @@ def _spectrogram(
     )
     time_box.txt._text.set_y(-5)  # [pixels] Shift text to vertically center it
     time_box.zorder = 12  # This should place it on the very top; see below
-    time_box.patch.set_linewidth(plt.rcParams['axes.linewidth'])
+    time_box.patch.set_linewidth(rcParams['axes.linewidth'])
     wf_ax.add_artist(time_box)
 
     # Adjustments to ensure time marker line is zordered properly
@@ -389,8 +387,8 @@ def _spectrogram(
 
     spec_ax.set_title(tr.id)
 
-    gs.tight_layout(fig)
-    gs.update(hspace=0, wspace=0.05)
+    fig.tight_layout()
+    fig.subplots_adjust(hspace=0, wspace=0.05)
 
     # Finnicky formatting to get extension triangles (if they exist) to extend
     # above and below the vertical extent of the spectrogram axes
