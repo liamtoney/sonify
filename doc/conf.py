@@ -28,8 +28,8 @@ master_doc = 'index'
 autodoc_mock_imports = ['matplotlib', 'numpy', 'obspy', 'scipy']
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
     'obspy': ('https://docs.obspy.org/', None),
+    'python': ('https://docs.python.org/3/', None),
 }
 
 html_theme_options = {'prev_next_buttons_location': None}
