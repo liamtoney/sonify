@@ -17,32 +17,26 @@ Quickstart
 ----------
 
 1. Prepare environment
-
    ::
-
-      conda create -n sonify -c conda-forge ffmpeg obspy
-      conda activate sonify
+     conda create -n sonify -c conda-forge ffmpeg obspy
+     conda activate sonify
 
 2. Obtain and install
-
    ::
-
-      git clone https://github.com/liamtoney/sonify.git
-      cd sonify
-      pip install -e .
+     git clone https://github.com/liamtoney/sonify.git
+     cd sonify
+     pip install -e .
 
 3. Run using the Python interpreter
 
    .. code:: python
 
-      python
-      >>> from sonify import sonify
+     python
+     >>> from sonify import sonify
 
    or via the command-line interface
-
    ::
-
-      sonify --help
+     sonify --help
 
 Example
 -------
