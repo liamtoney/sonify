@@ -83,7 +83,8 @@ Documentation
 
 API documentation for the module is available
 `here <https://sonify.readthedocs.io/en/latest/sonify.html>`__. For command-line
-usage instructions, type ``sonify --help``.
+usage instructions, type ``sonify --help`` (the ``sonify`` conda environment must
+be active).
 
 .. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :target: https://sonify.readthedocs.io/
