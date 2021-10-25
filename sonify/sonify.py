@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+import argparse
 import subprocess
 import tempfile
 import warnings
@@ -10,6 +13,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
 from matplotlib.offsetbox import AnchoredText
+from obspy import UTCDateTime
 from obspy.clients.fdsn import Client
 from scipy import signal
 
@@ -490,3 +494,103 @@ class _UTCDateFormatter(mdates.ConciseDateFormatter):
             offset = self.axis.get_offset_text()
             offset.set_horizontalalignment('center')
             offset.set_x(0.5)
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(
+        description='Produce an animated spectrogram with a soundtrack derived from sped-up seismic or infrasound data.',
+        allow_abbrev=False,
+    )
+
+    parser.add_argument('network', help='SEED network code')
+    parser.add_argument('station', help='SEED station code')
+    parser.add_argument('channel', help='SEED channel code')
+    parser.add_argument(
+        'starttime',
+        type=UTCDateTime,
+        help='Start time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
+    )
+    parser.add_argument(
+        'endtime',
+        type=UTCDateTime,
+        help='End time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
+    )
+    parser.add_argument('--location', default='*', help='SEED location code')
+    parser.add_argument(
+        '--freqmin',
+        default=None,
+        type=float,
+        help=f'Lower bandpass corner [Hz] (defaults to {LOWEST_AUDIBLE_FREQUENCY} Hz / "SPEED_UP_FACTOR")',
+    )
+    parser.add_argument(
+        '--freqmax',
+        default=None,
+        type=float,
+        help=f'Upper bandpass corner [Hz] (defaults to {HIGHEST_AUDIBLE_FREQUENCY:,} Hz / "SPEED_UP_FACTOR" or the Nyquist frequency, whichever is smaller)',
+    )
+    parser.add_argument(
+        '--speed_up_factor',
+        default=200,
+        type=float,
+        help='Factor by which to speed up the waveform data (higher values = higher pitches)',
+    )
+    parser.add_argument(
+        '--fps', default=1, type=float, help='Frames per second for output video'
+    )
+    parser.add_argument(
+        '--output_dir',
+        default=None,
+        help='Directory where output video should be saved (defaults to current working directory)',
+    )
+    parser.add_argument(
+        '--spec_win_dur',
+        default=5,
+        type=float,
+        help='Duration of spectrogram window [s]',
+    )
+    parser.add_argument(
+        '--db_lim',
+        default='smart',
+        help='Numbers "<min>,<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
+    )
+    parser.add_argument(
+        '--utc_offset',
+        default=None,
+        type=float,
+        help='If provided, convert UTC time to local time using this offset [hours] before plotting',
+    )
+
+    input_args = parser.parse_args()
+
+    # Extra type check for db_lim kwarg
+    if input_args.db_lim == 'smart':
+        db_lim = input_args.db_lim
+    elif input_args.db_lim == 'None':
+        db_lim = None
+    else:
+        string_list = input_args.db_lim.replace(' ', '').strip(',').split(',')
+        try:
+            assert len(string_list) == 2
+            db_lim = tuple(float(s) for s in string_list)
+        except:
+            raise TypeError(
+                '--db_lim must be one of "smart", "None", or two numeric values "<min>,<max>"'
+            )
+
+    sonify(
+        input_args.network,
+        input_args.station,
+        input_args.channel,
+        input_args.starttime,
+        input_args.endtime,
+        input_args.location,
+        input_args.freqmin,
+        input_args.freqmax,
+        input_args.speed_up_factor,
+        input_args.fps,
+        input_args.output_dir,
+        input_args.spec_win_dur,
+        db_lim,
+        input_args.utc_offset,
+    )

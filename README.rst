@@ -31,12 +31,18 @@ Quickstart
       cd sonify
       pip install -e .
 
-3. Run
+3. Run via
 
    .. code:: python
 
       python
       >>> from sonify import sonify
+
+   or via
+
+   ::
+
+      sonify --help
 
 Example
 -------
@@ -65,6 +71,10 @@ occurring in Alaska on 21 June 2019, sped up by a factor of 200:
    )
 .. ~END~
 
+or (equivalently), via the command-line interface:::
+
+  sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim=-180,-130
+
 The result is a 4K 1fps video file named ``AV_ILSW_BHZ_200x.mp4``. A screenshot
 of the movie is shown at the top of this README.
 
@@ -72,7 +82,8 @@ Documentation
 -------------
 
 API documentation for the module is available
-`here <https://sonify.readthedocs.io/en/latest/sonify.html>`__.
+`here <https://sonify.readthedocs.io/en/latest/sonify.html>`__. For command-line
+usage instructions, type ``sonify --help``.
 
 .. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :target: https://sonify.readthedocs.io/
