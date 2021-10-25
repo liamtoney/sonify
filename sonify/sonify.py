@@ -72,9 +72,9 @@ def sonify(
             ``HIGHEST_AUDIBLE_FREQUENCY`` / `speed_up_factor` or the
             `Nyquist frequency <https://en.wikipedia.org/wiki/Nyquist_frequency>`__,
             whichever is smaller)
-        speed_up_factor (int or float): Factor by which to speed up the
-            waveform data (higher values = higher pitches)
-        fps (int or float): Frames per second for output video
+        speed_up_factor (int): Factor by which to speed up the waveform data
+            (higher values = higher pitches)
+        fps (int): Frames per second for output video
         output_dir (str or :class:`~pathlib.Path`): Directory where output video
             should be saved (defaults to :meth:`~pathlib.Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
@@ -532,11 +532,11 @@ if __name__ == '__main__':
     parser.add_argument(
         '--speed_up_factor',
         default=200,
-        type=float,
+        type=int,
         help='Factor by which to speed up the waveform data (higher values = higher pitches)',
     )
     parser.add_argument(
-        '--fps', default=1, type=float, help='Frames per second for output video'
+        '--fps', default=1, type=int, help='Frames per second for output video'
     )
     parser.add_argument(
         '--output_dir',
