@@ -509,56 +509,56 @@ if __name__ == '__main__':
     parser.add_argument(
         'starttime',
         type=UTCDateTime,
-        help='Start time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
+        help='start time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
     )
     parser.add_argument(
         'endtime',
         type=UTCDateTime,
-        help='End time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
+        help='end time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
     )
     parser.add_argument('--location', default='*', help='SEED location code')
     parser.add_argument(
         '--freqmin',
         default=None,
         type=float,
-        help=f'Lower bandpass corner [Hz] (defaults to {LOWEST_AUDIBLE_FREQUENCY} Hz / "SPEED_UP_FACTOR")',
+        help=f'lower bandpass corner [Hz] (defaults to {LOWEST_AUDIBLE_FREQUENCY} Hz / "SPEED_UP_FACTOR")',
     )
     parser.add_argument(
         '--freqmax',
         default=None,
         type=float,
-        help=f'Upper bandpass corner [Hz] (defaults to {HIGHEST_AUDIBLE_FREQUENCY:,} Hz / "SPEED_UP_FACTOR" or the Nyquist frequency, whichever is smaller)',
+        help=f'upper bandpass corner [Hz] (defaults to {HIGHEST_AUDIBLE_FREQUENCY:,} Hz / "SPEED_UP_FACTOR" or the Nyquist frequency, whichever is smaller)',
     )
     parser.add_argument(
         '--speed_up_factor',
         default=200,
         type=int,
-        help='Factor by which to speed up the waveform data (higher values = higher pitches)',
+        help='factor by which to speed up the waveform data (higher values = higher pitches)',
     )
     parser.add_argument(
-        '--fps', default=1, type=int, help='Frames per second for output video'
+        '--fps', default=1, type=int, help='frames per second for output video'
     )
     parser.add_argument(
         '--output_dir',
         default=None,
-        help='Directory where output video should be saved (defaults to current working directory)',
+        help='directory where output video should be saved (defaults to current working directory)',
     )
     parser.add_argument(
         '--spec_win_dur',
         default=5,
         type=float,
-        help='Duration of spectrogram window [s]',
+        help='duration of spectrogram window [s]',
     )
     parser.add_argument(
         '--db_lim',
         default='smart',
-        help='Numbers "<min>,<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
+        help='numbers "<min>,<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
     )
     parser.add_argument(
         '--utc_offset',
         default=None,
         type=float,
-        help='If provided, convert UTC time to local time using this offset [hours] before plotting',
+        help='if provided, convert UTC time to local time using this offset [hours] before plotting',
     )
 
     input_args = parser.parse_args()
