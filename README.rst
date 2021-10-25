@@ -31,14 +31,14 @@ Quickstart
       cd sonify
       pip install -e .
 
-3. Run via
+3. Run using the Python interpreter
 
    .. code:: python
 
       python
       >>> from sonify import sonify
 
-   or via
+   or via the command-line interface
 
    ::
 
@@ -71,7 +71,7 @@ occurring in Alaska on 21 June 2019, sped up by a factor of 200:
    )
 .. ~END~
 
-or (equivalently), via the command-line interface:
+Or (equivalently), via the command-line interface:
 ::
   sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim=-180,-130
 
