@@ -17,12 +17,16 @@ Quickstart
 ----------
 
 1. Prepare environment
-   ::
+
+   .. code:: properties
+   
      conda create -n sonify -c conda-forge ffmpeg obspy
      conda activate sonify
 
 2. Obtain and install
-   ::
+
+   .. code:: properties
+   
      git clone https://github.com/liamtoney/sonify.git
      cd sonify
      pip install -e .
@@ -35,7 +39,9 @@ Quickstart
      >>> from sonify import sonify
 
    or via the command-line interface
-   ::
+   
+   .. code:: properties
+   
      sonify --help
 
 Example
@@ -66,7 +72,9 @@ occurring in Alaska on 21 June 2019, sped up by a factor of 200:
 .. ~END~
 
 Or (equivalently), via the command-line interface:
-::
+
+.. code:: properties
+
   sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim=-180,-130
 
 The result is a 4K 1fps video file named ``AV_ILSW_BHZ_200x.mp4``. A screenshot
