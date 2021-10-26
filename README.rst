@@ -33,7 +33,7 @@ Quickstart
 
 3. Run using the Python interpreter
 
-   .. code:: python
+   .. code:: pycon
 
      python
      >>> from sonify import sonify
