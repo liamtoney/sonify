@@ -19,14 +19,14 @@ Quickstart
 1. Prepare environment
 
    .. code:: properties
-   
+
      conda create -n sonify -c conda-forge ffmpeg obspy
      conda activate sonify
 
 2. Obtain and install
 
    .. code:: properties
-   
+
      git clone https://github.com/liamtoney/sonify.git
      cd sonify
      pip install -e .
@@ -39,9 +39,9 @@ Quickstart
      >>> from sonify import sonify
 
    or via the command-line interface
-   
+
    .. code:: properties
-   
+
      sonify --help
 
 Example
