@@ -105,6 +105,9 @@ def sonify(
     )
     print('Done')
 
+    # Merge Traces with the same IDs
+    st.merge(fill_value='interpolate')
+
     if st.count() != 1:
         warnings.warn('Stream contains more than one Trace. Using first entry!')
         for tr in st:
