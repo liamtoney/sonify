@@ -1,3 +1,3 @@
-sonify.egg-info/
-_build/
+/sonify.egg-info/
+/doc/_build/
 .DS_Store
