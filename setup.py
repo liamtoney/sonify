@@ -1,9 +1,7 @@
-from pathlib import Path
-
 from setuptools import find_packages, setup
 
 setup(
     name='sonify',
     packages=find_packages(),
-    scripts=[str(Path('bin') / 'sonify')],
+    entry_points=dict(console_scripts='sonify = sonify.sonify:main'),
 )

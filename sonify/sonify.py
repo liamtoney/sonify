@@ -499,7 +499,10 @@ class _UTCDateFormatter(mdates.ConciseDateFormatter):
             offset.set_x(0.5)
 
 
-if __name__ == '__main__':
+def main():
+    """
+    This function is run when sonify.py is called as a script.
+    """
 
     parser = argparse.ArgumentParser(
         description='Produce an animated spectrogram with a soundtrack derived from sped-up seismic or infrasound data.',
@@ -597,3 +600,7 @@ if __name__ == '__main__':
         db_lim,
         input_args.utc_offset,
     )
+
+
+if __name__ == '__main__':
+    main()
