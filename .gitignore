@@ -1,3 +1,4 @@
 /sonify.egg-info/
+/sonify/__pycache__/
 /doc/_build/
 .DS_Store
