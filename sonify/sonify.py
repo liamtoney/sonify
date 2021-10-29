@@ -165,15 +165,18 @@ def sonify(
     tr_trim = tr.copy()
     tr_trim.trim(starttime, endtime)
 
+    # Create temporary directory for audio and video files
+    temp_dir = tempfile.TemporaryDirectory()
+
     # MAKE AUDIO FILE
 
     tr_audio = tr_trim.copy()
     tr_audio.interpolate(sampling_rate=AUDIO_SAMPLE_RATE / speed_up_factor)
     tr_audio.taper(0.01)  # For smooth start and end
-    audio_file = tempfile.NamedTemporaryFile(suffix='.wav')
+    audio_file = Path(temp_dir.name) / '47.wav'
     print('Saving audio file...')
     tr_audio.write(
-        audio_file.name,
+        str(audio_file),
         format='WAV',
         width=4,
         rescale=True,
@@ -218,10 +221,10 @@ def sonify(
         interval=interval,
     )
 
-    video_file = tempfile.NamedTemporaryFile(suffix='.mp4')
+    video_file = Path(temp_dir.name) / '47.mp4'
     print('Saving animation. This may take a while...')
     animation.save(
-        video_file.name,
+        video_file,
         dpi=DPI,
         progress_callback=lambda i, n: print(
             '{:.1f}%'.format(((i + 1) / n) * 100), end='\r'
@@ -239,8 +242,11 @@ def sonify(
             str(speed_up_factor) + 'x',
         ]
     )
-    output_filename = output_dir / f'{basename}.mp4'
-    _ffmpeg_combine(audio_file, video_file, output_filename)
+    output_file = output_dir / f'{basename}.mp4'
+    _ffmpeg_combine(audio_file, video_file, output_file)
+
+    # Clean up temporary directory, just to be safe
+    temp_dir.cleanup()
 
 
 def _spectrogram(
@@ -418,15 +424,15 @@ def _spectrogram(
     return fig, spec_line, wf_line, time_box, wf_progress
 
 
-def _ffmpeg_combine(audio_file, video_file, output_filename):
+def _ffmpeg_combine(audio_file, video_file, output_file):
     """
     Combine audio and video files into a single movie. Uses a system call to
     `ffmpeg <https://www.ffmpeg.org/>`__.
 
     Args:
-        audio_file (:class:`tempfile._TemporaryFileWrapper`): Audio file to use
-        video_file (:class:`tempfile._TemporaryFileWrapper`): Video file to use
-        output_filename (:class:`~pathlib.Path`): Output filename (full path)
+        audio_file (:class:`~pathlib.Path`): Audio file to use
+        video_file (:class:`~pathlib.Path`): Video file to use
+        output_file (:class:`~pathlib.Path`): Output file (full path)
     """
 
     args = [
@@ -435,11 +441,11 @@ def _ffmpeg_combine(audio_file, video_file, output_filename):
         '-v',
         'warning',
         '-i',
-        video_file.name,
+        video_file,
         '-guess_layout_max',
         '0',
         '-i',
-        audio_file.name,
+        audio_file,
         '-c:v',
         'copy',
         '-c:a',
@@ -448,19 +454,15 @@ def _ffmpeg_combine(audio_file, video_file, output_filename):
         '320k',
         '-ac',
         '2',
-        output_filename,
+        output_file,
     ]
     print('Combining video and audio using ffmpeg...')
     code = subprocess.call(args)
 
-    # No matter what, close the two temporary files so they're removed!
-    audio_file.close()
-    video_file.close()
-
     if code == 0:
-        print(f'Video saved as {output_filename}')
+        print(f'Video saved as {output_file}')
     else:
-        output_filename.unlink(missing_ok=True)  # Remove file if it was made
+        output_file.unlink(missing_ok=True)  # Remove file if it was made
         raise OSError(
             'Issue with ffmpeg conversion. Check error messages and try again.'
         )
