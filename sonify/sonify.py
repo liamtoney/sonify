@@ -518,6 +518,7 @@ def main():
             if file is None:
                 file = _sys.stderr
             file.write(message.replace('[DB_LIM ...]', '[DB_LIM]'))
+
     parser._print_message = MethodType(_print_message_replace, parser)
 
     parser.add_argument('network', help='SEED network code')
@@ -600,7 +601,9 @@ def main():
     else:  # User provided more than 2 args
         db_lim_error = True
     if db_lim_error:
-        parser.error('argument --db_lim: must be one of "smart", "None", or two numeric values "<min>" "<max>"')
+        parser.error(
+            'argument --db_lim: must be one of "smart", "None", or two numeric values "<min>" "<max>"'
+        )
 
     sonify(
         input_args.network,
