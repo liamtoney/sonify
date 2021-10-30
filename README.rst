@@ -75,7 +75,7 @@ Or (equivalently), via the command-line interface:
 
 .. code:: properties
 
-  sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim=-180,-130
+  sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim -180 -130
 
 The result is a 4K 1fps video file named ``AV_ILSW_BHZ_200x.mp4``. A screenshot
 of the movie is shown at the top of this README.

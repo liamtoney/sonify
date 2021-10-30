@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 import warnings
 from pathlib import Path
+from types import MethodType
 
 import matplotlib.dates as mdates
 import numpy as np
@@ -511,6 +512,14 @@ def main():
         allow_abbrev=False,
     )
 
+    # Hack the printing function of the parser to fix --db_lim option formatting
+    def _print_message_replace(self, message, file=None):
+        if message:
+            if file is None:
+                file = _sys.stderr
+            file.write(message.replace('[DB_LIM ...]', '[DB_LIM]'))
+    parser._print_message = MethodType(_print_message_replace, parser)
+
     parser.add_argument('network', help='SEED network code')
     parser.add_argument('station', help='SEED station code')
     parser.add_argument('channel', help='SEED channel code')
@@ -560,7 +569,8 @@ def main():
     parser.add_argument(
         '--db_lim',
         default='smart',
-        help='numbers "<min>,<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
+        nargs='+',
+        help='numbers "<min> <max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
     )
     parser.add_argument(
         '--utc_offset',
@@ -572,19 +582,25 @@ def main():
     input_args = parser.parse_args()
 
     # Extra type check for db_lim kwarg
-    if input_args.db_lim == 'smart':
-        db_lim = input_args.db_lim
-    elif input_args.db_lim == 'None':
-        db_lim = None
-    else:
-        string_list = input_args.db_lim.replace(' ', '').strip(',').split(',')
+    db_lim_error = False
+    db_lim = np.atleast_1d(input_args.db_lim)
+    if db_lim.size == 1:
+        db_lim = db_lim[0]
+        if db_lim == 'smart':
+            pass
+        elif db_lim == 'None':
+            db_lim = None
+        else:
+            db_lim_error = True
+    elif db_lim.size == 2:
         try:
-            assert len(string_list) == 2
-            db_lim = tuple(float(s) for s in string_list)
-        except:
-            raise TypeError(
-                '--db_lim must be one of "smart", "None", or two numeric values "<min>,<max>"'
-            )
+            db_lim = tuple(float(s) for s in db_lim)
+        except ValueError:
+            db_lim_error = True
+    else:  # User provided more than 2 args
+        db_lim_error = True
+    if db_lim_error:
+        parser.error('argument --db_lim: must be one of "smart", "None", or two numeric values "<min> <max>"')
 
     sonify(
         input_args.network,
