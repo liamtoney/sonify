@@ -570,7 +570,7 @@ def main():
         '--db_lim',
         default='smart',
         nargs='+',
-        help='numbers "<min> <max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
+        help='numbers "<min>" "<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
     )
     parser.add_argument(
         '--utc_offset',
@@ -600,7 +600,7 @@ def main():
     else:  # User provided more than 2 args
         db_lim_error = True
     if db_lim_error:
-        parser.error('argument --db_lim: must be one of "smart", "None", or two numeric values "<min> <max>"')
+        parser.error('argument --db_lim: must be one of "smart", "None", or two numeric values "<min>" "<max>"')
 
     sonify(
         input_args.network,
