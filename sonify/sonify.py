@@ -69,11 +69,10 @@ def sonify(
             animation (UTC)
         location (str): SEED location code
         freqmin (int or float): Lower bandpass corner [Hz] (defaults to
-            ``LOWEST_AUDIBLE_FREQUENCY`` / `speed_up_factor`)
+            |LOWEST_AUDIBLE_FREQUENCY|_ / `speed_up_factor`)
         freqmax (int or float): Upper bandpass corner [Hz] (defaults to
-            ``HIGHEST_AUDIBLE_FREQUENCY`` / `speed_up_factor` or the
-            `Nyquist frequency <https://en.wikipedia.org/wiki/Nyquist_frequency>`__,
-            whichever is smaller)
+            |HIGHEST_AUDIBLE_FREQUENCY|_ / `speed_up_factor` or the
+            `Nyquist frequency`_, whichever is smaller)
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
         fps (int): Frames per second for output video
@@ -85,6 +84,14 @@ def sonify(
         log (bool): If `True`, use log scaling for :math:`y`-axis of spectrogram
         utc_offset (int or float): If not `None`, convert UTC time to local time
             using this offset [hours] before plotting
+
+    .. _Nyquist frequency: https://en.wikipedia.org/wiki/Nyquist_frequency
+
+    .. |LOWEST_AUDIBLE_FREQUENCY| replace:: ``LOWEST_AUDIBLE_FREQUENCY``
+    .. _LOWEST_AUDIBLE_FREQUENCY: https://github.com/liamtoney/sonify/blob/main/sonify/sonify.py#L21
+
+    .. |HIGHEST_AUDIBLE_FREQUENCY| replace:: ``HIGHEST_AUDIBLE_FREQUENCY``
+    .. _HIGHEST_AUDIBLE_FREQUENCY: https://github.com/liamtoney/sonify/blob/main/sonify/sonify.py#L22
     """
 
     # Use current working directory if none provided
