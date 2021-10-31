@@ -68,11 +68,11 @@ def sonify(
         endtime (:class:`~obspy.core.utcdatetime.UTCDateTime`): End time of
             animation (UTC)
         location (str): SEED location code
-        freqmin (int or float): Lower bandpass corner [Hz] (defaults to
-            |LOWEST_AUDIBLE_FREQUENCY|_ / `speed_up_factor`)
-        freqmax (int or float): Upper bandpass corner [Hz] (defaults to
-            |HIGHEST_AUDIBLE_FREQUENCY|_ / `speed_up_factor` or the
-            `Nyquist frequency`_, whichever is smaller)
+        freqmin (int or float): Lower bandpass corner [Hz] (defaults to 20 Hz /
+            `speed_up_factor`)
+        freqmax (int or float): Upper bandpass corner [Hz] (defaults to 20,000
+            Hz / `speed_up_factor` or the `Nyquist frequency`_, whichever is
+            smaller)
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
         fps (int): Frames per second for output video
@@ -86,12 +86,6 @@ def sonify(
             using this offset [hours] before plotting
 
     .. _Nyquist frequency: https://en.wikipedia.org/wiki/Nyquist_frequency
-
-    .. |LOWEST_AUDIBLE_FREQUENCY| replace:: ``LOWEST_AUDIBLE_FREQUENCY``
-    .. _LOWEST_AUDIBLE_FREQUENCY: https://github.com/liamtoney/sonify/blob/main/sonify/sonify.py#L21
-
-    .. |HIGHEST_AUDIBLE_FREQUENCY| replace:: ``HIGHEST_AUDIBLE_FREQUENCY``
-    .. _HIGHEST_AUDIBLE_FREQUENCY: https://github.com/liamtoney/sonify/blob/main/sonify/sonify.py#L22
     """
 
     # Use current working directory if none provided
@@ -441,12 +435,14 @@ def _spectrogram(
 def _ffmpeg_combine(audio_file, video_file, output_file):
     """
     Combine audio and video files into a single movie. Uses a system call to
-    `ffmpeg <https://www.ffmpeg.org/>`__.
+    `FFmpeg`_.
 
     Args:
         audio_file (:class:`~pathlib.Path`): Audio file to use
         video_file (:class:`~pathlib.Path`): Video file to use
         output_file (:class:`~pathlib.Path`): Output file (full path)
+
+    .. _FFmpeg: https://www.ffmpeg.org/
     """
 
     args = [
@@ -517,7 +513,8 @@ class _UTCDateFormatter(mdates.ConciseDateFormatter):
 
 def main():
     """
-    This function is run when sonify.py is called as a script.
+    This function is run when ``sonify.py`` is called as a script. It's also set
+    up as an entry point.
     """
 
     parser = argparse.ArgumentParser(
@@ -552,13 +549,13 @@ def main():
         '--freqmin',
         default=None,
         type=float,
-        help=f'lower bandpass corner [Hz] (defaults to {LOWEST_AUDIBLE_FREQUENCY} Hz / "SPEED_UP_FACTOR")',
+        help='lower bandpass corner [Hz] (defaults to 20 Hz / "SPEED_UP_FACTOR")',
     )
     parser.add_argument(
         '--freqmax',
         default=None,
         type=float,
-        help=f'upper bandpass corner [Hz] (defaults to {HIGHEST_AUDIBLE_FREQUENCY:,} Hz / "SPEED_UP_FACTOR" or the Nyquist frequency, whichever is smaller)',
+        help='upper bandpass corner [Hz] (defaults to 20,000 Hz / "SPEED_UP_FACTOR" or the Nyquist frequency, whichever is smaller)',
     )
     parser.add_argument(
         '--speed_up_factor',
