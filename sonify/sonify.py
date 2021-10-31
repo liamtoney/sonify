@@ -52,6 +52,7 @@ def sonify(
     output_dir=None,
     spec_win_dur=5,
     db_lim='smart',
+    log=False,
     utc_offset=None,
 ):
     """
@@ -81,6 +82,7 @@ def sonify(
         spec_win_dur (int or float): Duration of spectrogram window [s]
         db_lim (tuple or str): Tuple defining min and max colormap cutoffs [dB],
             `'smart'` for a sensible automatic choice, or `None` for no clipping
+        log (bool): If `True`, use log scaling for :math:`y`-axis of spectrogram
         utc_offset (int or float): If not `None`, convert UTC time to local time
             using this offset [hours] before plotting
     """
@@ -209,6 +211,7 @@ def sonify(
         spec_win_dur,
         db_lim,
         (freqmin, freqmax),
+        log,
         utc_offset is not None,
     )
 
@@ -259,6 +262,7 @@ def _spectrogram(
     spec_win_dur,
     db_lim,
     freq_lim,
+    log,
     is_local_time,
 ):
     """
@@ -276,6 +280,7 @@ def _spectrogram(
         spec_win_dur (int or float): See docstring for :func:`~sonify.sonify`
         db_lim (tuple or str): See docstring for :func:`~sonify.sonify`
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
+        log (bool): See docstring for :func:`~sonify.sonify`
         is_local_time (bool): Passed to :class:`_UTCDateFormatter`
 
     Returns:
@@ -336,6 +341,8 @@ def _spectrogram(
     spec_ax.set_ylabel('Frequency (Hz)')
     spec_ax.grid(linestyle=':')
     spec_ax.set_ylim(freq_lim)
+    if log:
+        spec_ax.set_yscale('log')
 
     # Tick locating and formatting
     locator = mdates.AutoDateLocator()
@@ -574,6 +581,11 @@ def main():
         help='numbers "<min>" "<max>" defining min and max colormap cutoffs [dB], "smart" for a sensible automatic choice, or "None" for no clipping',
     )
     parser.add_argument(
+        '--log',
+        action='store_true',
+        help='use log scaling for y-axis of spectrogram',
+    )
+    parser.add_argument(
         '--utc_offset',
         default=None,
         type=float,
@@ -619,6 +631,7 @@ def main():
         input_args.output_dir,
         input_args.spec_win_dur,
         db_lim,
+        input_args.log,
         input_args.utc_offset,
     )
 
