@@ -162,7 +162,7 @@ def sonify(
     tr.remove_response()  # Units are m/s OR Pa after response removal
     tr.detrend('demean')
     tr.taper(max_percentage=None, max_length=PAD / 2)  # Taper away some of PAD
-    print(f'Applying {freqmin}-{freqmax} Hz bandpass')
+    print(f'Applying {freqmin:g}-{freqmax:g} Hz bandpass')
     tr.filter('bandpass', freqmin=freqmin, freqmax=freqmax, zerophase=True)
 
     # Make trimmed version
