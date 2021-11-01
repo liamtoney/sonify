@@ -131,7 +131,7 @@ def sonify(
 
     # Apply UTC offset if provided
     if utc_offset is not None:
-        signed_offset = f'{utc_offset:{"+" if utc_offset else ""}}'
+        signed_offset = f'{utc_offset:{"+" if utc_offset else ""}g}'
         print(f'Converting to local time using UTC offset of {signed_offset} hours')
         utc_offset_sec = utc_offset * mdates.SEC_PER_HOUR
         starttime += utc_offset_sec
