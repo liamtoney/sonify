@@ -19,4 +19,4 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate sonify
-          sonify --help
+          sonify -h
