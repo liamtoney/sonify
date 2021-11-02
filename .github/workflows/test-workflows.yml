@@ -1,21 +1,17 @@
-name: Testing workflows
+name: Test workflows
 on: [push]
 jobs:
-  Install:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Create environment
-        run: conda create -n sonify -c conda-forge ffmpeg obspy
-#     - name: Add conda to system path
-#       run: |
-#         # $CONDA is an environment variable pointing to the root of the miniconda directory
-#         echo $CONDA/bin >> $GITHUB_PATH
-#     - name: Install dependencies
-#       run: |
-#         conda create -n sonify -c conda-forge ffmpeg obspy
-#     - name: Run script
-#       run: |
-#         conda activate sonify
-#         sonify --help
+      - name: Prepare environment
+        run: |
+          conda create -n sonify -c conda-forge ffmpeg obspy
+          conda activate sonify
+      - name: Install
+        run: pip install -e .
+      - name: Test CLI
+        run: sonify --help
+        
