@@ -1,7 +1,7 @@
 name: Testing
 on: push
 jobs:
-  Test sonify CLI:
+  test-sonify-cli:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
