@@ -7,7 +7,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Set up conda
-      - uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v2
       - name: Prepare environment
         run: |
           conda create -n sonify -c conda-forge ffmpeg obspy
