@@ -6,10 +6,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Add conda to system path
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Set up conda
+      - uses: conda-incubator/setup-miniconda@v2
       - name: Prepare environment
         run: |
           conda create -n sonify -c conda-forge ffmpeg obspy
@@ -18,4 +16,3 @@ jobs:
         run: pip install -e .
       - name: Test CLI
         run: sonify --help
-        
