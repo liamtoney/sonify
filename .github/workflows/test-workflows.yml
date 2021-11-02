@@ -1,11 +1,15 @@
 name: Test workflows
-on: [push]
+on: push
 jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+      - name: Add conda to system path
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          echo $CONDA/bin >> $GITHUB_PATH
       - name: Prepare environment
         run: |
           conda create -n sonify -c conda-forge ffmpeg obspy
