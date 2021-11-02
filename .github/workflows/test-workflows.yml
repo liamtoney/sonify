@@ -9,11 +9,15 @@ jobs:
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v2
       - name: Prepare environment
-        shell: bash -l {0}
         run: |
           conda create -n sonify -c conda-forge ffmpeg obspy
-          conda activate sonify
       - name: Install
-        run: pip install -e .
+        shell: bash -l {0}
+        run: |
+          conda activate sonify
+          pip install -e .
       - name: Test CLI
-        run: sonify --help
+        shell: bash -l {0}
+        run: |
+          conda activate sonify
+          sonify --help
