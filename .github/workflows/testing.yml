@@ -4,19 +4,14 @@ jobs:
   test-sonify-cli:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
       - name: Set up conda
         uses: conda-incubator/setup-miniconda@v2
-      - name: Create conda environment
-        run: conda create -n sonify -c conda-forge ffmpeg obspy
-      - name: Install sonify using pip
-        shell: bash -l {0}
-        run: |
-          conda activate sonify
-          pip install -e .
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Create environment and install
+        run: conda env create
       - name: Run sonify command with help flag
         shell: bash -l {0}
         run: |
           conda activate sonify
-          sonify -h
+          sonify --help
