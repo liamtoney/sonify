@@ -16,20 +16,19 @@ Hunter Excellence in Plotting Contest (JHEPC) <https://jhepc.github.io/>`__.
 Quickstart
 ----------
 
-1. Prepare environment
-
-   .. code-block:: xml
-
-     conda create -n sonify -c conda-forge ffmpeg obspy
-     conda activate sonify
-
-2. Obtain and install
+1. Obtain
 
    .. code-block:: xml
 
      git clone https://github.com/liamtoney/sonify.git
      cd sonify
-     pip install -e .
+
+2. Create environment, install, and activate
+
+   .. code-block:: xml
+
+     conda env create
+     conda activate sonify
 
 3. Run using the Python interpreter
 
