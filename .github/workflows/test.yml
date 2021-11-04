@@ -13,4 +13,4 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate sonify
-          pytest
+          pytest --cov=sonify
