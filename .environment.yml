@@ -11,6 +11,8 @@ dependencies:
   - imagemagick
   - ipython
   - isort
+  - pytest-cov
+  - pytest-mpl
   - pip:
     - --requirement doc/requirements.txt
     - --editable .
