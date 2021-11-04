@@ -1,0 +1,17 @@
+name: Testing
+on: push
+jobs:
+  test-sonify-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up conda
+        uses: conda-incubator/setup-miniconda@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Create development environment and install
+        run: conda env create --file .environment.yml
+      - name: Run sonify command with help flag
+        shell: bash -l {0}
+        run: |
+          conda activate sonify
+          sonify --help
