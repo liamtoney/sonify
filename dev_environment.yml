@@ -1,0 +1,16 @@
+name: sonify
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ffmpeg
+  - obspy
+  - pip
+# Lines above should be IDENTICAL to environment.yml
+  - black
+  - imagemagick
+  - ipython
+  - isort
+  - pip:
+    - --requirement doc/requirements.txt
+    - --editable .

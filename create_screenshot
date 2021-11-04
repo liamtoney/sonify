@@ -20,7 +20,7 @@ ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 if [ -x "$(command -v mogrify)" ]; then
   mogrify -resize 50% screenshot.png
 else
-  echo 'ImageMagick is not installed (use e.g. `brew install imagemagick` to install).'
+  echo 'ImageMagick is not installed (are you using the dev environment?).'
   echo 'No screenshot resizing will be performed.'
 fi
 
