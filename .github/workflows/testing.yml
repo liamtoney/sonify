@@ -8,8 +8,8 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
       - name: Check out repository
         uses: actions/checkout@v2
-      - name: Create environment and install
-        run: conda env create
+      - name: Create [dev] environment and install
+        run: conda env create --file dev_environment.yml
       - name: Run sonify command with help flag
         shell: bash -l {0}
         run: |
