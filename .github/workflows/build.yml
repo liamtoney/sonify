@@ -17,5 +17,3 @@ jobs:
           pytest --cov=sonify --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
-        with:
-          file: coverage.xml
