@@ -83,7 +83,7 @@ of the movie is shown at the top of this README.
 Documentation
 -------------
 
-API documentation for the module is available
+Application programming interface (API) documentation for the module is available
 `here <https://sonify.readthedocs.io/en/latest/sonify.html>`__. For command-line
 usage instructions, type ``sonify --help`` (the ``sonify`` conda environment must
 be active).
