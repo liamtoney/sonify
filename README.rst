@@ -1,7 +1,7 @@
 sonify
 ======
 
-|badge|
+|docs_badge| |build_badge| |cov_badge|
 
 This tool “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from the
@@ -87,7 +87,13 @@ API documentation for the module is available
 usage instructions, type ``sonify --help`` (the ``sonify`` conda environment must
 be active).
 
-.. |badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
-   :target: https://sonify.readthedocs.io/
+.. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
+   :target: https://sonify.rtfd.io/
 
+.. |build_badge| image:: https://github.com/liamtoney/sonify/workflows/build/badge.svg
+   :target: https://github.com/liamtoney/sonify/actions/workflows/build.yml
+
+.. |cov_badge| image:: https://codecov.io/gh/liamtoney/sonify/branch/tests/graph/badge.svg?token=3OIGM34OFL
+   :target: https://codecov.io/gh/liamtoney/sonify
+    
 .. |screenshot| image:: screenshot.png
