@@ -1,7 +1,7 @@
 sonify
 ======
 
-|docs_badge| |build_badge| |cov_badge|
+|docs_badge| |build_badge| |cov_badge| |black_badge| |isort_badge|
 
 This tool “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from the
@@ -99,7 +99,15 @@ be active).
 .. |cov_badge| image:: https://codecov.io/gh/liamtoney/sonify/branch/main/graph/badge.svg?token=3OIGM34OFL
    :alt: Test coverage
    :target: https://codecov.io/gh/liamtoney/sonify
-    
+
+.. |black_badge| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :alt: Link to Black
+   :target: https://black.readthedocs.io/en/stable/
+
+.. |isort_badge| image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+   :alt: Link to isort
+   :target: https://pycqa.github.io/isort/
+
 .. |screenshot| image:: screenshot.png
    :alt: Screenshot of example
    :target: #example
