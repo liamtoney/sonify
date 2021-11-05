@@ -88,12 +88,17 @@ usage instructions, type ``sonify --help`` (the ``sonify`` conda environment mus
 be active).
 
 .. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
+   :alt: Documentation status
    :target: https://sonify.rtfd.io/
 
 .. |build_badge| image:: https://github.com/liamtoney/sonify/workflows/build/badge.svg
+   :alt: Build status
    :target: https://github.com/liamtoney/sonify/actions/workflows/build.yml
 
 .. |cov_badge| image:: https://codecov.io/gh/liamtoney/sonify/branch/main/graph/badge.svg?token=3OIGM34OFL
+   :alt: Test coverage
    :target: https://codecov.io/gh/liamtoney/sonify
     
 .. |screenshot| image:: screenshot.png
+   :alt: Screenshot of example
+   :target: #example
