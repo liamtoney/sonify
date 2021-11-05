@@ -5,7 +5,8 @@ sonify
 
 This tool “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from the
-`IRIS DMC <https://ds.iris.edu/ds/nodes/dmc/>`__.
+`Incorporated Research Institutions for Seismology (IRIS) Data Management Center
+(DMC) <https://ds.iris.edu/ds/nodes/dmc/>`__.
 
 |screenshot|
 
