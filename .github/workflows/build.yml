@@ -10,6 +10,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Create development environment and install
         run: conda env create --file .environment.yml
+      - name: Check formatting
+        shell: bash -l {0}
+        run: |
+          conda activate sonify
+          black --skip-string-normalization --check .
+          isort --conda-env sonify --check-only .
       - name: Run tests
         shell: bash -l {0}
         run: |
