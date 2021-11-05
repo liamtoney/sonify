@@ -93,7 +93,7 @@ be active).
 .. |build_badge| image:: https://github.com/liamtoney/sonify/workflows/build/badge.svg
    :target: https://github.com/liamtoney/sonify/actions/workflows/build.yml
 
-.. |cov_badge| image:: https://codecov.io/gh/liamtoney/sonify/branch/tests/graph/badge.svg?token=3OIGM34OFL
+.. |cov_badge| image:: https://codecov.io/gh/liamtoney/sonify/branch/main/graph/badge.svg?token=3OIGM34OFL
    :target: https://codecov.io/gh/liamtoney/sonify
     
 .. |screenshot| image:: screenshot.png
