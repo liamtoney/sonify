@@ -239,15 +239,8 @@ def sonify(
 
     # MAKE COMBINED FILE
 
-    basename = '_'.join(
-        [
-            tr.stats.network,
-            tr.stats.station,
-            tr.stats.channel,
-            str(speed_up_factor) + 'x',
-        ]
-    )
-    output_file = output_dir / f'{basename}.mp4'
+    tr_id_str = '_'.join([code for code in tr.id.split('.') if code])
+    output_file = output_dir / f'{tr_id_str}_{speed_up_factor}x.mp4'
     _ffmpeg_combine(audio_file, video_file, output_file)
 
     # Clean up temporary directory, just to be safe
