@@ -18,6 +18,8 @@ from obspy import UTCDateTime
 from obspy.clients.fdsn import Client
 from scipy import signal
 
+from . import __version__
+
 LOWEST_AUDIBLE_FREQUENCY = 20  # [Hz]
 HIGHEST_AUDIBLE_FREQUENCY = 20000  # [Hz]
 
@@ -523,6 +525,14 @@ def main():
             file.write(message.replace('[DB_LIM ...]', '[DB_LIM]'))
 
     parser._print_message = MethodType(_print_message_replace, parser)
+
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version=f'{parser.prog}, rev. {__version__}',
+        help=f'show revision number and exit',
+    )
 
     parser.add_argument('network', help='SEED network code')
     parser.add_argument('station', help='SEED station code')
