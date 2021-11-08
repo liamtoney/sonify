@@ -90,6 +90,10 @@ def sonify(
     .. _Nyquist frequency: https://en.wikipedia.org/wiki/Nyquist_frequency
     """
 
+    # Capture args and format as string to store in movie metadata
+    key_value_pairs = [f'{k}={repr(v)}' for k, v in locals().items()]
+    call_str = 'sonify({})'.format(', '.join(key_value_pairs))
+
     # Use current working directory if none provided
     if not output_dir:
         output_dir = Path().cwd()
@@ -243,7 +247,7 @@ def sonify(
 
     tr_id_str = '_'.join([code for code in tr.id.split('.') if code])
     output_file = output_dir / f'{tr_id_str}_{speed_up_factor}x.mp4'
-    _ffmpeg_combine(audio_file, video_file, output_file)
+    _ffmpeg_combine(audio_file, video_file, output_file, call_str)
 
     # Clean up temporary directory, just to be safe
     temp_dir.cleanup()
@@ -427,7 +431,7 @@ def _spectrogram(
     return fig, spec_line, wf_line, time_box, wf_progress
 
 
-def _ffmpeg_combine(audio_file, video_file, output_file):
+def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
     """
     Combine audio and video files into a single movie. Uses a system call to
     `FFmpeg`_.
@@ -436,6 +440,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file):
         audio_file (:class:`~pathlib.Path`): Audio file to use
         video_file (:class:`~pathlib.Path`): Video file to use
         output_file (:class:`~pathlib.Path`): Output file (full path)
+        call_str (str): Formatted record of sonify call to add to metadata
 
     .. _FFmpeg: https://www.ffmpeg.org/
     """
@@ -459,6 +464,10 @@ def _ffmpeg_combine(audio_file, video_file, output_file):
         '320k',
         '-ac',
         '2',
+        '-metadata',
+        f'artist=sonify, rev. {__version__}',
+        '-metadata',
+        f'comment={call_str}',
         output_file,
     ]
     print('Combining video and audio using ffmpeg...')
