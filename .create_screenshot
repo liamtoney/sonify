@@ -7,12 +7,8 @@ FRAME=14  # Which frame number to extract
 eval "$(conda shell.bash hook)"
 conda activate sonify
 
-sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst |  # (1) Extract code chunk
-sed -E '/(^\.\. .*$|^$)/d' |                        # (2) Remove reST comments
-sed -E 's/^[[:space:]]+//' |                        # (3) Completely un-indent
-sed '1i\
-import matplotlib as mpl; mpl.rcParams.update(mpl.rcParamsDefault)
-' | python                                          # (4) Add extra code & run
+# Extract command-line call from README and run
+$(sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst | sed -E '/(^\.\. .*$|^$)/d')
 
 filter="select=eq(n\,$(expr $FRAME - 1))"
 ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
