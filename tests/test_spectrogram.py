@@ -17,7 +17,7 @@ def test_spectrogram():
         starttime=tr.stats.starttime + 2,
         endtime=tr.stats.endtime - 3,
         is_infrasound=False,
-        rescale=1e6,  # Convert m to μm
+        rescale=1e6,  # Convert m to µm
         spec_win_dur=1,
         db_lim='smart',
         freq_lim=(4, 40),

@@ -158,7 +158,7 @@ def sonify(
     # All high-gain seismometers have a "?H?" channel pattern
     elif tr.stats.channel[1] == 'H':
         is_infrasound = False
-        rescale = 1e6  # Convert m to μm
+        rescale = 1e6  # Convert m to µm
     # We can't figure out what type of sensor this is...
     else:
         raise ValueError(
@@ -307,10 +307,10 @@ def _spectrogram(
 
     if is_infrasound:
         ylab = 'Pressure (Pa)'
-        clab = f'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} μPa]$^2$ Hz$^{{-1}}$)'
+        clab = f'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} µPa]$^2$ Hz$^{{-1}}$)'
         ref_val = REFERENCE_PRESSURE
     else:
-        ylab = 'Velocity (μm s$^{-1}$)'
+        ylab = 'Velocity (µm s$^{-1}$)'
         if REFERENCE_VELOCITY == 1:
             clab = (
                 f'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
