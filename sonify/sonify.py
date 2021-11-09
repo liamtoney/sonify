@@ -7,9 +7,10 @@ import warnings
 from pathlib import Path
 from types import MethodType
 
+import matplotlib
 import matplotlib.dates as mdates
 import numpy as np
-from matplotlib import rcParams
+from matplotlib import font_manager
 from matplotlib.animation import FuncAnimation
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
@@ -19,6 +20,12 @@ from obspy.clients.fdsn import Client
 from scipy import signal
 
 from . import __version__
+
+# Add Tex Gyre Heros to Matplotlib
+for font_path in font_manager.findSystemFonts(
+    str(Path(__file__).resolve().parent / 'fonts')
+):
+    font_manager.fontManager.addfont(font_path)
 
 LOWEST_AUDIBLE_FREQUENCY = 20  # [Hz]
 HIGHEST_AUDIBLE_FREQUENCY = 20000  # [Hz]
@@ -209,6 +216,12 @@ def sonify(
         wf_progress.set_xdata(tr_progress.times('matplotlib'))
         wf_progress.set_ydata(tr_progress.data * rescale)
 
+    # Store user's rc settings, then update font stuff
+    original_params = matplotlib.rcParams.copy()
+    matplotlib.rcParams.update(matplotlib.rcParamsDefault)
+    matplotlib.rcParams['font.sans-serif'] = 'Tex Gyre Heros'
+    matplotlib.rcParams['mathtext.fontset'] = 'custom'
+
     fig, *fargs = _spectrogram(
         tr,
         starttime,
@@ -242,6 +255,11 @@ def sonify(
         ),
     )
     print('\nDone')
+
+    # Restore user's rc settings, ignoring Matplotlib deprecation warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        matplotlib.rcParams.update(original_params)
 
     # MAKE COMBINED FILE
 
@@ -367,7 +385,7 @@ def _spectrogram(
     )
     time_box.txt._text.set_y(-5)  # [pixels] Shift text to vertically center it
     time_box.zorder = 12  # This should place it on the very top; see below
-    time_box.patch.set_linewidth(rcParams['axes.linewidth'])
+    time_box.patch.set_linewidth(matplotlib.rcParams['axes.linewidth'])
     wf_ax.add_artist(time_box)
 
     # Adjustments to ensure time marker line is zordered properly
