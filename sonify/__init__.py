@@ -14,4 +14,7 @@ __version__ = subprocess.run(
     text=True,
 ).stdout.strip()
 
+del subprocess
+del Path
+
 from .sonify import sonify
