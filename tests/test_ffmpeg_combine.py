@@ -32,8 +32,8 @@ original_hash = _get_md5(BASELINE_FILE)
 
 
 def test_ffmpeg_combine():
-    with tempfile.TemporaryDirectory() as temp_dir:
-        output_file = Path(temp_dir.name) / '47.mp4'
+    with tempfile.TemporaryDirectory() as temp_dir_name:
+        output_file = Path(temp_dir_name) / '47.mp4'
         _ffmpeg_combine(AUDIO_FILE, VIDEO_FILE, output_file, call_str='')
         test_hash = _get_md5(output_file)
     assert test_hash == original_hash
