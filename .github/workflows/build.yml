@@ -1,7 +1,7 @@
 on: push
 jobs:
   install-and-test:
-    name: Install and test on ${{ matrix.os }}
+    name: Install and test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
