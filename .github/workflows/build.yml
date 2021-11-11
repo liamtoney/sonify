@@ -1,49 +1,8 @@
 name: build
 on: push
 jobs:
-  test-linux:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up development conda environment
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: sonify
-          environment-file: .environment.yml
-      - name: Check formatting
-        run: |
-          black --skip-string-normalization --check .
-          isort --conda-env sonify --check-only .
-      - name: Run tests
-        run: pytest --cov=sonify --cov-report=xml
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-  test-macos:
-    runs-on: macos-latest
-    defaults:
-      run:
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up development conda environment
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: sonify
-          environment-file: .environment.yml
-      - name: Check formatting
-        run: |
-          black --skip-string-normalization --check .
-          isort --conda-env sonify --check-only .
-      - name: Run tests
-        run: pytest --cov=sonify --cov-report=xml
   test-windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
       - name: Set up development conda environment
@@ -51,9 +10,3 @@ jobs:
         with:
           activate-environment: sonify
           environment-file: .environment.yml
-      - name: Check formatting
-        run: |
-          black --skip-string-normalization --check .
-          isort --conda-env sonify --check-only .
-      - name: Run tests
-        run: pytest --cov=sonify --cov-report=xml
