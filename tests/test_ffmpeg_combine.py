@@ -18,7 +18,18 @@ BASELINE_FILE = BASELINE_DIR / 'test_ffmpeg_combine.mp4'
 def _get_md5(video_file):
     md5 = (
         subprocess.run(
-            ['ffmpeg', '-i', video_file, '-f', 'md5', '-'],
+            [
+                'ffmpeg',
+                '-i',
+                video_file,
+                '-map',
+                '0',  # Selects all streams (audio and video in this case)
+                '-max_muxing_queue_size',
+                '256',  # 128 was not enough
+                '-f',
+                'md5',
+                '-',
+            ],
             capture_output=True,
             text=True,
         )
@@ -28,7 +39,7 @@ def _get_md5(video_file):
     return md5
 
 
-original_hash = _get_md5(BASELINE_FILE)
+baseline_hash = _get_md5(BASELINE_FILE)
 
 
 def test_ffmpeg_combine():
@@ -36,4 +47,6 @@ def test_ffmpeg_combine():
         output_file = Path(temp_dir_name) / '47.mp4'
         _ffmpeg_combine(AUDIO_FILE, VIDEO_FILE, output_file, call_str='')
         test_hash = _get_md5(output_file)
-    assert test_hash == original_hash
+    print(f'Baseline hash: {baseline_hash}')
+    print(f'    Test hash: {test_hash}')
+    assert test_hash == baseline_hash
