@@ -9,7 +9,6 @@ dependencies:
   - setuptools<58.4.0  # https://github.com/pypa/setuptools/issues/2497
 # Lines above should be IDENTICAL to environment.yml
   - black
-  # - imagemagick
   - ipython
   - isort
   - pytest-cov

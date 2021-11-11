@@ -1,8 +1,11 @@
 name: build
 on: push
 jobs:
-  test-windows:
-    runs-on: windows-latest
+  install-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     defaults:
       run:
         shell: bash -l {0}
@@ -19,3 +22,5 @@ jobs:
           isort --conda-env sonify --check-only .
       - name: Run tests
         run: pytest --cov=sonify --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2

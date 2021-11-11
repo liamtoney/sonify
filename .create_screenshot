@@ -10,14 +10,9 @@ conda activate sonify
 # Extract command-line call from README and run
 $(sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst | sed -E '/(^\.\. .*$|^$)/d')
 
-filter="select=eq(n\,$(expr $FRAME - 1))"
-ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
+# This filter extracts a frame and then resizes it
+filter="select=eq(n\,$(expr $FRAME - 1)),scale=iw/2:ih/2"
 
-if [ -x "$(command -v mogrify)" ]; then
-  mogrify -resize 50% screenshot.png
-else
-  echo 'ImageMagick is not installed (are you using the development environment?).'
-  echo 'No screenshot resizing will be performed.'
-fi
+ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
 rm -i *.mp4
