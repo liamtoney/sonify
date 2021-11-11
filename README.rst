@@ -92,7 +92,7 @@ be active).
    :alt: Documentation status
    :target: https://sonify.rtfd.io/
 
-.. |build_badge| image:: https://github.com/liamtoney/sonify/workflows/build/badge.svg
+.. |build_badge| image:: https://github.com/liamtoney/sonify/actions/workflows/build.yml/badge.svg
    :alt: Build status
    :target: https://github.com/liamtoney/sonify/actions/workflows/build.yml
 

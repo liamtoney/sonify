@@ -1,4 +1,4 @@
-name: Install and test
+name: build
 on: push
 jobs:
   install-and-test:
