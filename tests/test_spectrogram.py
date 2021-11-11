@@ -3,14 +3,13 @@ from obspy import read
 
 from sonify.sonify import _spectrogram
 
-# Set kwargs for all pytest-mpl tests
-PYTEST_MPL_KWARGS = dict(style='default', savefig_kwargs=dict(bbox_inches='tight'))
-
 tr = read()[0]  # Grab first Trace in ObsPy's default Stream
 tr.remove_response()
 
 
-@pytest.mark.mpl_image_compare(**PYTEST_MPL_KWARGS)
+@pytest.mark.mpl_image_compare(
+    style='default', savefig_kwargs=dict(bbox_inches='tight')
+)
 def test_spectrogram():
     fig = _spectrogram(
         tr=tr,
