@@ -1,5 +1,5 @@
 name: build
-on: push
+on: [push, workflow_dispatch]
 jobs:
   install-and-test:
     name: ${{ matrix.os }}
