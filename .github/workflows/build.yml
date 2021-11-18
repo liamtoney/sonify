@@ -22,6 +22,6 @@ jobs:
           black --skip-string-normalization --check .
           isort --conda-env sonify --check-only .
       - name: Run tests
-        run: pytest --capture=no --cov=sonify --cov-report=xml
+        run: pytest --cov=sonify --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
