@@ -87,7 +87,7 @@ def sonify(
             smaller)
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
-        fps (int): Frames per second for output video
+        fps (int): Frames per second of output video
         resolution (str): Resolution of output video; one of `'1080p'` (1920
             :math:`\times` 1080), `'2K'` (2560 :math:`\times` 1440), or `'4K'`
             (3840 :math:`\times` 2160)
@@ -601,7 +601,7 @@ def main():
         help='factor by which to speed up the waveform data (higher values = higher pitches)',
     )
     parser.add_argument(
-        '--fps', default=1, type=int, help='frames per second for output video'
+        '--fps', default=1, type=int, help='frames per second of output video'
     )
     parser.add_argument(
         '--resolution',
