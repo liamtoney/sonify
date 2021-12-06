@@ -239,6 +239,7 @@ def sonify(
         (freqmin, freqmax),
         log,
         utc_offset is not None,
+        resolution,
     )
 
     # Create animation
@@ -288,6 +289,7 @@ def _spectrogram(
     freq_lim,
     log,
     is_local_time,
+    resolution,
 ):
     """
     Make a combination waveform and spectrogram plot for an infrasound or
@@ -306,6 +308,7 @@ def _spectrogram(
         freq_lim (tuple): Tuple defining frequency limits for spectrogram plot
         log (bool): See docstring for :func:`~sonify.sonify`
         is_local_time (bool): Passed to :class:`_UTCDateFormatter`
+        resolution (str): See docstring for :func:`~sonify.sonify`
 
     Returns:
         Tuple of (`fig`, `spec_line`, `wf_line`, `time_box`, `wf_progress`)
@@ -390,7 +393,8 @@ def _spectrogram(
         borderpad=0,
         prop=dict(color='forestgreen'),
     )
-    time_box.txt._text.set_y(-5)  # [pixels] Shift text to vertically center it
+    offset_px = -0.0025 * RESOLUTIONS[resolution][1]  # Resolution-independent!
+    time_box.txt._text.set_y(offset_px)  # [pixels] Vertically center text
     time_box.zorder = 12  # This should place it on the very top; see below
     time_box.patch.set_linewidth(matplotlib.rcParams['axes.linewidth'])
     wf_ax.add_artist(time_box)

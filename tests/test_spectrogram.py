@@ -22,5 +22,6 @@ def test_spectrogram():
         freq_lim=(4, 40),
         log=False,
         is_local_time=False,
+        resolution='4K',
     )[0]
     return fig
