@@ -34,8 +34,10 @@ AUDIO_SAMPLE_RATE = 44100  # [Hz]
 
 PAD = 60  # [s] Extra data to download on either side of requested time slice
 
-RESOLUTION = (3840, 2160)  # [px] Output video resolution (width, height)
-DPI = 500
+# [px] Output video resolution options (width, height)
+RESOLUTIONS = {'1080p': (1920, 1080), '2K': (2560, 1440), '4K': (3840, 2160)}
+
+FIGURE_WIDTH = 7.7  # [in] Sets effective font size, basically
 
 # For spectrograms
 REFERENCE_PRESSURE = 20e-6  # [Pa]
@@ -58,13 +60,14 @@ def sonify(
     freqmax=None,
     speed_up_factor=200,
     fps=1,
+    resolution='4K',
     output_dir=None,
     spec_win_dur=5,
     db_lim='smart',
     log=False,
     utc_offset=None,
 ):
-    """
+    r"""
     Produce an animated spectrogram with a soundtrack derived from sped-up
     seismic or infrasound data.
 
@@ -85,6 +88,9 @@ def sonify(
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
         fps (int): Frames per second for output video
+        resolution (str): Resolution of output video; one of `'1080p'` (1920
+            :math:`\times` 1080), `'2K'` (2560 :math:`\times` 1440), or `'4K'`
+            (3840 :math:`\times` 2160)
         output_dir (str or :class:`~pathlib.Path`): Directory where output video
             should be saved (defaults to :meth:`~pathlib.Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
@@ -249,7 +255,7 @@ def sonify(
     print('Saving animation. This may take a while...')
     animation.save(
         video_file,
-        dpi=DPI,
+        dpi=RESOLUTIONS[resolution][0] / FIGURE_WIDTH,  # Can be a float...
         progress_callback=lambda i, n: print(
             '{:.1f}%'.format(((i + 1) / n) * 100), end='\r'
         ),
@@ -334,7 +340,8 @@ def _spectrogram(
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
-    fig = Figure(figsize=np.array(RESOLUTION) / DPI)
+    # Ensure a 16:9 aspect ratio
+    fig = Figure(figsize=(FIGURE_WIDTH, (9 / 16) * FIGURE_WIDTH))
 
     # width_ratios effectively controls the colorbar width
     gs = GridSpec(2, 2, figure=fig, height_ratios=[2, 1], width_ratios=[40, 1])
@@ -597,6 +604,12 @@ def main():
         '--fps', default=1, type=int, help='frames per second for output video'
     )
     parser.add_argument(
+        '--resolution',
+        default='4K',
+        choices=RESOLUTIONS.keys(),
+        help='resolution of output video; one of "1080p" (1920 x 1080), "2K" (2560 x 1440), or "4K" (3840 x 2160)',
+    )
+    parser.add_argument(
         '--output_dir',
         default=None,
         help='directory where output video should be saved (defaults to current working directory)',
@@ -661,6 +674,7 @@ def main():
         input_args.freqmax,
         input_args.speed_up_factor,
         input_args.fps,
+        input_args.resolution,
         input_args.output_dir,
         input_args.spec_win_dur,
         db_lim,
