@@ -36,6 +36,7 @@ PAD = 60  # [s] Extra data to download on either side of requested time slice
 
 # [px] Output video resolution options (width, height)
 RESOLUTIONS = {
+    'crude': (640, 360),
     '720p': (1280, 720),
     '1080p': (1920, 1080),
     '2K': (2560, 1440),
@@ -93,9 +94,10 @@ def sonify(
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
         fps (int): Frames per second of output video
-        resolution (str): Resolution of output video; one of `'720p'` (1280
-            :math:`\times` 720), `'1080p'` (1920 :math:`\times` 1080), `'2K'`
-            (2560 :math:`\times` 1440), or `'4K'` (3840 :math:`\times` 2160)
+        resolution (str): Resolution of output video; one of `'crude'` (640
+            :math:`\times` 360), `'720p'` (1280 :math:`\times` 720), `'1080p'`
+            (1920 :math:`\times` 1080), `'2K'` (2560 :math:`\times` 1440), or
+            `'4K'` (3840 :math:`\times` 2160)
         output_dir (str or :class:`~pathlib.Path`): Directory where output video
             should be saved (defaults to :meth:`~pathlib.Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
@@ -616,7 +618,7 @@ def main():
         '--resolution',
         default='4K',
         choices=RESOLUTIONS.keys(),
-        help='resolution of output video; one of "720p" (1280 x 720), "1080p" (1920 x 1080), "2K" (2560 x 1440), or "4K" (3840 x 2160)',
+        help='resolution of output video; one of "crude" (640 x 360), "720p" (1280 x 720), "1080p" (1920 x 1080), "2K" (2560 x 1440), or "4K" (3840 x 2160)',
     )
     parser.add_argument(
         '--output_dir',
