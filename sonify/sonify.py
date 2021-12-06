@@ -84,7 +84,7 @@ def sonify(
             smaller)
         speed_up_factor (int): Factor by which to speed up the waveform data
             (higher values = higher pitches)
-        fps (int): Frames per second for output video
+        fps (int): Frames per second of output video
         output_dir (str or :class:`~pathlib.Path`): Directory where output video
             should be saved (defaults to :meth:`~pathlib.Path.cwd`)
         spec_win_dur (int or float): Duration of spectrogram window [s]
@@ -594,7 +594,7 @@ def main():
         help='factor by which to speed up the waveform data (higher values = higher pitches)',
     )
     parser.add_argument(
-        '--fps', default=1, type=int, help='frames per second for output video'
+        '--fps', default=1, type=int, help='frames per second of output video'
     )
     parser.add_argument(
         '--output_dir',
