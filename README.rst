@@ -111,3 +111,17 @@ be active).
 .. |screenshot| image:: screenshot.png
    :alt: Screenshot of example
    :target: #example
+
+Contributing
+------------
+
+If you notice a bug with *sonify* (or if you'd like to request/propose a new
+feature), please `create an issue on GitHub
+<https://github.com/liamtoney/sonify/issues/new>`__ (preferred) or email me at
+`ldtoney@alaska.edu <mailto:ldtoney@alaska.edu>`__. You are also welcome to
+create a `pull request
+<https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`__.
+Please don't allow `imposter syndrome
+<https://en.wikipedia.org/wiki/Impostor_syndrome>`__ to obstruct you from
+contributing your valuable ideas and skills to this project — **I'm happy to help
+you contribute in any way I can.**
