@@ -3,14 +3,14 @@
 
 |docs_badge| |build_badge| |cov_badge| |black_badge| |isort_badge|
 
-This tool “squeezes” seismic or infrasound signals into audible frequencies and
+*sonify* “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from the
 `Incorporated Research Institutions for Seismology (IRIS) Data Management Center
 (DMC) <https://ds.iris.edu/ds/nodes/dmc/>`__.
 
 |screenshot|
 
-This project `won an Honorable Mention
+*sonify* `won an Honorable Mention
 <https://jhepc.github.io/2020/entry_11/index.html>`__ in the 2020 SciPy `John
 Hunter Excellence in Plotting Contest (JHEPC) <https://jhepc.github.io/>`__.
 
