@@ -1,5 +1,5 @@
-sonify
-======
+*sonify*
+========
 
 |docs_badge| |build_badge| |cov_badge| |black_badge| |isort_badge|
 
