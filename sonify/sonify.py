@@ -201,7 +201,9 @@ def sonify(
     # MAKE AUDIO FILE
 
     tr_audio = tr_trim.copy()
-    tr_audio.interpolate(sampling_rate=AUDIO_SAMPLE_RATE / speed_up_factor)
+    target_fs = AUDIO_SAMPLE_RATE / speed_up_factor
+    tr_audio.filter('lowpass', freq=(target_fs / 2) - 2, corners=12, zerophase=True)
+    tr_audio.interpolate(sampling_rate=target_fs)
     tr_audio.taper(0.01)  # For smooth start and end
     audio_file = Path(temp_dir.name) / '47.wav'
     print('Saving audio file...')
