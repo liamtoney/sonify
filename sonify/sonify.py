@@ -218,7 +218,7 @@ def sonify(
 
     # MAKE VIDEO FILE
 
-    # We don't need an anti-alias filter here since we never use the values,
+    # We don't need an anti-aliasing filter here since we never use the values,
     # just the timestamps
     timing_tr = tr_trim.copy().interpolate(sampling_rate=fps / speed_up_factor)
     times = timing_tr.times('UTCDateTime')[:-1]  # Remove extra frame
