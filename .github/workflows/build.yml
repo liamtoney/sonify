@@ -1,6 +1,14 @@
 name: build
 on:
   push:
+    paths-ignore:
+    - doc/**
+    - LICENSE.txt
+    - README.rst
+    - screenshot.png
+    - .readthedocs.yml
+    - .create_screenshot
+    - .gitignore
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
