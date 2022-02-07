@@ -9,7 +9,7 @@ dependencies:
   - pip
   - setuptools<58.4.0  # https://github.com/pypa/setuptools/issues/2497
 # Lines above should be IDENTICAL to environment.yml
-  - black
+  - black<22
   - ipython
   - isort
   - pytest-cov
