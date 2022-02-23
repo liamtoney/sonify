@@ -474,7 +474,14 @@ def _spectrogram(
     # Move offset text around
     offset_text = wf_ax.yaxis.get_offset_text()
     offset_text.set_visible(False)
-    wf_ax.text(0.002, 0.95, offset_text.get_text(), transform=wf_ax.transAxes, ha='left', va='top')
+    wf_ax.text(
+        0.002,
+        0.95,
+        offset_text.get_text(),
+        transform=wf_ax.transAxes,
+        ha='left',
+        va='top',
+    )
 
     return fig, spec_line, wf_line, time_box, wf_progress
 
