@@ -15,6 +15,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpec
 from matplotlib.offsetbox import AnchoredText
+from matplotlib.ticker import ScalarFormatter
 from obspy import UTCDateTime
 from obspy.clients.fdsn import Client
 from scipy import signal
@@ -469,6 +470,23 @@ def _spectrogram(
     else:
         pass
     cax.set_position([pos.xmin, ymin, pos.width, height])
+
+    # Move offset text around and format it more nicely, see
+    # https://github.com/matplotlib/matplotlib/blob/710fce3df95e22701bd68bf6af2c8adbc9d67a79/lib/matplotlib/ticker.py#L677
+    magnitude = wf_ax.yaxis.get_major_formatter().orderOfMagnitude
+    if magnitude:  # I.e., if offset text is present
+        wf_ax.yaxis.get_offset_text().set_visible(False)  # Remove original text
+        sf = ScalarFormatter(useMathText=True)
+        sf.orderOfMagnitude = magnitude  # Formatter needs to know this!
+        sf.locs = [47]  # Can't be an empty list
+        wf_ax.text(
+            0.002,
+            0.95,
+            sf.get_offset(),  # Let the ScalarFormatter do the formatting work
+            transform=wf_ax.transAxes,
+            ha='left',
+            va='top',
+        )
 
     return fig, spec_line, wf_line, time_box, wf_progress
 
