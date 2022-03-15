@@ -15,6 +15,7 @@ VIDEO_FILE = TEST_DATA_DIR / 'test.mp4'
 BASELINE_FILE = BASELINE_DIR / 'test_ffmpeg_combine.mp4'
 
 
+# Note that the MD5 hash that FFmpeg computes ignores metadata!
 def _get_md5(video_file):
     md5 = (
         subprocess.run(
