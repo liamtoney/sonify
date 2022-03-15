@@ -4,7 +4,6 @@ channels:
   - defaults
 dependencies:
   - ffmpeg
-  - numpy<1.22  # TEMPORARY
   - obspy
   - pip
   - setuptools<58.4.0  # https://github.com/pypa/setuptools/issues/2497
