@@ -530,7 +530,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
         f'comment={call_str}',
         output_file,
     ]
-    print('Combining video and audio using ffmpeg...')
+    print('Combining video and audio using FFmpeg...')
     code = subprocess.call(args)
 
     if code == 0:
@@ -538,7 +538,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
     else:
         output_file.unlink(missing_ok=True)  # Remove file if it was made
         raise OSError(
-            'Issue with ffmpeg conversion. Check error messages and try again.'
+            'Issue with FFmpeg conversion. Check error messages and try again.'
         )
 
 
