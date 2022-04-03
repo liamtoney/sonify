@@ -353,7 +353,7 @@ def _spectrogram(
     )
 
     # [dB rel. (ref_val <ref_val_unit>)^2 Hz^-1]
-    sxx_db = 10 * np.log10(sxx / (ref_val ** 2))
+    sxx_db = 10 * np.log10(sxx / (ref_val**2))
 
     t_mpl = tr.stats.starttime.matplotlib_date + (t / mdates.SEC_PER_DAY)
 
