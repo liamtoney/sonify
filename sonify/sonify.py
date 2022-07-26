@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import shutil
 import argparse
 import subprocess
 import tempfile
@@ -73,6 +74,7 @@ def sonify(
     db_lim='smart',
     log=False,
     utc_offset=None,
+    audio_only=False,
 ):
     r"""
     Produce an animated spectrogram with a soundtrack derived from sped-up
@@ -218,6 +220,13 @@ def sonify(
         framerate=AUDIO_SAMPLE_RATE,
     )
     print('Done')
+
+    if audio_only:
+        tr_id_str = '_'.join([code for code in tr.id.split('.') if code])
+        output_file = output_dir / f'{tr_id_str}_{speed_up_factor}x.wav'
+        shutil.copy(audio_file, output_file)
+        temp_dir.cleanup()
+        return
 
     # MAKE VIDEO FILE
 
@@ -672,6 +681,12 @@ def main():
         type=float,
         help='if provided, convert UTC time to local time using this offset [hours] before plotting',
     )
+    parser.add_argument(
+        '--audio_only',
+        default=False,
+        action='store_true',
+        help='save audio as wav file and exit',
+    )
 
     input_args = parser.parse_args()
 
@@ -715,6 +730,7 @@ def main():
         db_lim,
         input_args.log,
         input_args.utc_offset,
+        input_args.audio_only,
     )
 
 
