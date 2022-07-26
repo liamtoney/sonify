@@ -62,6 +62,7 @@ def sonify(
     channel,
     starttime,
     endtime,
+    server='IRIS',
     location='*',
     freqmin=None,
     freqmax=None,
@@ -122,7 +123,7 @@ def sonify(
     if not output_dir.exists():
         raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
-    client = Client('IRIS')
+    client = Client(server)
 
     print('Retrieving data...')
     st = client.get_waveforms(
@@ -616,6 +617,13 @@ def main():
         type=UTCDateTime,
         help='end time of animation (UTC), format yyyy-mm-ddThh:mm:ss',
     )
+
+    parser.add_argument(
+        '--server',
+        default='IRIS',
+        type=str,
+        help='name of server or base URL to connect to (e.g. "IRIS" or "RASPISHAKE")',
+    )
     parser.add_argument('--location', default='*', help='SEED location code')
     parser.add_argument(
         '--freqmin',
@@ -704,6 +712,7 @@ def main():
         input_args.channel,
         input_args.starttime,
         input_args.endtime,
+        input_args.server,
         input_args.location,
         input_args.freqmin,
         input_args.freqmax,
