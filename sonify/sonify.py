@@ -17,7 +17,8 @@ from matplotlib.gridspec import GridSpec
 from matplotlib.offsetbox import AnchoredText
 from matplotlib.ticker import ScalarFormatter
 from obspy import UTCDateTime
-from obspy.clients.fdsn import Client
+from obspy.clients.fdsn import RoutingClient
+from obspy.clients.fdsn.client import raise_on_error
 from scipy import signal
 
 from . import __version__
@@ -122,18 +123,20 @@ def sonify(
     if not output_dir.exists():
         raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
-    client = Client('IRIS')
+    # See https://service.iris.edu/irisws/fedcatalog/1/datacenters?format=html
+    client = RoutingClient('iris-federator')
 
     print('Retrieving data...')
     st = client.get_waveforms(
-        network,
-        station,
-        location,
-        channel,
-        starttime - PAD,
-        endtime + PAD,
-        attach_response=True,
+        network=network,
+        station=station,
+        location=location,
+        channel=channel,
+        starttime=starttime - PAD,
+        endtime=endtime + PAD,
     )
+    if not st:
+        raise_on_error(204, None)  # If Stream is empty, then raise FDSNNoDataException
     print('Done')
 
     # Merge Traces with the same IDs
@@ -144,6 +147,17 @@ def sonify(
         for tr in st:
             print(tr.id)
     tr = st[0]
+
+    # Now that we have just one Trace, get inventory (which has response info)
+    inv = client.get_stations(
+        network=tr.stats.network,
+        station=tr.stats.station,
+        location=tr.stats.location,
+        channel=tr.stats.channel,
+        starttime=tr.stats.starttime,
+        endtime=tr.stats.endtime,
+        level='response',
+    )
 
     # Adjust starttime so we have nice numbers in time box (carefully!)
     offset = np.abs(tr.stats.starttime - (starttime - PAD))  # [s]
@@ -186,7 +200,7 @@ def sonify(
     if not freqmin:
         freqmin = LOWEST_AUDIBLE_FREQUENCY / speed_up_factor
 
-    tr.remove_response()  # Units are m/s OR Pa after response removal
+    tr.remove_response(inventory=inv)  # Units are m/s OR Pa after response removal
     tr.detrend('demean')
     tr.taper(max_percentage=None, max_length=PAD / 2)  # Taper away some of PAD
     print(f'Applying {freqmin:g}-{freqmax:g} Hz bandpass')
