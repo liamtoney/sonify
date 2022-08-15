@@ -119,7 +119,7 @@ def sonify(
     if not output_dir:
         output_dir = Path().cwd()
     output_dir = Path(str(output_dir)).expanduser().resolve()
-    if not output_dir.exists():
+    if not output_dir.is_dir():
         raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
     client = Client('IRIS')
