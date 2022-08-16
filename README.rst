@@ -27,7 +27,9 @@ Quickstart
      git clone https://github.com/liamtoney/sonify.git
      cd sonify
 
-2. Create environment, install, and activate
+2. Create environment, install, and activate (`install conda
+   <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`__
+   first, if necessary)
 
    .. code-block:: xml
 
