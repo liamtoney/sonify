@@ -25,7 +25,7 @@ napoleon_numpy_docstring = False
 
 master_doc = 'index'
 
-autodoc_mock_imports = ['matplotlib', 'numpy', 'obspy', 'scipy']
+autodoc_mock_imports = ['matplotlib', 'numpy', 'obspy', 'scipy', 'tqdm']
 
 intersphinx_mapping = {
     'obspy': ('https://docs.obspy.org/', None),

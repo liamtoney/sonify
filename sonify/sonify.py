@@ -20,6 +20,7 @@ from obspy import UTCDateTime
 from obspy.clients.fdsn import RoutingClient
 from obspy.clients.fdsn.client import raise_on_error
 from scipy import signal
+from tqdm import tqdm
 
 from . import __version__
 
@@ -272,24 +273,27 @@ def sonify(
 
     # Create animation
     interval = ((1 / timing_tr.stats.sampling_rate) * MS_PER_S) / speed_up_factor
+    frames_tqdm = tqdm(
+        np.arange(times.size),
+        initial=1,  # Frames start at 1
+        bar_format='{percentage:3.0f}% |{bar}| {n_fmt}/{total_fmt} frames ',
+    )
     animation = FuncAnimation(
         fig,
         func=_march_forward,
-        frames=times.size,
+        frames=frames_tqdm,
         fargs=fargs,
         interval=interval,
     )
 
     video_file = Path(temp_dir.name) / '47.mp4'
-    print('Saving animation. This may take a while...')
+    tqdm.write('Saving animation. This may take a while...')
     animation.save(
         video_file,
         dpi=RESOLUTIONS[resolution][0] / FIGURE_WIDTH,  # Can be a float...
-        progress_callback=lambda i, n: print(
-            '{:.1f}%'.format(((i + 1) / n) * 100), end='\r'
-        ),
     )
-    print('\nDone')
+    frames_tqdm.close()
+    print('Done')
 
     # Restore user's rc settings, ignoring Matplotlib deprecation warnings
     with warnings.catch_warnings():
