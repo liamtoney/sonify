@@ -10,10 +10,8 @@ from sonify.sonify import RESOLUTIONS
 
 def test_resolution():
     with tempfile.TemporaryDirectory() as temp_dir_name:
-
         # Iterate over all resolution options
         for resolution, target_dims in RESOLUTIONS.items():
-
             # Run sonify for this resolution
             sonify(
                 network='AV',
