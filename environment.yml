@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - ffmpeg=4.3  # https://anaconda.org/conda-forge/ffmpeg
+  - ffmpeg
   - obspy
   - pip
   - setuptools<58.4.0  # https://github.com/pypa/setuptools/issues/2497
