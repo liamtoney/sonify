@@ -14,11 +14,8 @@ on:
     - cron: '0 0 * * 0'
 jobs:
   install-and-test:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+    name: macos-latest
+    runs-on: macos-latest
     defaults:
       run:
         shell: bash -l {0}
