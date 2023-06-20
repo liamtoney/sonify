@@ -24,12 +24,12 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up development conda environment
+      - name: Set up conda
         uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: sonify
-          environment-file: .environment.yml
-          auto-activate-base: false
+      - name: Create development conda environment
+        run: conda env create --file .environment.yml
+      - name: Activate development conda environment
+        run: conda activate sonify
       - name: Check formatting
         run: |
           black --skip-string-normalization --check .
