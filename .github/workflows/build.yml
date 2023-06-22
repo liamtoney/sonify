@@ -25,6 +25,8 @@ jobs:
         with:
           activate-environment: sonify
           environment-file: .environment.yml
+          miniforge-variant: Mambaforge
+          use-mamba: true
       - name: Check formatting
         run: |
           black --skip-string-normalization --check .
