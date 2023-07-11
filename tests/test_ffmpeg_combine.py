@@ -24,7 +24,9 @@ def _get_md5(video_file):
                 '-i',
                 video_file,
                 '-map',
-                '0:a',  # Selects all streams (audio and video in this case)
+                '0',  # Selects all streams (audio and video in this case)
+                '-c',
+                'copy',  # "Stream copy" mode
                 '-max_muxing_queue_size',
                 '256',  # 128 was not enough
                 '-f',
