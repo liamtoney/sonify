@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 from . import __version__
 
-# Add Tex Gyre Heros to Matplotlib
+# Add Tex Gyre Heros and JetBrains Mono to Matplotlib
 for font_path in font_manager.findSystemFonts(
     str(Path(__file__).resolve().parent / 'fonts')
 ):
@@ -465,7 +465,7 @@ def _spectrogram(
 
     fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
-    spec_ax.set_title(tr.id)
+    spec_ax.set_title(tr.id, family='JetBrains Mono')
 
     fig.tight_layout()
     fig.subplots_adjust(hspace=0, wspace=0.05)
