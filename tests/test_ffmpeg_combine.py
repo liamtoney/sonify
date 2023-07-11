@@ -17,10 +17,8 @@ BASELINE_FILE = BASELINE_DIR / 'test_ffmpeg_combine.mp4'
 
 # Note 1: The MD5 hash that FFmpeg computes ignores metadata!
 # Note 2: The MD5 computed here is not guaranteed to be identical for different
-#         builds of FFmpeg (see https://trac.ffmpeg.org/ticket/3871). One
-#         relevant consequence of this is that this test fails on GitHub
-#         Actions (GA) if the data and baseline are re-generated on an Apple
-#         silicon macOS platform, since GA uses an Intel macOS platform.
+#         builds of FFmpeg (see https://trac.ffmpeg.org/ticket/3871), or
+#         platform versions / etc. Use caution!
 def _get_md5(video_file):
     md5 = (
         subprocess.run(
