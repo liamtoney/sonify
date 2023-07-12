@@ -243,8 +243,8 @@ def sonify(
 
     # Define update function
     def _march_forward(frame, spec_line, wf_line, time_box, wf_progress):
-        spec_line.set_xdata(times[frame].matplotlib_date)
-        wf_line.set_xdata(times[frame].matplotlib_date)
+        spec_line.set_xdata([times[frame].matplotlib_date])
+        wf_line.set_xdata([times[frame].matplotlib_date])
         time_box.txt.set_text(times[frame].strftime('%H:%M:%S'))
         tr_progress = tr.copy().trim(endtime=times[frame])
         wf_progress.set_xdata(tr_progress.times('matplotlib'))
