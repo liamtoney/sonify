@@ -6,7 +6,7 @@ dependencies:
   - ffmpeg
   - obspy
   - pip
-  - setuptools<58.4.0  # https://github.com/pypa/setuptools/issues/2497
+  - setuptools<68  # https://github.com/pypa/setuptools/issues/2497
   - tqdm
 # Lines above should be IDENTICAL to environment.yml
   - black
