@@ -1,3 +1,3 @@
-recommonmark==0.7.1
-sphinx==1.8.5
-sphinx-rtd-theme==0.5.2
+recommonmark
+sphinx
+sphinx-rtd-theme
