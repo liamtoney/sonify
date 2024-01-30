@@ -15,4 +15,4 @@ def test_cli_version():
     output = subprocess.run(
         ['sonify', '--version'], capture_output=True, text=True
     ).stdout.strip()
-    assert output == 'sonify, rev. {}'.format(os.environ['GITHUB_SHA'][:7])
+    assert output == 'sonify, rev. 0+g{}'.format(os.environ['GITHUB_SHA'][:7])
