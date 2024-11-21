@@ -97,7 +97,7 @@ be active).
    :alt: Documentation status
    :target: https://sonify.rtfd.io/
 
-.. |build_badge| image:: https://github.com/liamtoney/sonify/actions/workflows/build.yml/badge.svg
+.. |build_badge| image:: https://github.com/liamtoney/sonify/actions/workflows/build.yml/badge.svg?
    :alt: Build status
    :target: https://github.com/liamtoney/sonify/actions/workflows/build.yml
 
@@ -105,7 +105,7 @@ be active).
    :alt: Test coverage
    :target: https://codecov.io/gh/liamtoney/sonify
 
-.. |black_badge| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+.. |black_badge| image:: https://img.shields.io/badge/code%20style-black-000000
    :alt: Link to Black
    :target: https://black.readthedocs.io/en/stable/
 
