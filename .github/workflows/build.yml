@@ -25,11 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up development conda environment
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: sonify
           environment-file: .environment.yml
-          miniforge-variant: Mambaforge
+          miniforge-version: latest
           use-mamba: true
       - name: Check formatting
         run: |
