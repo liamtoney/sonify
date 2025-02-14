@@ -3,12 +3,12 @@ on:
   push:
     paths-ignore:
     - doc/**
+    - .gitignore
     - LICENSE.txt
     - README.rst
     - screenshot.png
     - .readthedocs.yml
     - .create_screenshot
-    - .gitignore
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
@@ -24,13 +24,15 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v3
-      - name: Set up development conda environment
+      - name: Set up conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: sonify
-          environment-file: .environment.yml
+          environment-file: environment.yml
           miniforge-version: latest
           use-mamba: true
+      - name: Install development packages
+        run: pip install --requirement requirements.txt
       - name: Check formatting
         run: |
           black --check .
