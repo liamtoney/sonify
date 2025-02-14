@@ -1,0 +1,23 @@
+[project]
+name = "sonify"
+dynamic = ["version"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {attr = "sonify.__version__"}
+
+[project.scripts]
+axisem2cps = "sonify.sonify:main"
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.black]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+conda_env = "sonify"
