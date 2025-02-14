@@ -1,4 +1,5 @@
 import sys
+from importlib.metadata import version
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -16,6 +17,8 @@ extensions = [
     'recommonmark',
     'sphinx.ext.viewcode',
 ]
+
+version = version('sonify')
 
 html_theme = 'sphinx_rtd_theme'
 
