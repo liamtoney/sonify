@@ -1,10 +1,8 @@
 {% extends "!footer.html" %}
 {%- block contentinfo %}
   <p>
-  {%- if commit %}
-    <span class="commit">
-      {%- trans %}Revision{% endtrans %} <code>{{ commit[:7] }}</code>.
-    </span>
-  {%- endif %}
+  <span class="commit">
+    {%- trans %}Revision{% endtrans %} <code>{{ version }}</code>.
+  </span>
   </p>
 {%- endblock %}
