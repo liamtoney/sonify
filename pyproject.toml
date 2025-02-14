@@ -3,11 +3,8 @@ name = "sonify"
 dynamic = ["version"]
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-version = {attr = "sonify.__version__"}
 
 [project.scripts]
 sonify = "sonify.sonify:main"
