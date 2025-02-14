@@ -1,23 +1,6 @@
-import subprocess
-from pathlib import Path
+from importlib.metadata import version
 
-__version__ = (
-    '0+g'  # Makes the version number PEP 440 compliant
-    + subprocess.run(
-        [
-            'git',
-            '-C',
-            Path(__file__).resolve().parent,
-            'rev-parse',
-            '--short=7',  # First 7 characters of the commit hash
-            'HEAD',
-        ],
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-)
-
-del subprocess
-del Path
+__version__ = version('sonify')
+del version
 
 from .sonify import sonify

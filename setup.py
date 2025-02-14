@@ -1,10 +1,12 @@
-from setuptools import find_packages, setup
+"""
+This file only exists to facilitate custom version formatting...
+"""
 
-from sonify import __version__
+from setuptools import setup
 
 setup(
-    name='sonify',
-    version=__version__,
-    packages=find_packages(),
-    entry_points=dict(console_scripts='sonify = sonify.sonify:main'),
+    use_scm_version=dict(
+        local_scheme=lambda version: '+' + version.node,
+        version_scheme=lambda version: '0',
+    )
 )

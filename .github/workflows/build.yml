@@ -33,8 +33,8 @@ jobs:
           use-mamba: true
       - name: Check formatting
         run: |
-          black --skip-string-normalization --check .
-          isort --conda-env sonify --profile black --check-only .
+          black --check .
+          isort --check-only .
       - name: Run tests
         run: pytest --mpl --capture=no --cov=sonify --cov-report=xml
       - name: Upload coverage to Codecov
