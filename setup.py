@@ -1,3 +1,7 @@
+"""
+This file only exists to facilitate custom version formatting...
+"""
+
 from setuptools import setup
 
 setup(
