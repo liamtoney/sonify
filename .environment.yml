@@ -1,7 +1,6 @@
 name: sonify
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - ffmpeg
   - obspy
