@@ -120,6 +120,12 @@ be active).
 Contributing
 ------------
 
+To install *sonify*'s development packages, with your conda environment activated run
+
+.. code-block:: xml
+
+   pip install --requirement requirements.txt
+
 If you notice a bug with *sonify* (or if you'd like to request/propose a new
 feature), please `create an issue on GitHub
 <https://github.com/liamtoney/sonify/issues/new>`__ (preferred) or email me at

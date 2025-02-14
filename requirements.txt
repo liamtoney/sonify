@@ -1,0 +1,10 @@
+# To install these developer packages, activate your existing conda environment and run:
+# pip install --requirement requirements.txt
+black
+ipython
+isort
+pytest-cov
+pytest-mpl
+recommonmark
+sphinx
+sphinx-rtd-theme
