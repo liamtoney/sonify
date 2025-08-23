@@ -49,7 +49,9 @@ def _get_md5(video_file):
 baseline_hash = _get_md5(BASELINE_FILE)
 
 
-@pytest.mark.skipif(os.environ.get('CI'), reason='cannot be run on GitHub Actions')
+@pytest.mark.skipif(
+    os.environ.get('CI') == 'true', reason='cannot be run on GitHub Actions'
+)
 def test_ffmpeg_combine():
     with tempfile.TemporaryDirectory() as temp_dir_name:
         output_file = Path(temp_dir_name) / '47.mp4'
