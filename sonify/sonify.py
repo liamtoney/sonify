@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 from . import __version__
 
-# Add Tex Gyre Heros and JetBrains Mono to Matplotlib
+# Add Source Sans 3 and Source Code Pro to Matplotlib
 for font_path in font_manager.findSystemFonts(
     str(Path(__file__).resolve().parent / 'fonts')
 ):
@@ -253,8 +253,9 @@ def sonify(
     # Store user's rc settings, then update font stuff
     original_params = matplotlib.rcParams.copy()
     matplotlib.rcParams.update(matplotlib.rcParamsDefault)
-    matplotlib.rcParams['font.sans-serif'] = 'Tex Gyre Heros'
+    matplotlib.rcParams['font.sans-serif'] = 'Source Sans 3'
     matplotlib.rcParams['mathtext.fontset'] = 'custom'
+    matplotlib.rcParams['font.size'] = 11.0
 
     fig, *fargs = _spectrogram(
         tr,
@@ -465,7 +466,13 @@ def _spectrogram(
 
     fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
-    spec_ax.set_title(tr.id, family='JetBrains Mono')
+    spec_ax.set_title(
+        tr.id,
+        family='Source Code Pro',
+        weight='semibold',
+        loc='left',
+        fontsize=matplotlib.rcParams['font.size'],
+    )
 
     fig.tight_layout()
     fig.subplots_adjust(hspace=0, wspace=0.05)
