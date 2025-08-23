@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 from . import __version__
 
-# Add Tex Gyre Heros and JetBrains Mono to Matplotlib
+# Add Source Sans 3 and Source Code Pro to Matplotlib
 for font_path in font_manager.findSystemFonts(
     str(Path(__file__).resolve().parent / 'fonts')
 ):
@@ -56,6 +56,9 @@ MS_PER_S = 1000  # [ms/s]
 
 # Colorbar extension triangle height as proportion of colorbar length
 EXTENDFRAC = 0.04
+
+# Color of animated time components (text and time bar)
+TIME_COLOR = 'forestgreen'
 
 
 def sonify(
@@ -253,8 +256,9 @@ def sonify(
     # Store user's rc settings, then update font stuff
     original_params = matplotlib.rcParams.copy()
     matplotlib.rcParams.update(matplotlib.rcParamsDefault)
-    matplotlib.rcParams['font.sans-serif'] = 'Tex Gyre Heros'
+    matplotlib.rcParams['font.sans-serif'] = 'Source Sans 3'
     matplotlib.rcParams['mathtext.fontset'] = 'custom'
+    matplotlib.rcParams['font.size'] = 11.0
 
     fig, *fargs = _spectrogram(
         tr,
@@ -412,7 +416,7 @@ def _spectrogram(
     wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
-    line_kwargs = dict(x=starttime.matplotlib_date, color='forestgreen', linewidth=1)
+    line_kwargs = dict(x=starttime.matplotlib_date, color=TIME_COLOR, linewidth=1.2)
     spec_line = spec_ax.axvline(**line_kwargs)
     wf_line = wf_ax.axvline(ymin=0.01, clip_on=False, zorder=10, **line_kwargs)
     time_box = AnchoredText(
@@ -422,7 +426,7 @@ def _spectrogram(
         bbox_to_anchor=[1, 1],
         bbox_transform=wf_ax.transAxes,
         borderpad=0,
-        prop=dict(color='forestgreen'),
+        prop=dict(color=TIME_COLOR, weight='semibold'),
     )
     offset_px = -0.0025 * RESOLUTIONS[resolution][1]  # Resolution-independent!
     time_box.txt._text.set_y(offset_px)  # [pixels] Vertically center text
@@ -465,7 +469,13 @@ def _spectrogram(
 
     fig.colorbar(im, cax, extend=extend, extendfrac=EXTENDFRAC, label=clab)
 
-    spec_ax.set_title(tr.id, family='JetBrains Mono')
+    spec_ax.set_title(
+        tr.id,
+        family='Source Code Pro',
+        weight='semibold',
+        loc='left',
+        fontsize=matplotlib.rcParams['font.size'],
+    )
 
     fig.tight_layout()
     fig.subplots_adjust(hspace=0, wspace=0.05)
