@@ -57,6 +57,9 @@ MS_PER_S = 1000  # [ms/s]
 # Colorbar extension triangle height as proportion of colorbar length
 EXTENDFRAC = 0.04
 
+# Color of animated time components (text and time bar)
+TIME_COLOR = 'forestgreen'
+
 
 def sonify(
     network,
@@ -413,7 +416,7 @@ def _spectrogram(
     wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
-    line_kwargs = dict(x=starttime.matplotlib_date, color='forestgreen', linewidth=1)
+    line_kwargs = dict(x=starttime.matplotlib_date, color=TIME_COLOR, linewidth=1.2)
     spec_line = spec_ax.axvline(**line_kwargs)
     wf_line = wf_ax.axvline(ymin=0.01, clip_on=False, zorder=10, **line_kwargs)
     time_box = AnchoredText(
@@ -423,7 +426,7 @@ def _spectrogram(
         bbox_to_anchor=[1, 1],
         bbox_transform=wf_ax.transAxes,
         borderpad=0,
-        prop=dict(color='forestgreen', weight='semibold'),
+        prop=dict(color=TIME_COLOR, weight='semibold'),
     )
     offset_px = -0.0025 * RESOLUTIONS[resolution][1]  # Resolution-independent!
     time_box.txt._text.set_y(offset_px)  # [pixels] Vertically center text
