@@ -27,13 +27,13 @@ Quickstart
      git clone https://github.com/liamtoney/sonify.git
      cd sonify
 
-2. Create environment, install, and activate (`install conda
-   <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`__
+2. Create environment, install, and activate (`install Miniforge
+   <https://github.com/conda-forge/miniforge?tab=readme-ov-file#install>`__
    first, if necessary)
 
    .. code-block:: xml
 
-     conda env create
+     mamba env create --file environment.yml
      conda activate sonify
 
 3. Run using the Python interpreter
@@ -90,8 +90,7 @@ Documentation
 
 Application programming interface (API) documentation for the module is available
 `here <https://sonify.readthedocs.io/en/latest/sonify.html>`__. For command-line
-usage instructions, type ``sonify --help`` (the ``sonify`` conda environment must
-be active).
+usage instructions, type ``sonify --help`` (the ``sonify`` environment must be active).
 
 .. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :alt: Documentation status
@@ -120,7 +119,7 @@ be active).
 Contributing
 ------------
 
-To install *sonify*'s development packages, with your conda environment activated run
+To install *sonify*'s development packages, with your environment activated run
 
 .. code-block:: xml
 
