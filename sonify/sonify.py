@@ -351,17 +351,17 @@ def _spectrogram(
 
     if is_infrasound:
         ylab = 'Pressure (Pa)'
-        clab = f'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} µPa]$^2$ Hz$^{{-1}}$)'
+        clab = rf'Power (dB rel. [{REFERENCE_PRESSURE * 1e6:g} µPa]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
         ref_val = REFERENCE_PRESSURE
     else:
-        ylab = 'Velocity (µm s$^{-1}$)'
+        ylab = r'Velocity (µm s$\mathdefault{^{-1}}$)'
         if REFERENCE_VELOCITY == 1:
             clab = (
-                f'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+                rf'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
             )
         else:
             clab = (
-                f'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$^{{-1}}$]$^2$ Hz$^{{-1}}$)'
+                rf'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
             )
         ref_val = REFERENCE_VELOCITY
 
