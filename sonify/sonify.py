@@ -356,13 +356,9 @@ def _spectrogram(
     else:
         ylab = r'Velocity (µm s$\mathdefault{^{-1}}$)'
         if REFERENCE_VELOCITY == 1:
-            clab = (
-                rf'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
-            )
+            clab = rf'Power (dB rel. {REFERENCE_VELOCITY:g} [m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
         else:
-            clab = (
-                rf'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
-            )
+            clab = rf'Power (dB rel. [{REFERENCE_VELOCITY:g} m s$\mathdefault{{^{{-1}}}}$]$\mathdefault{{^2}}$ Hz$\mathdefault{{^{{-1}}}}$)'
         ref_val = REFERENCE_VELOCITY
 
     fs = tr.stats.sampling_rate
