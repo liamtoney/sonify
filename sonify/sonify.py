@@ -127,8 +127,8 @@ def sonify(
     if not output_dir.is_dir():
         raise FileNotFoundError(f'Directory {output_dir} does not exist!')
 
-    # See https://service.iris.edu/irisws/fedcatalog/1/datacenters?format=html
-    client = RoutingClient('iris-federator')
+    # See https://service.earthscope.org/irisws/fedcatalog/1/datacenters?format=html
+    client = RoutingClient('earthscope-federator')
 
     print('Retrieving data...')
     st = client.get_waveforms(

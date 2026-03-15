@@ -6,10 +6,9 @@
 *sonify* “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from any
 of the `FDSN data centers
-<https://service.iris.edu/irisws/fedcatalog/1/datacenters?format=html>`__
-available through the Incorporated Research Institutions for Seismology (IRIS)
-Data Management Center (DMC) `fedcatalog
-<https://service.iris.edu/irisws/fedcatalog/docs/1/help/>`__ web service.
+<https://service.earthscope.org/irisws/fedcatalog/1/datacenters?format=html>`__
+available through the EarthScope `fedcatalog
+<https://service.earthscope.org/irisws/fedcatalog/docs/1/help/>`__ web service.
 
 |screenshot|
 
