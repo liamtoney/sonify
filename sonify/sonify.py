@@ -605,6 +605,7 @@ def main():
     """
 
     parser = argparse.ArgumentParser(
+        prog='sonify',
         description='Produce an animated spectrogram with a soundtrack derived from sped-up seismic or infrasound data.',
         allow_abbrev=False,
     )
