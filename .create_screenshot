@@ -11,7 +11,7 @@ conda activate sonify
 $(sed -n '/^.. ~BEGIN~$/,/^.. ~END~$/p' README.rst | sed -E '/(^\.\. .*$|^$)/d')
 
 # This filter extracts a frame and then resizes it
-filter="select=eq(n\,$(expr $FRAME - 1)),scale=iw/2:ih/2"
+filter="select=eq(n\,$(expr $FRAME - 1)),scale=iw/2:ih/2,format=yuv444p"
 
 ffmpeg -y -v warning -i *.mp4 -filter:v $filter -frames:v 1 screenshot.png
 
