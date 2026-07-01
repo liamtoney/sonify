@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - ffmpeg
+  - matplotlib=3.10
   - obspy
   - pip
   - tqdm
