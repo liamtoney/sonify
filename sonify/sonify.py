@@ -183,19 +183,18 @@ def sonify(
         endtime += utc_offset_sec
         tr.stats.starttime += utc_offset_sec
 
-    # All infrasound sensors have a "?DF" channel pattern
-    if tr.stats.channel[1:3] == 'DF':
+    # Determine the data kind — for seismic, only native velocity-measuring sensors are
+    # supported (i.e., no accelerometers).
+    assert len(tr.stats.channel) == 3, 'Only 3-character channel codes are supported!'
+    if tr.stats.channel[1:] == 'DF':  # Infrasound sensors have "?DF" channel pattern
         is_infrasound = True
         rescale = 1  # No conversion
-    # All high-gain seismometers have a "?H?" channel pattern
-    elif tr.stats.channel[1] == 'H':
+    elif tr.stats.channel[1] in 'HP':  # High Gain Seismometer/Geophone
         is_infrasound = False
         rescale = 1e6  # Convert m to µm
-    # We can't figure out what type of sensor this is...
-    else:
-        raise ValueError(
-            f'Channel {tr.stats.channel} is not an infrasound or seismic channel!'
-        )
+    else:  # We can't figure out what type of sensor this is...
+        msg = f'Could not determine data kind for channel code: {tr.stats.channel}'
+        raise ValueError(msg)
 
     if not freqmax:
         freqmax = np.min(
