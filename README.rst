@@ -88,7 +88,7 @@ Documentation
 -------------
 
 Application programming interface (API) documentation for the module is available
-`here <https://sonify.liam.earth/latest/sonify.html>`__. For command-line
+`here <https://sonify.liam.earth/sonify.html>`__. For command-line
 usage instructions, type ``sonify --help`` (the ``sonify`` environment must be active).
 
 .. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
