@@ -88,12 +88,12 @@ Documentation
 -------------
 
 Application programming interface (API) documentation for the module is available
-`here <https://sonify.readthedocs.io/en/latest/sonify.html>`__. For command-line
+`here <https://sonify.liam.earth/latest/sonify.html>`__. For command-line
 usage instructions, type ``sonify --help`` (the ``sonify`` environment must be active).
 
 .. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :alt: Documentation status
-   :target: https://sonify.rtfd.io/
+   :target: https://sonify.liam.earth/
 
 .. |build_badge| image:: https://github.com/liamtoney/sonify/actions/workflows/build.yml/badge.svg?
    :alt: Build status
