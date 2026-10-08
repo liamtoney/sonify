@@ -2,16 +2,13 @@ name: build
 on:
   push:
     paths-ignore:
-    - doc/**
-    - .gitignore
-    - LICENSE.txt
-    - README.rst
-    - screenshot.png
-    - .readthedocs.yml
-    - .create_screenshot
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 0'
+      - doc/**
+      - .gitignore
+      - LICENSE.txt
+      - README.rst
+      - screenshot.png
+      - .readthedocs.yml
+      - .create_screenshot
 jobs:
   install-and-test:
     name: ${{ matrix.os }}
