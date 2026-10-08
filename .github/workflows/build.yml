@@ -4,10 +4,9 @@ on:
     paths-ignore:
       - docs/**
       - scripts/**
-      - .gitignore
       - LICENSE.txt
       - README.rst
-      - screenshot.png
+      - .gitignore
       - .readthedocs.yml
 jobs:
   install-and-test:
