@@ -3,4 +3,5 @@
 /doc/_build/
 /.coverage
 /.venv/
+/.vscode/
 .DS_Store
