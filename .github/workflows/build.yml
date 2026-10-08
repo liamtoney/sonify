@@ -3,12 +3,12 @@ on:
   push:
     paths-ignore:
       - docs/**
+      - scripts/**
       - .gitignore
       - LICENSE.txt
       - README.rst
       - screenshot.png
       - .readthedocs.yml
-      - .create_screenshot
 jobs:
   install-and-test:
     name: ${{ matrix.os }}

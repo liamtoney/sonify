@@ -43,7 +43,7 @@ vcs = "git"
 format-jinja = "0+g{{ commit[:7] }}"
 
 [tool.poe.env]
-TARGET_FILES = "src/ tests/ docs/"
+TARGET_FILES = "src/ tests/ scripts/ docs/"
 
 [tool.poe.tasks]
 docs = "sphinx-build docs/ docs/_build/ --fail-on-warning"
@@ -52,6 +52,7 @@ _lint = "ruff check ${TARGET_FILES}"
 _format = "ruff format ${TARGET_FILES}"
 format = ["_lint --select I --fix", "_format"]
 check = ["_lint", "_format --check"]
+screenshot = "python scripts/create_screenshot.py"
 
 [tool.pytest]
 testpaths = ["tests"]
