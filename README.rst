@@ -23,7 +23,7 @@ Quickstart
    <https://docs.astral.sh/uv/getting-started/installation/>`__, and that
    you've navigated to a target directory of your choosing)
 
-   .. code-block:: xml
+   .. code-block:: shell
 
      uv venv --python 3.11
      uv pip install git+https://github.com/liamtoney/sonify.git
@@ -40,7 +40,7 @@ Quickstart
 
    or via the command-line interface
 
-   .. code-block:: xml
+   .. code-block:: shell
 
      uv run sonify --help
 
@@ -72,7 +72,7 @@ occurring in Alaska on 21 June 2019, sped up by a factor of 200:
 Or (equivalently), via the command-line interface:
 
 .. ~BEGIN~
-.. code-block:: xml
+.. code-block:: shell
 
   sonify AV ILSW BHZ 2019-06-20T23:10 2019-06-21T00:30 --freqmin 1 --freqmax 23 --speed_up_factor 200 --fps 1 --spec_win_dur 8 --db_lim -180 -130
 .. ~END~
@@ -114,14 +114,13 @@ Contributing
 To develop *sonify*, first clone this repository and navigate to the root
 directory. Then run
 
-.. code-block:: xml
+.. code-block:: shell
 
    uv sync --all-groups
 
 This creates a ``.venv/`` folder in the repository root with an editable *sonify*
 and all of its dependencies — including those for development and documentation
-— installed. Check formatting and linting with ``uv run poe check`` and run the
-tests with ``uv run poe tests``.
+— installed. You can view the various developer tasks available with ``uv run poe``.
 
 If you notice a bug with *sonify* (or if you'd like to request/propose a new
 feature), please `create an issue on GitHub
