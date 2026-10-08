@@ -46,7 +46,7 @@ format-jinja = "0+g{{ commit[:7] }}"
 TARGET_FILES = "sonify/ tests/ doc/"
 
 [tool.poe.tasks]
-docs = "sphinx-build doc/ _build/ --fail-on-warning"
+docs = "sphinx-build doc/ doc/_build/ --fail-on-warning"
 tests = "pytest"
 _lint = "ruff check ${TARGET_FILES}"
 _format = "ruff format ${TARGET_FILES}"
