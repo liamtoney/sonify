@@ -118,7 +118,7 @@ def sonify(
     """
 
     # Capture args and format as string to store in movie metadata
-    key_value_pairs = [f'{k}={repr(v)}' for k, v in locals().items()]
+    key_value_pairs = [f'{k}={v!r}' for k, v in locals().items()]
     call_str = 'sonify({})'.format(', '.join(key_value_pairs))
 
     # Use current working directory if none provided
@@ -625,7 +625,7 @@ def main():
         '--version',
         action='version',
         version=f'{parser.prog}, rev. {__version__}',
-        help=f'show revision number and exit',
+        help='show revision number and exit',
     )
 
     parser.add_argument('network', help='SEED network code')
