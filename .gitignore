@@ -1,5 +1,7 @@
-/sonify/__pycache__/
+__pycache__/
 /docs/_build/
+/.ruff_cache/
+/.pytest_cache/
 /.coverage
 /.venv/
 /.vscode/
