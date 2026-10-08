@@ -18,3 +18,6 @@ skip-string-normalization = true
 [tool.isort]
 profile = "black"
 conda_env = "sonify"
+
+[tool.ruff.format]
+quote-style = 'single'
