@@ -43,7 +43,7 @@ vcs = "git"
 format-jinja = "0+g{{ commit[:7] }}"
 
 [tool.poe.env]
-TARGET_FILES = "sonify/ tests/ docs/"
+TARGET_FILES = "src/ tests/ docs/"
 
 [tool.poe.tasks]
 docs = "sphinx-build docs/ docs/_build/ --fail-on-warning"
