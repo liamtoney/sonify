@@ -6,10 +6,10 @@ build-backend = "hatchling.build"
 name = "sonify"
 dynamic = ["version"]
 authors = [
-    { name = "Liam Toney", email = "ltoney@usgs.gov" },
+    { name = "Liam Toney", email = "liam@liam.earth" },
 ]
 maintainers = [
-    { name = "Liam Toney", email = "ltoney@usgs.gov" },
+    { name = "Liam Toney", email = "liam@liam.earth" },
 ]
 requires-python = ">=3.11"
 dependencies = [
@@ -23,11 +23,7 @@ dependencies = [
 tooling = ["poethepoet"]
 lint = ["ruff"]
 test = ["pytest", "pytest-cov", "pytest-mpl"]
-docs = [
-    "sphinx",
-    "recommonmark",
-    "sphinx-rtd-theme",
-]
+docs = ["sphinx", "recommonmark", "sphinx-rtd-theme"]
 
 [project.scripts]
 sonify = "sonify.sonify:main"
@@ -56,4 +52,10 @@ screenshot = "python scripts/create_screenshot.py"
 
 [tool.pytest]
 testpaths = ["tests"]
-addopts = ["--verbose", "--mpl", "--cov=sonify", "--capture=no", "--cov-report=term-missing"]
+addopts = [
+    "--verbose",
+    "--mpl",
+    "--cov=sonify",
+    "--capture=no",
+    "--cov-report=term-missing",
+]
