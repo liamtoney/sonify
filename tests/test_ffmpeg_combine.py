@@ -39,6 +39,7 @@ def _get_md5(video_file):
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
         .stdout.strip()
         .split('=')[-1]

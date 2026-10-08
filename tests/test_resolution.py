@@ -40,6 +40,7 @@ def test_resolution():
                     ],
                     capture_output=True,
                     text=True,
+                    check=False,
                 )
                 .stdout.strip()
                 .split('\n')

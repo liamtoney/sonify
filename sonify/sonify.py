@@ -2,6 +2,7 @@
 
 import argparse
 import subprocess
+import sys
 import tempfile
 import warnings
 from pathlib import Path
@@ -413,7 +414,11 @@ def _spectrogram(
     wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
-    line_kwargs = dict(x=starttime.matplotlib_date, color=TIME_COLOR, linewidth=1.2)
+    line_kwargs = {
+        'x': starttime.matplotlib_date,
+        'color': TIME_COLOR,
+        'linewidth': 1.2,
+    }
     spec_line = spec_ax.axvline(**line_kwargs)
     wf_line = wf_ax.axvline(ymin=0.01, clip_on=False, zorder=10, **line_kwargs)
     time_box = AnchoredText(
@@ -423,7 +428,7 @@ def _spectrogram(
         bbox_to_anchor=[1, 1],
         bbox_transform=wf_ax.transAxes,
         borderpad=0,
-        prop=dict(color=TIME_COLOR, weight='semibold'),
+        prop={'color': TIME_COLOR, 'weight': 'semibold'},
     )
     offset_px = -0.0025 * RESOLUTIONS[resolution][1]  # Resolution-independent!
     time_box.txt._text.set_y(offset_px)  # [pixels] Vertically center text
@@ -615,7 +620,7 @@ def main():
     def _print_message_replace(self, message, file=None):
         if message:
             if file is None:
-                file = _sys.stderr
+                file = sys.stderr
             file.write(message.replace('[DB_LIM ...]', '[DB_LIM]'))
 
     parser._print_message = MethodType(_print_message_replace, parser)

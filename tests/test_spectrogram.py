@@ -7,9 +7,7 @@ tr = read()[0]  # Grab first Trace in ObsPy's default Stream
 tr.remove_response()
 
 
-@pytest.mark.mpl_image_compare(
-    style='default', savefig_kwargs=dict(bbox_inches='tight')
-)
+@pytest.mark.mpl_image_compare(style='default', savefig_kwargs={'bbox_inches': 'tight'})
 def test_spectrogram():
     fig = _spectrogram(
         tr=tr,
