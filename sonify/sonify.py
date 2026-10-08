@@ -7,6 +7,7 @@ import warnings
 from pathlib import Path
 from types import MethodType
 
+import imageio_ffmpeg
 import matplotlib
 import matplotlib.dates as mdates
 import numpy as np
@@ -255,6 +256,7 @@ def sonify(
     # Store user's rc settings, then update font stuff
     original_params = matplotlib.rcParams.copy()
     matplotlib.rcParams.update(matplotlib.rcParamsDefault)
+    matplotlib.rcParams['animation.ffmpeg_path'] = imageio_ffmpeg.get_ffmpeg_exe()
     matplotlib.rcParams['font.sans-serif'] = 'Source Sans 3'
     matplotlib.rcParams['mathtext.fontset'] = 'custom'
     matplotlib.rcParams['font.size'] = 11.0
@@ -528,7 +530,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
     """
 
     args = [
-        'ffmpeg',
+        imageio_ffmpeg.get_ffmpeg_exe(),
         '-y',
         '-v',
         'warning',
