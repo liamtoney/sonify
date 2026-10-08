@@ -55,4 +55,4 @@ check = ["_lint", "_format --check"]
 
 [tool.pytest]
 testpaths = ["tests"]
-addopts = ["--verbose", "--mpl", "--cov=sonify", "--capture=no ", "--cov-report=term-missing"]
+addopts = ["--verbose", "--mpl", "--cov=sonify", "--capture=no", "--cov-report=term-missing"]
