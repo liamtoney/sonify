@@ -1,7 +1,7 @@
 *sonify*
 ========
 
-|docs_badge| |build_badge| |cov_badge| |black_badge| |isort_badge|
+|docs_badge| |build_badge| |cov_badge| |ruff_badge|
 
 *sonify* “squeezes” seismic or infrasound signals into audible frequencies and
 creates animated spectrograms to accompany the audio. Data are pulled from any
@@ -19,34 +19,30 @@ Hunter Excellence in Plotting Contest (JHEPC) <https://jhepc.github.io/>`__.
 Quickstart
 ----------
 
-1. Obtain
+1. Install (this assumes that you've already `installed uv
+   <https://docs.astral.sh/uv/getting-started/installation/>`__, and that
+   you've navigated to a target directory of your choosing)
 
    .. code-block:: xml
 
-     git clone https://github.com/liamtoney/sonify.git
-     cd sonify
+     uv venv --python 3.11
+     uv pip install git+https://github.com/liamtoney/sonify.git
 
-2. Create environment, install, and activate (`install Miniforge
-   <https://github.com/conda-forge/miniforge?tab=readme-ov-file#install>`__
-   first, if necessary)
+   This creates a ``.venv/`` folder in the target directory with *sonify* and
+   its dependencies installed.
 
-   .. code-block:: xml
-
-     mamba env create --file environment.yml
-     conda activate sonify
-
-3. Run using the Python interpreter
+2. Run using the Python interpreter
 
    .. code-block:: python
 
-     python
+     uv run python
      >>> from sonify import sonify
 
    or via the command-line interface
 
    .. code-block:: xml
 
-     sonify --help
+     uv run sonify --help
 
 Example
 -------
@@ -89,7 +85,8 @@ Documentation
 
 Application programming interface (API) documentation for the module is available
 `here <https://sonify.liam.earth/sonify.html>`__. For command-line
-usage instructions, type ``sonify --help`` (the ``sonify`` environment must be active).
+usage instructions, type ``uv run sonify --help`` (from the directory containing
+``.venv/``).
 
 .. |docs_badge| image:: https://readthedocs.org/projects/sonify/badge/?version=latest
    :alt: Documentation status
@@ -103,13 +100,9 @@ usage instructions, type ``sonify --help`` (the ``sonify`` environment must be a
    :alt: Test coverage
    :target: https://codecov.io/gh/liamtoney/sonify
 
-.. |black_badge| image:: https://img.shields.io/badge/code%20style-black-000000
-   :alt: Link to Black
-   :target: https://black.readthedocs.io/en/stable/
-
-.. |isort_badge| image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
-   :alt: Link to isort
-   :target: https://pycqa.github.io/isort/
+.. |ruff_badge| image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+   :alt: Link to Ruff
+   :target: https://github.com/astral-sh/ruff
 
 .. |screenshot| image:: https://raw.githubusercontent.com/liamtoney/sonify/main/docs/_static/screenshot.png
    :alt: Screenshot of example
@@ -118,11 +111,17 @@ usage instructions, type ``sonify --help`` (the ``sonify`` environment must be a
 Contributing
 ------------
 
-To install *sonify*'s development packages, with your environment activated run
+To develop *sonify*, first clone this repository and navigate to the root
+directory. Then run
 
 .. code-block:: xml
 
-   pip install --requirement requirements.txt
+   uv sync --all-groups
+
+This creates a ``.venv/`` folder in the repository root with an editable *sonify*
+and all of its dependencies — including those for development and documentation
+— installed. Check formatting and linting with ``uv run poe check`` and run the
+tests with ``uv run poe tests``.
 
 If you notice a bug with *sonify* (or if you'd like to request/propose a new
 feature), please `create an issue on GitHub
