@@ -14,7 +14,7 @@ maintainers = [
 requires-python = ">=3.11"
 dependencies = [
     "imageio-ffmpeg",
-    "matplotlib==3.10",
+    "matplotlib>=3.10.7,<3.11",
     "obspy",
     "tqdm",
 ]
