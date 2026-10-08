@@ -1,7 +1,7 @@
-import subprocess
 import tempfile
 from pathlib import Path
 
+import imageio_ffmpeg
 from obspy import UTCDateTime
 
 from sonify import sonify
@@ -23,28 +23,14 @@ def test_resolution():
                 output_dir=temp_dir_name,
                 resolution=resolution,
             )
-
             # Read resolution of output file
-            output_dims = tuple(
-                int(d)
-                for d in subprocess.run(
-                    [
-                        'ffprobe',
-                        '-loglevel',
-                        'error',
-                        '-show_entries',
-                        'stream=width,height',
-                        '-of',
-                        'default=nokey=1:noprint_wrappers=1',
-                        str(Path(temp_dir_name) / 'AV_ILSW_BHZ_200x.mp4'),
-                    ],
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-                .stdout.strip()
-                .split('\n')
+            reader = imageio_ffmpeg.read_frames(
+                Path(temp_dir_name) / 'AV_ILSW_BHZ_200x.mp4'
             )
+            try:
+                output_dims = tuple(next(reader)['size'])  # (width, height)
+            finally:
+                reader.close()  # Terminates the FFmpeg process
 
             # Test dimensions
             assert output_dims == target_dims, f'Issue with {resolution}!'
