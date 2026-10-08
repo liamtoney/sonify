@@ -13,8 +13,8 @@ from pathlib import Path
 
 import imageio_ffmpeg
 
-REPO_DIR = Path(__file__).resolve().parent.parent
-SCREENSHOT = REPO_DIR / 'screenshot.png'
+ROOT_DIR = Path(__file__).resolve().parent.parent
+SCREENSHOT = ROOT_DIR / 'docs' / '_static' / 'screenshot.png'
 
 FRAME = 14  # Which frame number to extract (1-indexed)
 
@@ -23,7 +23,7 @@ FILTER = rf'select=eq(n\,{FRAME - 1}),scale=iw/2:ih/2,format=yuv444p'
 
 # Grab the text between the markers, dropping RST directive lines
 block = (
-    (REPO_DIR / 'README.rst').read_text().split('.. ~BEGIN~')[1].split('.. ~END~')[0]
+    (ROOT_DIR / 'README.rst').read_text().split('.. ~BEGIN~')[1].split('.. ~END~')[0]
 )
 command = shlex.split(
     ' '.join(

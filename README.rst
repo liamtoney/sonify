@@ -111,7 +111,7 @@ usage instructions, type ``sonify --help`` (the ``sonify`` environment must be a
    :alt: Link to isort
    :target: https://pycqa.github.io/isort/
 
-.. |screenshot| image:: https://raw.githubusercontent.com/liamtoney/sonify/main/screenshot.png
+.. |screenshot| image:: https://raw.githubusercontent.com/liamtoney/sonify/main/docs/_static/screenshot.png
    :alt: Screenshot of example
    :target: #example
 
