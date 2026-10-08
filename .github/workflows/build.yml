@@ -2,16 +2,12 @@ name: build
 on:
   push:
     paths-ignore:
-    - doc/**
-    - .gitignore
-    - LICENSE.txt
-    - README.rst
-    - screenshot.png
-    - .readthedocs.yml
-    - .create_screenshot
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 0'
+      - docs/**
+      - scripts/**
+      - LICENSE.txt
+      - README.rst
+      - .gitignore
+      - .readthedocs.yml
 jobs:
   install-and-test:
     name: ${{ matrix.os }}
@@ -19,26 +15,21 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-    defaults:
-      run:
-        shell: bash -l {0}
+    env:
+      UV_CACHE_DIR: .uv-cache/
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up conda environment
-        uses: conda-incubator/setup-miniconda@v3
+      - uses: actions/checkout@v5
         with:
-          activate-environment: sonify
-          environment-file: environment.yml
-          miniforge-version: latest
-          use-mamba: true
-          conda-remove-defaults: "true"
-      - name: Install development packages
-        run: pip install --requirement requirements.txt
-      - name: Check formatting
-        run: |
-          black --check .
-          isort --check-only .
+          fetch-depth: 0  # uv-dynamic-versioning needs git history/tags
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --all-groups --frozen
+      - name: Check formatting and linting
+        run: uv run poe check
       - name: Run tests
-        run: pytest --mpl --capture=no --cov=sonify --cov-report=xml
+        run: uv run poe tests --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

@@ -3,6 +3,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+import imageio_ffmpeg
 import pytest
 
 from sonify.sonify import _ffmpeg_combine
@@ -26,7 +27,7 @@ def _get_md5(video_file):
     md5 = (
         subprocess.run(
             [
-                'ffmpeg',
+                imageio_ffmpeg.get_ffmpeg_exe(),
                 '-i',
                 video_file,
                 '-map',
@@ -39,6 +40,7 @@ def _get_md5(video_file):
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
         .stdout.strip()
         .split('=')[-1]

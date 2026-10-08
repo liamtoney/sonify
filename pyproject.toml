@@ -1,20 +1,61 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
 [project]
 name = "sonify"
 dynamic = ["version"]
+authors = [
+    { name = "Liam Toney", email = "liam@liam.earth" },
+]
+maintainers = [
+    { name = "Liam Toney", email = "liam@liam.earth" },
+]
+requires-python = ">=3.11"
+dependencies = [
+    "imageio-ffmpeg",
+    "matplotlib>=3.10.7,<3.11",
+    "obspy",
+    "tqdm",
+]
 
-[build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+[dependency-groups]
+tooling = ["poethepoet"]
+lint = ["ruff"]
+test = ["pytest", "pytest-cov", "pytest-mpl"]
+docs = ["sphinx", "sphinx-rtd-theme"]
 
 [project.scripts]
 sonify = "sonify.sonify:main"
 
-[tool.setuptools.packages]
-find = {}
+[tool.ruff.format]
+quote-style = "single"
 
-[tool.black]
-skip-string-normalization = true
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
 
-[tool.isort]
-profile = "black"
-conda_env = "sonify"
+[tool.uv-dynamic-versioning]
+vcs = "git"
+format-jinja = "0+g{{ commit[:7] }}"
+
+[tool.poe.env]
+TARGET_FILES = "src/ tests/ scripts/ docs/"
+
+[tool.poe.tasks]
+docs = "sphinx-build docs/ docs/_build/ --fail-on-warning"
+tests = "pytest"
+_lint = "ruff check ${TARGET_FILES}"
+_format = "ruff format ${TARGET_FILES}"
+format = ["_lint --select I --fix", "_format"]
+check = ["_lint", "_format --check"]
+screenshot = "python scripts/create_screenshot.py"
+
+[tool.pytest]
+testpaths = ["tests"]
+addopts = [
+    "--verbose",
+    "--mpl",
+    "--cov=sonify",
+    "--capture=no",
+    "--cov-report=term-missing",
+]

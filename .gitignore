@@ -1,4 +1,8 @@
-/sonify.egg-info/
-/sonify/__pycache__/
-/doc/_build/
+__pycache__/
+/docs/_build/
+/.ruff_cache/
+/.pytest_cache/
+/.coverage
+/.venv/
+/.vscode/
 .DS_Store

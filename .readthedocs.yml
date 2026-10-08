@@ -6,10 +6,11 @@ build:
     python: "3.12"
 
 sphinx:
-  configuration: doc/conf.py
+  configuration: docs/conf.py
 
 python:
   install:
-    - requirements: requirements.txt
-    - method: pip
-      path: .
+    - method: uv
+      command: sync
+      groups:
+        - docs

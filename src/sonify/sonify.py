@@ -2,11 +2,13 @@
 
 import argparse
 import subprocess
+import sys
 import tempfile
 import warnings
 from pathlib import Path
 from types import MethodType
 
+import imageio_ffmpeg
 import matplotlib
 import matplotlib.dates as mdates
 import numpy as np
@@ -117,7 +119,7 @@ def sonify(
     """
 
     # Capture args and format as string to store in movie metadata
-    key_value_pairs = [f'{k}={repr(v)}' for k, v in locals().items()]
+    key_value_pairs = [f'{k}={v!r}' for k, v in locals().items()]
     call_str = 'sonify({})'.format(', '.join(key_value_pairs))
 
     # Use current working directory if none provided
@@ -255,6 +257,7 @@ def sonify(
     # Store user's rc settings, then update font stuff
     original_params = matplotlib.rcParams.copy()
     matplotlib.rcParams.update(matplotlib.rcParamsDefault)
+    matplotlib.rcParams['animation.ffmpeg_path'] = imageio_ffmpeg.get_ffmpeg_exe()
     matplotlib.rcParams['font.sans-serif'] = 'Source Sans 3'
     matplotlib.rcParams['mathtext.fontset'] = 'custom'
     matplotlib.rcParams['font.size'] = 11.0
@@ -411,7 +414,11 @@ def _spectrogram(
     wf_ax.set_xlim(starttime.matplotlib_date, endtime.matplotlib_date)
 
     # Initialize animated stuff
-    line_kwargs = dict(x=starttime.matplotlib_date, color=TIME_COLOR, linewidth=1.2)
+    line_kwargs = {
+        'x': starttime.matplotlib_date,
+        'color': TIME_COLOR,
+        'linewidth': 1.2,
+    }
     spec_line = spec_ax.axvline(**line_kwargs)
     wf_line = wf_ax.axvline(ymin=0.01, clip_on=False, zorder=10, **line_kwargs)
     time_box = AnchoredText(
@@ -421,7 +428,7 @@ def _spectrogram(
         bbox_to_anchor=[1, 1],
         bbox_transform=wf_ax.transAxes,
         borderpad=0,
-        prop=dict(color=TIME_COLOR, weight='semibold'),
+        prop={'color': TIME_COLOR, 'weight': 'semibold'},
     )
     offset_px = -0.0025 * RESOLUTIONS[resolution][1]  # Resolution-independent!
     time_box.txt._text.set_y(offset_px)  # [pixels] Vertically center text
@@ -528,7 +535,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
     """
 
     args = [
-        'ffmpeg',
+        imageio_ffmpeg.get_ffmpeg_exe(),
         '-y',
         '-v',
         'warning',
@@ -613,7 +620,7 @@ def main():
     def _print_message_replace(self, message, file=None):
         if message:
             if file is None:
-                file = _sys.stderr
+                file = sys.stderr
             file.write(message.replace('[DB_LIM ...]', '[DB_LIM]'))
 
     parser._print_message = MethodType(_print_message_replace, parser)
@@ -623,7 +630,7 @@ def main():
         '--version',
         action='version',
         version=f'{parser.prog}, rev. {__version__}',
-        help=f'show revision number and exit',
+        help='show revision number and exit',
     )
 
     parser.add_argument('network', help='SEED network code')
