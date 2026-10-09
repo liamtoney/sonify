@@ -36,7 +36,6 @@ source = "uv-dynamic-versioning"
 
 [tool.uv-dynamic-versioning]
 vcs = "git"
-format-jinja = "0+g{{ commit[:7] }}"
 
 [tool.poe.env]
 TARGET_FILES = "src/ tests/ scripts/ docs/"

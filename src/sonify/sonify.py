@@ -554,7 +554,7 @@ def _ffmpeg_combine(audio_file, video_file, output_file, call_str):
         '-ac',
         '2',
         '-metadata',
-        f'artist=sonify, rev. {__version__}',
+        f'artist=sonify, v{__version__}',
         '-metadata',
         f'comment={call_str}',
         output_file,
@@ -629,8 +629,8 @@ def main():
         '-v',
         '--version',
         action='version',
-        version=f'{parser.prog}, rev. {__version__}',
-        help='show revision number and exit',
+        version=f'{parser.prog}, v{__version__}',
+        help='show version number and exit',
     )
 
     parser.add_argument('network', help='SEED network code')
