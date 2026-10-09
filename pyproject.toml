@@ -17,10 +17,11 @@ maintainers = [
 ]
 keywords = ["seismology", "infrasound", "sonification", "spectrogram", "obspy"]
 classifiers = [
-    'Intended Audience :: Education',
-    'Intended Audience :: Science/Research',
-    'Topic :: Scientific/Engineering :: Visualization',
-    'Programming Language :: Python :: 3',
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Visualization",
 ]
 requires-python = ">=3.11"
 dependencies = [
