@@ -1753,7 +1753,11 @@ source = { editable = "." }
 dependencies = [
     { name = "imageio-ffmpeg" },
     { name = "matplotlib" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "obspy" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "tqdm" },
 ]
 
@@ -1780,7 +1784,9 @@ tooling = [
 requires-dist = [
     { name = "imageio-ffmpeg" },
     { name = "matplotlib", specifier = ">=3.10.7,<3.11" },
+    { name = "numpy" },
     { name = "obspy" },
+    { name = "scipy" },
     { name = "tqdm" },
 ]
 
