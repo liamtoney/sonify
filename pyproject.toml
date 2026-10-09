@@ -1,23 +1,41 @@
 [build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
+requires = ["hatchling>=1.27", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"
 
 [project]
 name = "sonify"
 dynamic = ["version"]
+description = "Sonification of seismic and infrasound signals"
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE.txt"]
 authors = [
     { name = "Liam Toney", email = "liam@liam.earth" },
 ]
 maintainers = [
     { name = "Liam Toney", email = "liam@liam.earth" },
 ]
+keywords = ["seismology", "infrasound", "sonification", "spectrogram", "obspy"]
+classifiers = [
+    'Intended Audience :: Education',
+    'Intended Audience :: Science/Research',
+    'Topic :: Scientific/Engineering :: Visualization',
+    'Programming Language :: Python :: 3',
+]
 requires-python = ">=3.11"
 dependencies = [
     "imageio-ffmpeg",
     "matplotlib>=3.10.7,<3.11",
+    "numpy",
     "obspy",
+    "scipy",
     "tqdm",
 ]
+
+[project.urls]
+Documentation = "https://sonify.liam.earth/"
+Source = "https://github.com/liamtoney/sonify"
+Issues = "https://github.com/liamtoney/sonify/issues"
 
 [dependency-groups]
 tooling = ["poethepoet"]
@@ -58,3 +76,6 @@ addopts = [
     "--capture=no",
     "--cov-report=term-missing",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sonify"]
