@@ -23,7 +23,7 @@ dependencies = [
 tooling = ["poethepoet"]
 lint = ["ruff"]
 test = ["pytest", "pytest-cov", "pytest-mpl"]
-docs = ["sphinx", "sphinx-rtd-theme"]
+docs = ["sphinx", "sphinx-rtd-theme", "sphinx-copybutton"]
 
 [project.scripts]
 sonify = "sonify.sonify:main"

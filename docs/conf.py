@@ -11,6 +11,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
+    'sphinx_copybutton',
 ]
 
 version = metadata.version('sonify')
@@ -18,8 +19,6 @@ version = metadata.version('sonify')
 html_theme = 'sphinx_rtd_theme'
 
 templates_path = ['_templates']
-
-napoleon_numpy_docstring = False
 
 intersphinx_mapping = {
     'obspy': ('https://docs.obspy.org/', None),
